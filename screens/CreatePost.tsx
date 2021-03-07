@@ -53,7 +53,7 @@ const CreatePost = props =>  {
         
     return(
         <View style={styles.createPost}>
-            <CreatePostHeader/>
+            <CreatePostHeader imageUrl={props.route.params.userImage}/>
             <CreatePostInput onChangeText={handlePostInput} content={content}/>
         </View>
     )

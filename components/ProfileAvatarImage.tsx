@@ -1,11 +1,14 @@
 import React from 'react'
 import {View , Text , StyleSheet , Image} from 'react-native'
+import HOST from '../configs/config'
 
 const ProfileAvatarImage = (props: any)  => {
     return(
         <Image
         style={{...styles.profileImage, ...props.style}}
-        source={require('../assets/abdallah.jpg')}
+        source={{
+            uri:`http://${HOST}:4200/${props.imageUrl}`,
+        }}
     />
     )
 }

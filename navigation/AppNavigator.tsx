@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Image } from 'react-native'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
@@ -12,14 +12,51 @@ import { createStackNavigator } from '@react-navigation/stack'
 import Group from '../screens/studentScreens/Group'
 import CreatePost from '../screens/CreatePost'
 import FullPost from '../screens/FullPost'
+import SignIn from '../screens/SignIn'
+import SignUp from '../screens/SignUp'
 
 import { Colors } from '../constants/Colors'
+import {useSelector} from 'react-redux'
+import HOST from '../configs/config'
 
 const Tab = createMaterialBottomTabNavigator()
 const Stack = createStackNavigator()
 
 
+const AuthNavigator = (props) => {
+    const isSignedIn = useSelector(state=> {
+        return state.auth.isSignedIn
+    })
+    if (!isSignedIn) {
+        return (
+            <NavigationContainer>
+                <Stack.Navigator
+                screenOptions={{
+                    headerStyle: {
+                        elevation:0,
+                        backgroundColor: 'white',
+                    },
+                    headerTitleAlign:'center',
+                  
+                }}
+                >
+                    <Stack.Screen name="SignIn" component={SignIn} />
+                    <Stack.Screen name="SignUp" component={SignUp} />
+                </Stack.Navigator>
+            </NavigationContainer>
+        )
+    }
+
+    return (
+        <AppNavigator/>
+    )
+}
+
+
 const AppNavigator = (props) => {
+    const userImage = useSelector(state=> {
+        return state.auth.imageUrl
+    })
     return (
         <NavigationContainer>
             <Tab.Navigator
@@ -50,7 +87,7 @@ const AppNavigator = (props) => {
                     name="StudentProfile"
                     component={StudentProfileNavigator}
                     options={{
-                        tabBarIcon: () => <Image style={{ width: 30, height: 30, borderRadius: 25 }} source={require('../assets/abdallah.jpg')} />
+                        tabBarIcon: () => <Image style={{ width: 30, height: 30, borderRadius: 25 }} source={{uri:`http://${HOST}:4200/${userImage}`}} />
                     }}
                 />
 
@@ -115,7 +152,10 @@ const StudentProfileNavigator = (props: any) => {
     )
 }
 
-export default AppNavigator;
+
+
+
+export default AuthNavigator;
 
 
 

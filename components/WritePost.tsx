@@ -6,7 +6,7 @@ import ProfileAvatarImage from './ProfileAvatarImage'
 const WritePost = (props: any) => {
     return (
         <View style={styles.mainView}>
-            <ProfileAvatarImage/>
+            <ProfileAvatarImage imageUrl={props.imageUrl}/>
             <TouchableWithoutFeedback onPress={props.onTouch}>
                 <View style={styles.inputView}>
                     <Text style={styles.inputPlaceHolder}>Write Something...</Text>

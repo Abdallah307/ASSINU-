@@ -5,7 +5,7 @@ import ProfileAvatarImage from './ProfileAvatarImage'
 const CreatePostHeader = (props) => {
     return (
         <View style={styles.createPostHeader}>
-            <ProfileAvatarImage />
+            <ProfileAvatarImage imageUrl={props.imageUrl} />
             <Text style={styles.username}>Abdallah Dereia</Text>
         </View>
     )

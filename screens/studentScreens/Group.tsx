@@ -15,11 +15,14 @@ const Group = (props) => {
         return posts
     })
 
+   
+
 
 
     const openCreatePost = () => {
         props.navigation.navigate('CreatePost', {
-            groupId: props.route.params.id 
+            groupId: props.route.params.id,
+            userImage: props.route.params.userImage
         })
     }
 
@@ -33,7 +36,7 @@ const Group = (props) => {
     return(
         <ScrollView style={styles.group}>
             <GroupHeader title={props.route.params.title}/>
-            <WritePost onTouch={openCreatePost}/>
+            <WritePost imageUrl={props.route.params.userImage} onTouch={openCreatePost}/>
             {
                 GroupPosts.map(post=> {
                     return <PostItem  key={post.id} onOpenPost={()=> openPost(post.id)} content={post.content}/>

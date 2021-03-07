@@ -6,7 +6,6 @@ const slice = createSlice({
     name: 'Posts',
     initialState: {
         posts: POSTS,
-        likes:[]
     },
     reducers: {
         addPost: (state, action) => {
@@ -23,9 +22,7 @@ const slice = createSlice({
         incrementCommentNumber: (state, action) => {
             
         },
-        likePost: (state, action) => {
-            
-        }
+        
     }
 })
 

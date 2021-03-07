@@ -3,13 +3,40 @@ import { View, StyleSheet, Text, ScrollView, FlatList } from 'react-native'
 import ProfileHeader from '../ProfileHeader'
 import ListItem from '../../components/ListItem'
 import {Colors} from '../../constants/Colors'
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import {GROUPS} from '../../data/dummy-data'
-
-
+import axios from 'axios'
+import {actions as studentActions} from '../../store/student'
+import HOST from '../../configs/config'
 
 const StudentProfile = (props) => {
-    const groups = GROUPS
+    //const groups = GROUPS
+
+    const dispatch = useDispatch()
+
+    const userData = useSelector(state => {
+        return state.auth
+    })
+
+    
+
+    const [studentData, setStudentData] = useState({})
+
+    useEffect(() => {
+        axios.get(`http://${HOST}:9002/student/info/a.dereia@stu.najah.edu`)
+        .then(result=> {
+            setStudentData(result.data)
+        }).
+        catch(err=> {
+            console.log(err)
+        })
+
+        // return () => {
+        //     setStudentData({})
+        // }
+    })
+
+
 
     const renderItems = (itemData) => {
         return <ListItem  
@@ -21,7 +48,8 @@ const StudentProfile = (props) => {
     const openCourseGroup = (itemData) => {
         props.navigation.navigate('Group', {
             title:itemData.item.name,
-            id:itemData.item.id 
+            id:itemData.item.id ,
+            userImage: userData.imageUrl
         })
         
     }
@@ -29,16 +57,22 @@ const StudentProfile = (props) => {
 
     return (
         <View style={styles.mainView}>
-            <ProfileHeader style={styles.profileHeader} />
+            <ProfileHeader 
+            name={userData.name}
+            imageUrl={userData.imageUrl}
+            bio = {studentData.department} 
+            style={styles.profileHeader} 
+            />
+
             <View style={styles.profileBody}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>My Courses</Text>
                 </View>
                 <FlatList
                     contentContainerStyle={{padding:20}}
-                    data={groups}
+                    data={studentData.courses}
                     renderItem={renderItems}
-                    keyExtractor={(item)=>item.id.toString()}
+                    keyExtractor={(item)=>item._id.toString()}
                 />
 
             </View>
