@@ -18,8 +18,6 @@ const ChattingMessage = (props: any) => {
 
 const styles = StyleSheet.create({
     message: {
-        backgroundColor: Colors.primary,
-        marginLeft: "auto",
         padding: 10,
         borderRadius: 20,
         marginVertical: 10

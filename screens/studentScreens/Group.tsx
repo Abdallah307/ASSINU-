@@ -84,6 +84,9 @@ const Group = (props) => {
             title={props.route.params.title}
             openGroupMembers={openGroupMembers}
             />
+            <Button title="messages" onPress={()=> props.navigation.navigate('ChattingScreen', {
+                groupId: props.route.params.id
+            })}/>
             <WritePost imageUrl={props.route.params.userImage} onTouch={openCreatePost}/>
             {
                 !isLoaded ? <CustomeActivityIndicator/>:

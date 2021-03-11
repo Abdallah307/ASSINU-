@@ -71,7 +71,7 @@ const AppNavigator = (props) => {
 
                 <Tab.Screen
                     name="Feed"
-                    component={ChattingNavigator}
+                    component={Feed}
                     options={{
                         tabBarIcon: () => <Feather name="home" size={24} color={Colors.primary} />
                     }}
@@ -155,17 +155,13 @@ const StudentProfileNavigator = (props: any) => {
                 name="GroupMembers"
                 component={GroupMembers}
             />
+
+            <Stack.Screen name="ChattingScreen" component={ChattingScreen}/>
         </Stack.Navigator>
     )
 }
 
-const ChattingNavigator = (props: any) => {
-    return(
-        <Stack.Navigator>
-            <Stack.Screen name="Chatting" component={ChattingScreen}/>
-        </Stack.Navigator>
-    )
-}
+
 
 
 
