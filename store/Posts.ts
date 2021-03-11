@@ -5,26 +5,24 @@ import { POSTS } from '../data/dummy-data'
 const slice = createSlice({
     name: 'Posts',
     initialState: {
-        posts: POSTS,
+        posts: [],
+        isLoaded: false,
     },
     reducers: {
         addPost: (state, action) => {
             const payload = action.payload
-            state.posts.push({
-                id: payload.id,
-                groupId: payload.groupId,
-                content: payload.content,
-                ownerId: payload.ownerId,
-                numberOfComments:0,
-                numberOfLikes:0
-            })
+            state.posts.push(payload.post)
         },
-        incrementCommentNumber: (state, action) => {
+        setPosts: (state, action) => {
+            state.posts = action.payload
+            state.isLoaded = true 
             
-        },
+        }
         
     }
 })
+
+
 
 export default slice.reducer
 export const actions = slice.actions

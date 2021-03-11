@@ -6,9 +6,9 @@ const PostHeader = (props) => {
     return(
         <View style={styles.postHeader}>
             <View style={styles.info}>
-                <ProfileAvatarImage style={styles.profileImage}/>
+                <ProfileAvatarImage imageUrl={props.imageUrl} style={styles.profileImage}/>
                 <View style={styles.postInfo}>
-                    <Text style={styles.username}>Abdallah Dereia</Text>
+                    <Text style={styles.username}>{props.ownerName}</Text>
                     <Text style={styles.timestamp}>5h</Text>
                 </View>
             </View>

@@ -1,22 +1,24 @@
-import {createSlice} from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 const slice = createSlice({
-    name:"student",
+    name: "student",
     initialState: {
-        name:'',
-        courses:[],
-        email:'',
-        department:''
+        id:'',
+        name: '',
+        courses: [],
+        email: '',
+        department: '',
+        isLoaded:false 
     },
     reducers: {
         setStudent: (state, action) => {
             const payload = action.payload
-            state = {
-                name: payload.name,
-                courses:payload.courses,
-                email:payload.email,
-                department:payload.department
-            }
+            state.name = payload.name,
+            state.courses = payload.courses,
+            state.email = payload.email,
+            state.department = payload.department
+            state.isLoaded = true 
+
         }
     }
 })

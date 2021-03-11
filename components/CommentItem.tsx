@@ -7,16 +7,17 @@ const CommentItem = (props: any) => {
     return (
 
         <View style={styles.commentView}>
-            <ProfileAvatarImage style={styles.commentImage} />
+            <ProfileAvatarImage imageUrl={props.imageUrl} style={styles.commentImage} />
             <View style={styles.commentBody}>
                 <View style={styles.texts}>
-                    <Text style={styles.name}>Abdallah Dereia</Text>
+                    <Text style={styles.name}>{props.name}</Text>
                     <Text style={styles.info}>Computer Engineer</Text>
                     <Text style={styles.info}>5h</Text>
                 </View>
                 <View style={styles.commentContentView}>
                     <Text style={styles.commentText}>{props.content}</Text>
                 </View>
+                {props.children}
             </View>
         </View>
 

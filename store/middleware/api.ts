@@ -1,45 +1,31 @@
+import {createAction} from '@reduxjs/toolkit'
 import axios from 'axios'
-import { actions as authActions } from '../auth'
-import HOST from '../../configs/config'
+import HOST, {SERVER_PORT} from '../../configs/config'
+import {actions as postsActions} from '../Posts'
+export const fetchGroupPosts = createAction('fetchGroupPosts')
 
-const api = ({ dispatch, getState }) => next => async action => {
-    if (action.type !== "api") return next(action)
+const api = ({dispatch, getState}) => next => async action => {      
+     if (action.type === fetchGroupPosts.type) {
+        try {
+            const groupId = action.payload.groupId
+            const response = await axios.get(
+                `http://${HOST}:${SERVER_PORT}/student/group/posts/`+groupId
+            )
 
-    const data = action.payload
-
-    try {
-        const response = await axios.request({
-            url: `http://${HOST}:4200/auth/signin`,
-            method: 'post',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            data: {
-                email: data.email,
-                password: data.password
+            
+            if (response.status === 200) {
+                console.log(response.data)
+                dispatch(postsActions.setPosts(response.data.posts))
             }
-        })
-
-        if (response.status === 200) {
-
-            dispatch(authActions.signIn({
-                userId: response.data.userId,
-                token: response.data.token,
-                email: response.data.email,
-                imageUrl: response.data.imageUrl,
-                name: response.data.name,
-                bio : response.data.bio 
-            }))
         }
-
+        catch(err) {
+            console.log(err)
+        }
         
-
     }
-    catch (err) {
-        console.log(err)
+    else {
+        next(action)
     }
-
-
 }
 
 export default api

@@ -6,7 +6,7 @@ const CreatePostHeader = (props) => {
     return (
         <View style={styles.createPostHeader}>
             <ProfileAvatarImage imageUrl={props.imageUrl} />
-            <Text style={styles.username}>Abdallah Dereia</Text>
+            <Text style={styles.username}>{props.username}</Text>
         </View>
     )
 }

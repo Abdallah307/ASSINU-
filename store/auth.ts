@@ -14,12 +14,13 @@ const slice = createSlice({
     reducers:{
         signIn: (state, action) => {
            const payload = action.payload
-           state.userId = action.payload.userId 
-           state.token = action.payload.token
+           state.email = payload.email;
+           state.userId = payload._id  
+           state.token = payload.token
            state.isSignedIn = true 
-           state.imageUrl = action.payload.imageUrl
-           state.name = action.payload.name  
-           state.bio = action.payload.bio 
+           state.imageUrl = payload.imageUrl
+           state.name = payload.name  
+           state.bio = payload.bio 
         }
     }
 })

@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
-
+import ProfileAvatarImage from './ProfileAvatarImage'
+import {Colors} from '../constants/Colors'
 
 const ListItem = (props) => {
     return (
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
         padding: 20,
         alignItems: 'center',
         width:'100%',
-        backgroundColor:'#4961da',
+        backgroundColor:Colors.primary,
         borderRadius:10
         
     },

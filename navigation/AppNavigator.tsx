@@ -14,31 +14,32 @@ import CreatePost from '../screens/CreatePost'
 import FullPost from '../screens/FullPost'
 import SignIn from '../screens/SignIn'
 import SignUp from '../screens/SignUp'
-
+import GroupMembers from '../screens/GroupMembers'
 import { Colors } from '../constants/Colors'
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import HOST from '../configs/config'
+import ChattingScreen from '../screens/chatting/ChattingScreen'
 
 const Tab = createMaterialBottomTabNavigator()
 const Stack = createStackNavigator()
 
 
 const AuthNavigator = (props) => {
-    const isSignedIn = useSelector(state=> {
+    const isSignedIn = useSelector(state => {
         return state.auth.isSignedIn
     })
     if (!isSignedIn) {
         return (
             <NavigationContainer>
                 <Stack.Navigator
-                screenOptions={{
-                    headerStyle: {
-                        elevation:0,
-                        backgroundColor: 'white',
-                    },
-                    headerTitleAlign:'center',
-                  
-                }}
+                    screenOptions={{
+                        headerStyle: {
+                            elevation: 0,
+                            backgroundColor: 'white',
+                        },
+                        headerTitleAlign: 'center',
+
+                    }}
                 >
                     <Stack.Screen name="SignIn" component={SignIn} />
                     <Stack.Screen name="SignUp" component={SignUp} />
@@ -48,13 +49,13 @@ const AuthNavigator = (props) => {
     }
 
     return (
-        <AppNavigator/>
+        <AppNavigator />
     )
 }
 
 
 const AppNavigator = (props) => {
-    const userImage = useSelector(state=> {
+    const userImage = useSelector(state => {
         return state.auth.imageUrl
     })
     return (
@@ -65,11 +66,12 @@ const AppNavigator = (props) => {
                 screenOptions={{
                     tabBarColor: 'white'
                 }}
+                
             >
 
                 <Tab.Screen
                     name="Feed"
-                    component={Feed}
+                    component={ChattingNavigator}
                     options={{
                         tabBarIcon: () => <Feather name="home" size={24} color={Colors.primary} />
                     }}
@@ -87,7 +89,7 @@ const AppNavigator = (props) => {
                     name="StudentProfile"
                     component={StudentProfileNavigator}
                     options={{
-                        tabBarIcon: () => <Image style={{ width: 30, height: 30, borderRadius: 25 }} source={{uri:`http://${HOST}:4200/${userImage}`}} />
+                        tabBarIcon: () => <Image style={{ width: 30, height: 30, borderRadius: 25 }} source={{ uri: `http://${HOST}:4200/${userImage}` }} />
                     }}
                 />
 
@@ -148,6 +150,19 @@ const StudentProfileNavigator = (props: any) => {
                 name="FullPost"
                 component={FullPost}
             />
+
+            <Stack.Screen
+                name="GroupMembers"
+                component={GroupMembers}
+            />
+        </Stack.Navigator>
+    )
+}
+
+const ChattingNavigator = (props: any) => {
+    return(
+        <Stack.Navigator>
+            <Stack.Screen name="Chatting" component={ChattingScreen}/>
         </Stack.Navigator>
     )
 }

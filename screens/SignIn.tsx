@@ -4,6 +4,7 @@ import { Colors } from '../constants/Colors'
 import { Button, Input } from 'react-native-elements'
 import { MaterialIcons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import {useDispatch} from 'react-redux'
+import {signIn} from '../store/middleware/auth'
 
 const PasswordStateIcon = (props) => {
     if (props.state) 
@@ -27,8 +28,8 @@ const SignIn = (props: any) => {
 
     const [showTitle, setShowTitle] = useState(true)
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [email, setEmail] = useState('a.dereia@stu.najah.edu')
+    const [password, setPassword] = useState('12345')
 
     const [showPassword, setShowPassword] = useState(true)
 
@@ -64,7 +65,7 @@ const SignIn = (props: any) => {
                             containerStyle={{ width: '100%', padding: 20 }}
                             buttonStyle={styles.signInButton}
                             title="Sign in"
-                            onPress={()=>dispatch({type:'api', payload: { email:email, password:password}})}
+                            onPress={()=>dispatch(signIn({ email:email, password:password}))}
                         />
                         <Button
                             title="forget password?"

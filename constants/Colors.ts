@@ -1,4 +1,4 @@
 export enum Colors {
-    primary="#4961da",
+    primary="#5c00d2",
     secondary="#5c595a"
 }
