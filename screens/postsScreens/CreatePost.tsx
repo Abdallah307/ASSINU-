@@ -1,9 +1,9 @@
 import React, { useState, useLayoutEffect } from 'react'
-import { View, StyleSheet, Text, ActivityIndicator } from 'react-native'
-import CreatePostHeader from '../../components/CreatePostHeader'
-import CreatePostInput from '../../components/CreatePostInput'
+import { View, StyleSheet, Text, ActivityIndicator, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import CreatePostHeader from '../../components/postComponents/CreatePostHeader'
+import CreatePostInput from '../../components/postComponents/CreatePostInput'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
-import CustomHeaderButton from '../../components/CustomHeaderButton'
+import CustomHeaderButton from '../../components/UI/CustomHeaderButton'
 import { Colors } from '../../constants/Colors'
 import { CourseGroup } from '../../api/api'
 import { useDispatch, useSelector } from 'react-redux'
@@ -48,6 +48,7 @@ const CreatePost = props => {
 
 
     return (
+        <TouchableWithoutFeedback onPress={()=>Keyboard.dismiss()} style={{flex:1}}>
         <View style={styles.createPost}>
 
             <CreatePostHeader
@@ -61,6 +62,7 @@ const CreatePost = props => {
             />
 
         </View>
+        </TouchableWithoutFeedback>
     )
 }
 
@@ -87,6 +89,7 @@ const screenOptions = (createPost) => ({
 const styles = StyleSheet.create({
     createPost: {
         flex: 1,
+        backgroundColor: 'white',
     }
 })
 

@@ -1,22 +1,38 @@
 import React from 'react'
 import { View, StyleSheet, Text, ImageBackground } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { Colors } from '../constants/Colors'
+import { Colors } from '../../constants/Colors'
 
-const GroupHeader = props => {
+const GroupHeader = (props:any) => {
     return (
         <View style={styles.groupHeader}>
+
             <View>
                 <ImageBackground
                     style={styles.backgroundImage}
-                    source={require('../assets/groupImage.jpg')}
+                    source={require('../../assets/groupImage.jpg')}
                 />
             </View>
-            <TouchableOpacity activeOpacity={0.7} onPress={props.openGroupMembers}>
+
+            <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={props.openGroupMembers}
+            >
                 <View style={styles.groupInfo}>
-                    <Text style={styles.groupTitle}>{props.title}</Text>
-                    <Text style={styles.membersCount}>{props.numberOfMembers} members</Text>
+
+                    <Text
+                        style={styles.groupTitle}
+                    >
+                        {props.title}
+                    </Text>
+
+                    <Text
+                        style={styles.membersCount}
+                    >
+                        {props.numberOfMembers}members
+                    </Text>
                 </View>
+
             </TouchableOpacity>
         </View>
     )

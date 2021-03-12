@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
-import ProfileAvatarImage from './ProfileAvatarImage'
-import {Colors} from '../constants/Colors'
+import ProfileAvatarImage from '../profileComponents/ProfileAvatarImage'
+import {Colors} from '../../constants/Colors'
 
 const ListItem = (props) => {
     return (

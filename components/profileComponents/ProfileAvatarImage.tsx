@@ -1,6 +1,6 @@
 import React from 'react'
 import {View , Text , StyleSheet , Image} from 'react-native'
-import HOST from '../configs/config'
+import HOST from '../../configs/config'
 
 const ProfileAvatarImage = (props: any)  => {
     return(

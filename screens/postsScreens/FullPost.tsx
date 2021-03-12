@@ -1,12 +1,12 @@
 import React, { useState, useEffect} from 'react'
 import { View, ScrollView, StyleSheet, TextInput, ToastAndroid } from 'react-native'
-import PostItem from '../../components/PostItem'
+import PostItem from '../../components/postComponents/PostItem'
 import { useSelector, useDispatch } from 'react-redux'
-import CommentItem from '../../components/CommentItem'
+import CommentItem from '../../components/commentComponents/CommentItem'
 import { Button } from 'react-native-elements'
 import { Colors } from '../../constants/Colors'
-import CustomActivityIndicator from '../../components/CustomActivityIndicator'
-import CommentLoading from '../../components/CommentLoading'
+import CustomActivityIndicator from '../../components/UI/CustomActivityIndicator'
+import CommentLoading from '../../components/commentComponents/CommentLoading'
 import { Ionicons } from '@expo/vector-icons';
 import { Post } from '../../api/api'
 

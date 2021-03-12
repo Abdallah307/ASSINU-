@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import {FlatList} from 'react-native'
-import ListItem from '../../components/ListItem'
+import ListItem from '../../components/UI/ListItem'
 import { CourseGroup } from '../../api/api'
-import CustomActivityIndicator from '../../components/CustomActivityIndicator'
+import CustomActivityIndicator from '../../components/UI/CustomActivityIndicator'
 
 const GroupMembers = (props:any) => {
     const groupId = props.route.params.groupId

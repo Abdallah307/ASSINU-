@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, Text, ScrollView, FlatList } from 'react-native'
-import ProfileHeader from '../../components/ProfileHeader'
-import ListItem from '../../components/ListItem'
+import ProfileHeader from '../../components/profileComponents/ProfileHeader'
+import ListItem from '../../components/UI/ListItem'
 import { Colors } from '../../constants/Colors'
 import { useSelector, useDispatch } from 'react-redux'
-import CustomActivityIndicator from '../../components/CustomActivityIndicator'
+import CustomActivityIndicator from '../../components/UI/CustomActivityIndicator'
 import { fetchStudentData } from '../../store/middleware/NajahApi'
 import {HeaderButtons, Item} from 'react-navigation-header-buttons'
-import CustomHeaderButton from '../../components/CustomHeaderButton'
+import CustomHeaderButton from '../../components/UI/CustomHeaderButton'
 
 
 const StudentProfile = (props) => {

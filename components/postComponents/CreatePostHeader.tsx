@@ -1,8 +1,8 @@
 import React from 'react'
 import { View, StyleSheet, Text } from 'react-native'
-import ProfileAvatarImage from './ProfileAvatarImage'
+import ProfileAvatarImage from '../profileComponents/ProfileAvatarImage'
 
-const CreatePostHeader = (props) => {
+const CreatePostHeader = (props:any) => {
     return (
         <View style={styles.createPostHeader}>
             <ProfileAvatarImage imageUrl={props.imageUrl} />

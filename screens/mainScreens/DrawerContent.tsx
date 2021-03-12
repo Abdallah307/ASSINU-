@@ -6,7 +6,7 @@ import {
     DrawerContentScrollView,
     DrawerItem
 } from '@react-navigation/drawer'
-import ProfileAvatarImage from '../../components/ProfileAvatarImage'
+import ProfileAvatarImage from '../../components/profileComponents/ProfileAvatarImage'
 import {
     AntDesign,
     FontAwesome,

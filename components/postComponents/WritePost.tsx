@@ -1,6 +1,6 @@
 import React from 'react'
 import { View,TouchableWithoutFeedback, Text, StyleSheet, ScrollView, ImageBackground, Image, TextInput } from 'react-native'
-import ProfileAvatarImage from './ProfileAvatarImage'
+import ProfileAvatarImage from '../profileComponents/ProfileAvatarImage'
 
 
 const WritePost = (props: any) => {

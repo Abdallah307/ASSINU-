@@ -1,10 +1,8 @@
 import React from 'react'
-import {View,StyleSheet,Text } from 'react-native'
+import {View,StyleSheet } from 'react-native'
 import {Button} from 'react-native-elements'
 import { AntDesign,EvilIcons } from '@expo/vector-icons';
-import {Colors} from '../constants/Colors'
-
-import {useSelector} from 'react-redux'
+import {Colors} from '../../constants/Colors'
 
 const PostFooter = (props) => {
 

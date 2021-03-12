@@ -1,9 +1,10 @@
 import React from 'react'
-import { View, StyleSheet, Text, TouchableNativeFeedback } from 'react-native'
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
 
-const PostBody = (props) => {
+const PostBody = (props:any) => {
     return (
-        <TouchableNativeFeedback  
+        <TouchableOpacity
+        activeOpacity={0.7}  
         onPress={props.onOpenPost}
         >
             <View style={styles.postBody}>
@@ -12,7 +13,7 @@ const PostBody = (props) => {
                 style={styles.postContent}>{props.content}
                 </Text>
             </View>
-        </TouchableNativeFeedback>
+        </TouchableOpacity>
     )
 }
 
