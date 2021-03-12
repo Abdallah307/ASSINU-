@@ -21,6 +21,9 @@ const slice = createSlice({
            state.imageUrl = payload.imageUrl
            state.name = payload.name  
            state.bio = payload.bio 
+        },
+        signout: (state, action) => {
+            state.isSignedIn = false
         }
     }
 })

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { View, StyleSheet, Text, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback } from 'react-native'
 import { Button, Input } from 'react-native-elements'
-import { Colors } from '../constants/Colors'
+import { Colors } from '../../constants/Colors'
 
 const SignUp = props => {
 

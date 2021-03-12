@@ -2,29 +2,81 @@ import React, { useState } from 'react'
 import { Image } from 'react-native'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
-import StudentProfile from '../screens/studentScreens/StudentProfile'
-import Notifications from '../screens/Notifications'
-import UniversityQuestions from '../screens/studentScreens/UniversityQuestions'
-import DepartmentQuestions from '../screens/studentScreens/DepartmentQuestions'
-import Feed from '../screens/Feed'
+import StudentProfile from '../screens/mainScreens/StudentProfile'
+import Notifications from '../screens/mainScreens/Notifications'
+import UniversityQuestions from '../screens/mainScreens/UniversityQuestions'
+import DepartmentQuestions from '../screens/mainScreens/DepartmentQuestions'
+import Feed from '../screens/mainScreens/Feed'
 import { Feather, Ionicons, FontAwesome, AntDesign } from '@expo/vector-icons';
 import { createStackNavigator } from '@react-navigation/stack'
-import Group from '../screens/studentScreens/Group'
-import CreatePost from '../screens/CreatePost'
-import FullPost from '../screens/FullPost'
-import SignIn from '../screens/SignIn'
-import SignUp from '../screens/SignUp'
-import GroupMembers from '../screens/GroupMembers'
+import Group from '../screens/groupScreens/Group'
+import CreatePost from '../screens/postsScreens/CreatePost'
+import FullPost from '../screens/postsScreens/FullPost'
+import SignIn from '../screens/authScreens/SignIn'
+import SignUp from '../screens/authScreens/SignUp'
+import GroupMembers from '../screens/groupScreens/GroupMembers'
 import { Colors } from '../constants/Colors'
 import { useSelector } from 'react-redux'
 import HOST from '../configs/config'
 import ChattingScreen from '../screens/chatting/ChattingScreen'
+import { createDrawerNavigator } from '@react-navigation/drawer'
+import { options as studentProfileOptions } from '../screens/mainScreens/StudentProfile'
+import DrawerContent from '../screens/mainScreens/DrawerContent'
+import SharingCenterScreen from '../screens/sharingCenter/SharingCenterScreen'
+
 
 const Tab = createMaterialBottomTabNavigator()
 const Stack = createStackNavigator()
+const Drawer = createDrawerNavigator()
+
+const DrawerNavigator = (props:any) => {
+    return (
+        <NavigationContainer>
+            <Drawer.Navigator
+                drawerContentOptions={{
+                    activeBackgroundColor: Colors.primary
+                }}
+                drawerType='slide'
+                drawerContent={props => <DrawerContent {...props} />}
+            >
+                <Drawer.Screen
+                    name='AppNavigator'
+                    component={AppNavigator}
+                    options={{
+                        title: 'Home'
+                    }}
+                />
+
+                <Drawer.Screen
+                    name="DepartmentQuestions"
+                    component={DepartmentQuestions}
+                    options={{
+                        title: 'Home'
+                    }}
+                />
+
+                <Drawer.Screen
+                    name="UniversityQuestions"
+                    component={UniversityQuestions}
+                    options={{
+                        title: 'Home'
+                    }}
+                />
+
+                <Drawer.Screen
+                    name="SharingCenter"
+                    component={SharingCenterScreen}
+                    options={{
+                        title: 'Sharing Center'
+                    }}
+                />
+            </Drawer.Navigator>
+        </NavigationContainer>
+    )
+}
 
 
-const AuthNavigator = (props) => {
+const AuthNavigator = (props:any) => {
     const isSignedIn = useSelector(state => {
         return state.auth.isSignedIn
     })
@@ -49,7 +101,7 @@ const AuthNavigator = (props) => {
     }
 
     return (
-        <AppNavigator />
+        <DrawerNavigator />
     )
 }
 
@@ -59,62 +111,44 @@ const AppNavigator = (props) => {
         return state.auth.imageUrl
     })
     return (
-        <NavigationContainer>
-            <Tab.Navigator
-                shifting={true}
-                initialRouteName="Feed"
-                screenOptions={{
-                    tabBarColor: 'white'
+
+        <Tab.Navigator
+            shifting={true}
+            initialRouteName="Feed"
+            screenOptions={{
+                tabBarColor: 'white'
+            }}
+
+        >
+
+            <Tab.Screen
+                name="Feed"
+                component={Feed}
+                options={{
+                    tabBarIcon: () => <Feather name="home" size={24} color={Colors.primary} />
                 }}
-                
-            >
+            />
 
-                <Tab.Screen
-                    name="Feed"
-                    component={Feed}
-                    options={{
-                        tabBarIcon: () => <Feather name="home" size={24} color={Colors.primary} />
-                    }}
-                />
+            <Tab.Screen
+                name="Notifications"
+                component={Notifications}
+                options={{
+                    tabBarIcon: () => <Ionicons name="notifications" size={24} color={Colors.primary} />
+                }}
+            />
 
-                <Tab.Screen
-                    name="Notifications"
-                    component={Notifications}
-                    options={{
-                        tabBarIcon: () => <Ionicons name="notifications" size={24} color={Colors.primary} />
-                    }}
-                />
-
-                <Tab.Screen
-                    name="StudentProfile"
-                    component={StudentProfileNavigator}
-                    options={{
-                        tabBarIcon: () => <Image style={{ width: 30, height: 30, borderRadius: 25 }} source={{ uri: `http://${HOST}:4200/${userImage}` }} />
-                    }}
-                />
+            <Tab.Screen
+                name="StudentProfile"
+                component={StudentProfileNavigator}
+                options={{
+                    tabBarIcon: () => <Image style={{ width: 30, height: 30, borderRadius: 25 }} source={{ uri: `http://${HOST}:4200/${userImage}` }} />
+                }}
+            />
 
 
 
-                <Tab.Screen
-                    name="DepartmentQuestions"
-                    component={DepartmentQuestions}
-                    options={{
-                        tabBarIcon: () => <AntDesign name="questioncircle" size={24} color={Colors.primary} />
-                    }}
-                />
+        </Tab.Navigator>
 
-                <Tab.Screen
-                    name="UniversityQuestions"
-                    component={UniversityQuestions}
-                    options={{
-                        tabBarIcon: () => <FontAwesome name="university" size={24} color={Colors.primary} />,
-                    }}
-                />
-
-
-
-            </Tab.Navigator>
-        </NavigationContainer>
     )
 }
 
@@ -134,6 +168,7 @@ const StudentProfileNavigator = (props: any) => {
             <Stack.Screen
                 name="Profile"
                 component={StudentProfile}
+                options={studentProfileOptions}
             />
 
             <Stack.Screen
@@ -156,7 +191,7 @@ const StudentProfileNavigator = (props: any) => {
                 component={GroupMembers}
             />
 
-            <Stack.Screen name="ChattingScreen" component={ChattingScreen}/>
+            <Stack.Screen name="ChattingScreen" component={ChattingScreen} />
         </Stack.Navigator>
     )
 }

@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, Text, ScrollView, FlatList } from 'react-native'
-import ProfileHeader from '../ProfileHeader'
+import ProfileHeader from '../../components/ProfileHeader'
 import ListItem from '../../components/ListItem'
 import { Colors } from '../../constants/Colors'
 import { useSelector, useDispatch } from 'react-redux'
-import axios from 'axios'
-import { actions as studentActions } from '../../store/student'
-import HOST from '../../configs/config'
 import CustomActivityIndicator from '../../components/CustomActivityIndicator'
 import { fetchStudentData } from '../../store/middleware/NajahApi'
-import {io} from 'socket.io-client'
+import {HeaderButtons, Item} from 'react-navigation-header-buttons'
+import CustomHeaderButton from '../../components/CustomHeaderButton'
+
 
 const StudentProfile = (props) => {
 
@@ -45,23 +44,24 @@ const StudentProfile = (props) => {
 
 
 
+    const openCourseGroup = (itemData) => {
+        const item = itemData.item
+        props.navigation.navigate('Group', {
+            title: item.courseId.name,
+            id: item.courseId._id,
+            userImage: userData.imageUrl,
+            numberOfMembers: item.courseId.students.length,
+            userId: userData.userId,
+            username:userData.name 
+        })
+
+    }
+
     const renderItems = (itemData) => {
         return <ListItem
             onSelect={() => openCourseGroup(itemData)}
             title={itemData.item.courseId.name}
         />
-    }
-
-    const openCourseGroup = (itemData) => {
-        props.navigation.navigate('Group', {
-            title: itemData.item.courseId.name,
-            id: itemData.item.courseId._id,
-            userImage: userData.imageUrl,
-            numberOfMembers: itemData.item.courseId.students.length,
-            userId: userData.userId,
-            username:userData.name 
-        })
-
     }
 
 
@@ -95,6 +95,18 @@ const StudentProfile = (props) => {
         </View>
     )
 }
+
+export const options = ({route, navigation}) => ({
+    headerLeft: () => (
+        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+            <Item
+            title="List"
+            iconName='list'
+            onPress={()=> navigation.openDrawer()}            
+            />
+        </HeaderButtons>
+    )
+})
 
 const styles = StyleSheet.create({
     mainView: {

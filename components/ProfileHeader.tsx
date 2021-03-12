@@ -1,16 +1,26 @@
 import React from 'react'
-import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { Colors } from '../constants/Colors'
-import ProfileAvatarImage from '../components/ProfileAvatarImage'
-import ImageModal from '../components/ImageModal'
-const ProfileHeader = (props) => {
+import ProfileAvatarImage from './ProfileAvatarImage'
 
+
+const ProfileHeader = (props: any) => {
 
     return (
-        <View style={{ ...styles.profileHeader, ...props.style }}>
+        <View
+            style={
+                { ...styles.profileHeader, ...props.style }
+            }
+        >
 
-            <TouchableOpacity onLongPress={() => console.log('Long pressed')}>
-                <ProfileAvatarImage imageUrl={props.imageUrl} style={styles.profileImage} />
+            <TouchableOpacity
+                onLongPress={() => console.log('Long pressed')}
+            >
+                <ProfileAvatarImage
+                    imageUrl={props.imageUrl}
+                    style={styles.profileImage}
+                />
+
             </TouchableOpacity>
 
             <View>

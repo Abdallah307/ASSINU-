@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { View, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Text, TextInput } from 'react-native'
-import { Colors } from '../constants/Colors'
+import { Colors } from '../../constants/Colors'
 import { Button, Input } from 'react-native-elements'
 import { MaterialIcons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import {useDispatch} from 'react-redux'
-import {signIn} from '../store/middleware/auth'
+import {signIn} from '../../store/middleware/auth'
 
 const PasswordStateIcon = (props) => {
     if (props.state) 
@@ -38,7 +38,10 @@ const SignIn = (props: any) => {
     
 
     return (
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{ flex: 1 }}>
+        <TouchableWithoutFeedback 
+        onPress={() => Keyboard.dismiss()} 
+        style={{ flex: 1 }}
+        >
             <View style={styles.signIn}>
                 <View style={{ justifyContent: 'center', alignItems: 'center', flex: 0.3 }}>
                     <Text style={styles.title}>ASSINU</Text>
