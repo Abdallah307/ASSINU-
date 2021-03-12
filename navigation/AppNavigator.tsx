@@ -4,8 +4,8 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { NavigationContainer } from '@react-navigation/native'
 import StudentProfile from '../screens/mainScreens/StudentProfile'
 import Notifications from '../screens/mainScreens/Notifications'
-import UniversityQuestions from '../screens/mainScreens/UniversityQuestions'
-import DepartmentQuestions from '../screens/mainScreens/DepartmentQuestions'
+import UniversityQuestions from '../screens/questionsScreens/UniversityQuestions'
+import DepartmentQuestions from '../screens/questionsScreens/DepartmentQuestions'
 import Feed from '../screens/mainScreens/Feed'
 import { Feather, Ionicons, FontAwesome, AntDesign } from '@expo/vector-icons';
 import { createStackNavigator } from '@react-navigation/stack'
@@ -23,7 +23,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer'
 import { options as studentProfileOptions } from '../screens/mainScreens/StudentProfile'
 import DrawerContent from '../screens/mainScreens/DrawerContent'
 import SharingCenterScreen from '../screens/sharingCenter/SharingCenterScreen'
-
+import FullQuestionScreen from '../screens/questionsScreens/FullQuestionScreen'
 
 const Tab = createMaterialBottomTabNavigator()
 const Stack = createStackNavigator()
@@ -49,7 +49,7 @@ const DrawerNavigator = (props:any) => {
 
                 <Drawer.Screen
                     name="DepartmentQuestions"
-                    component={DepartmentQuestions}
+                    component={DepartmentQuestionsNavigator}
                     options={{
                         title: 'Home'
                     }}
@@ -149,6 +149,15 @@ const AppNavigator = (props) => {
 
         </Tab.Navigator>
 
+    )
+}
+
+const DepartmentQuestionsNavigator = (props: any) => {
+    return(
+        <Stack.Navigator>
+            <Stack.Screen name="DepartmentQuestions" component={DepartmentQuestions}/>
+            <Stack.Screen name="FullQuestionScreen" component={FullQuestionScreen} />
+        </Stack.Navigator>
     )
 }
 

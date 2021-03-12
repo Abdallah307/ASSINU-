@@ -86,7 +86,9 @@ const StudentProfile = (props) => {
                     renderItem={renderItems}
                     keyExtractor={(item) => item._id.toString()}
                     refreshing={refreshing}
-                    onRefresh={()=>{}}
+                    onRefresh={()=>{dispatch(fetchStudentData({
+                        studentEmail: userData.email
+                    }))}}
                 />
                 }
                 

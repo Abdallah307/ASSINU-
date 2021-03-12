@@ -1,40 +1,49 @@
 import React, { useState, useEffect } from 'react'
-import { View, FlatList, StyleSheet, TextInput } from 'react-native'
+import { View, FlatList, StyleSheet} from 'react-native'
 import ChattingMessage from './ChattingMessage'
 import { Colors } from '../../constants/Colors'
-import { Button } from 'react-native-elements'
 import HOST, { SERVER_PORT } from '../../configs/config'
 import axios from 'axios'
 import ChattingInput from './ChattingInput'
 import { useSelector } from 'react-redux'
 import { io } from 'socket.io-client'
+import {CourseGroup} from '../../api/api'
 
 const ChattingScreen = props => {
     const [messages, setMessages] = useState([])
 
     const [message, setMessage] = useState('')
 
+    const params = props.route.params 
+
     const userId = useSelector(state => {
         return state.auth.userId
     })
 
     useEffect(() => {
-        axios.get(
-            `http://${HOST}:${SERVER_PORT}/student/group/messages/${props.route.params.groupId}`
-        )
-            .then(response => {
-                setMessages(response.data.messages)
-            })
-            .catch(err => {
+
+        const fetchGroupMessages = async () => {
+            try {
+                const response = await CourseGroup.fetchGroupMessages(params.groupId)
+
+                if (response.status === 200) {
+                    setMessages(response.data.messages)
+                }
+            }
+            catch(err) {
                 console.log(err)
-            })
+            }
+            
+        }
+        fetchGroupMessages()    
+        
         const socket = io(`http://${HOST}:${SERVER_PORT}`)
         socket.on('message', data => {
             if (data.action === 'addmessage')
                 addMessage(data.message)
         })
 
-    }, [props.route.params.groupId, messages])
+    }, [params.groupId, messages, setMessages])
 
     const addMessage = (message) => {
         if (message.ownerId === userId)

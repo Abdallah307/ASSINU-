@@ -35,6 +35,12 @@ export class CourseGroup {
             throw err
         }
     }
+
+    static fetchGroupMessages = (groupId) => {
+        return axios.get(
+            `http://${HOST}:${SERVER_PORT}/student/group/messages/${groupId}`
+        )
+    }
 }
 
 export class Post {
