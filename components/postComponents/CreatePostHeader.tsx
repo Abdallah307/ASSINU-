@@ -5,7 +5,7 @@ import ProfileAvatarImage from '../profileComponents/ProfileAvatarImage'
 const CreatePostHeader = (props:any) => {
     return (
         <View style={styles.createPostHeader}>
-            <ProfileAvatarImage imageUrl={props.imageUrl} />
+            <ProfileAvatarImage style={styles.avatarImage} imageUrl={props.imageUrl} />
             <Text style={styles.username}>{props.username}</Text>
         </View>
     )
@@ -20,7 +20,12 @@ const styles = StyleSheet.create({
     username: {
         color:'black',
         fontSize:16,
-        fontWeight:'bold'
+        fontFamily:'OpenSans-Bold'
+    },
+    avatarImage: {
+        width:50,
+        height:50,
+        borderRadius:25
     }
 })
 

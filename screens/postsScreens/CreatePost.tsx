@@ -13,28 +13,28 @@ import { useDispatch, useSelector } from 'react-redux'
 
 const CreatePost = props => {
 
-    const [content, setContent] = useState<string>('')
-    const [isPostCreated, setIsPostCreated] = useState(false)
-    const dispatch = useDispatch()
-
+    const [content, setContent] = useState('')
     const params = props.route.params
 
-    const handlePostInput = (value: string) => {
+    const handlePostInput = (value) => {
         setContent(value)
     }
 
     const createPost = async () => {
 
-        setIsPostCreated(false)
-
         try {
             const groupId = params.groupId
             const ownerId = params.userId
-
-            const response = await CourseGroup.createPost({ groupId, ownerId, content })
+            const response = await CourseGroup.createPost({ 
+                groupId:groupId,
+                ownerId:ownerId,
+                content : content 
+            })
 
             if (response.status === 201) {
-                props.navigation.navigate('Group')
+                props.navigation.navigate('Group', {
+                    postCreated: true
+                })
             }
         }
         catch (err) {
@@ -43,6 +43,7 @@ const CreatePost = props => {
     }
 
     useLayoutEffect(() => {
+        console.log('created the post')
         props.navigation.setOptions(screenOptions(createPost))
     })
 

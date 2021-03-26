@@ -25,7 +25,8 @@ const styles = StyleSheet.create({
     },
     postContent: {
         fontSize: 15,
-        paddingVertical: 5
+        paddingVertical: 5,
+        fontFamily:'OpenSans-Regular'
     }
 })
 

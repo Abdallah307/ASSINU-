@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
     },
     commentText: {
         fontSize: 13,
+        fontFamily:'OpenSans-Regular'
     },
 })
 

@@ -9,14 +9,15 @@ const PostFooter = (props) => {
     return(
         <View style={styles.postFooter}>
             <Button
-            icon={<AntDesign name="like2" size={23} color={Colors.primary} />}
+            icon={<AntDesign name="like2" size={23} color='grey' />}
             type='clear'
             />
 
             <Button
             onPress={props.onOpenPost}
+            titleStyle={{color:'grey'}}
             title={props.numberOfComments}
-            icon={<EvilIcons name="comment" size={23} color={Colors.secondary} />}
+            icon={<EvilIcons name="comment" size={23} color='grey' />}
             type='clear'
             />
         </View>
@@ -28,12 +29,10 @@ const styles = StyleSheet.create({
         backgroundColor:'white',
         flexDirection:'row',
         justifyContent:'space-between',
-        borderTopWidth:0.5,
         borderColor:'lightgrey',
         paddingHorizontal:30,
         alignItems:'center',
-        borderBottomLeftRadius:10,
-        borderBottomRightRadius:10
+        
     }
 })
 

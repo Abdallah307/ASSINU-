@@ -13,11 +13,12 @@ const CommentBodyHeader = props => {
 
 const styles = StyleSheet.create({
     name: {
-        fontSize: 16,
-        fontWeight: 'bold'
+        fontSize: 14,
+        fontFamily:"OpenSans-Bold"
     },
     info: {
         color: 'grey',
+        fontFamily:'OpenSans-Light'
     },
     texts: {
         flexDirection: 'column',

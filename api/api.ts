@@ -14,18 +14,25 @@ export class CourseGroup {
         }
     }
 
-    static createPost = (postInfo: Object) => {
-        return axios.request({
-            url: `http://${HOST}:${SERVER_PORT}/student/createpost`,
-            method: 'post',
-            data: postInfo,
-            headers: {
-                "Content-Type": "application/json"
+    static createPost = (postInfo) => {
+        return axios.post(
+            `http://${HOST}:${SERVER_PORT}/student/createpost`,
+            {
+                groupId: postInfo.groupId,
+                ownerId: postInfo.ownerId,
+                content: postInfo.content
+            },
+            {
+                headers: {
+                    "Content-Type": "application/json"
+                }
             }
-        })
+            
+        )
     }
 
     static fetchGroupMembers = (groupId) => {
+
         try {
             return axios.get(
                 `http://${HOST}:${API_PORT}/student/course/${groupId}`
@@ -52,10 +59,41 @@ export class Post {
 
     static submitComment = (postId, commentInfo) => {
         return axios.put(
-            `http://${HOST}:${SERVER_PORT}/student/group/posts/comment/${postId}`,
+            `http://${HOST}:${SERVER_PORT}/student/group/posts/comment/createcomment`,
             {
-                comment: commentInfo
+                content: commentInfo.content,
+                ownerId : commentInfo.ownerId,
+                postId : postId
+            },
+            {
+                headers : {
+                    "Content-Type": "application/json"
+                }
             }
         )
+    }
+}
+
+
+export class UniversityGroup {
+    
+    static fetchQuestions = () => {
+        return axios.get(`http://${HOST}:${SERVER_PORT}/student/university/questions`)
+    }
+
+    static followQuestion = (questionId, userId) => {
+        return axios.put(
+            `http://${HOST}:${SERVER_PORT}/student/university/questions/follow/${questionId}`,
+            {
+                followerId: userId
+            }
+        )
+    }
+
+    static createQuestion = (userId, createdQuestion) => {
+        return axios.post(`http://${HOST}:${SERVER_PORT}/student/university/questions/addquestion`, {
+            content: createdQuestion,
+            ownerId: userId,
+        })
     }
 }

@@ -18,6 +18,7 @@ const NajahApi = ({dispatch}) => next => async action => {
 
             if (response.status === 200) {
                 //console.log(response.data)
+                console.log("Najah api ya man what are you doing right now")
                 dispatch(studentActions.setStudent({
                     name:response.data.name,
                     courses: response.data.courses,

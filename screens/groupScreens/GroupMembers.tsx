@@ -33,7 +33,7 @@ const GroupMembers = (props:any) => {
             isCancelled = true
         }
 
-    })
+    }, [])
 
     if (!isLoaded)
         return <CustomActivityIndicator />

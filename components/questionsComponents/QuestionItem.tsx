@@ -6,20 +6,18 @@ import QuestionFooter from './QuestionFooter'
 
 const QuestionItem = props => {
 
-
     return(
         <View style={styles.questionItem}>
-            <PostHeader imageUrl='images/ali.jpg' ownerName='Muntaser Abu Thaher'/>
-            <PostBody content='السلام عليكم.
-بدي أسأل عن مكان بنابلس ببيع وصلات USB أصليات لنقل الداتا مش للشحن و كم سعرهم ؟'/>
-            <QuestionFooter onAnswerPressed={props.onAnswerPressed}/>
+            <PostHeader createdAt={props.createdAt} imageUrl={props.ownerImage} ownerName={props.ownerName}/>
+            <PostBody onOpenPost={props.onOpenQuestion} content={props.content}/>
+            <QuestionFooter isFollowing={props.isFollowing} onFollowPressed={props.onFollowPressed} onAnswerPressed={props.onOpenQuestion}/>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     questionItem: {
-        marginVertical:5
+        marginVertical:5,
     }
 })
 

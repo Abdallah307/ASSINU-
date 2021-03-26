@@ -10,7 +10,7 @@ const CreatePostInput = props => {
         placeholder="What are you thinking..."
         multiline={true}
         returnKeyType='send'
-        onChangeText={props.onChangeText}
+        onChangeText={(value) => props.onChangeText(value)}
         />
     )
 }
@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
         padding:15,
         fontSize:18,
         color:'black',
+        fontFamily:'OpenSans-Regular'
     }
 })
 

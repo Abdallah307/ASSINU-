@@ -1,7 +1,7 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, ScrollView, StyleSheet, TextInput, ToastAndroid } from 'react-native'
 import PostItem from '../../components/postComponents/PostItem'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector} from 'react-redux'
 import CommentItem from '../../components/commentComponents/CommentItem'
 import { Button } from 'react-native-elements'
 import { Colors } from '../../constants/Colors'
@@ -43,9 +43,8 @@ const FullPost = (props: any) => {
 
 
     useEffect(() => {
-
         fetchComments()
-    })
+    }, [])
 
     const handleCommentInput = (value) => {
         setCommentInput(value)
@@ -61,7 +60,10 @@ const FullPost = (props: any) => {
         const ownerId = user.userId
         const createdAt = new Date()
 
-        await Post.submitComment(postId, { content, ownerId, createdAt })
+        await Post.submitComment(postId, { 
+            content : content,
+            ownerId : ownerId, 
+        })
 
         setIsCommenting(false)
         fetchComments()
@@ -76,10 +78,12 @@ const FullPost = (props: any) => {
         <ScrollView>
 
             <PostItem
-                ownerId={params.ownerId}
+                owner={params.owner}
                 postId={params.postId}
                 content={params.content}
                 groupId={params.groupId}
+                numberOfComments={params.numberOfComments}
+                createdAt={params.createdAt}
             />
 
             <View
@@ -145,13 +149,14 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     commentInput: {
-        borderWidth: 1,
+        borderBottomWidth: 1,
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 20,
         borderColor: 'grey',
         marginHorizontal: 5,
-        flex: 1
+        flex: 1,
+        fontFamily:'OpenSans-Regular'
     },
     submitButtonContainer: {
         flexDirection: 'row',
@@ -165,9 +170,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15
     },
     commentInputAndButtonContainer: {
-        flexDirection:'row',
+        flexDirection: 'row',
         justifyContent: 'center',
-        alignItems:'center'
+        alignItems: 'center'
     }
 })
 

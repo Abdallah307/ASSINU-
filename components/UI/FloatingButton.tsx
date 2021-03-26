@@ -1,14 +1,16 @@
 import React from 'react'
 import { View, StyleSheet, TouchableOpacity } from 'react-native'
-import { Button } from 'react-native-elements'
 import { Ionicons } from '@expo/vector-icons';
-import {TouchableRipple} from 'react-native-paper'
 import {Colors} from '../../constants/Colors'
 
 
 const FloatingButton = props => {
     return (
-        <TouchableOpacity activeOpacity={0.8} style={{...styles.floatingButton, ...props.style}}>
+        <TouchableOpacity 
+        activeOpacity={0.8} 
+        style={{...styles.floatingButton, ...props.style}}
+        onPress={props.openAddQuestion}
+        >
             <Ionicons name="add-outline" size={30} color="white" />
         </TouchableOpacity>
 

@@ -1,18 +1,18 @@
 import React from 'react'
 import { View,TouchableWithoutFeedback, Text, StyleSheet, ScrollView, ImageBackground, Image, TextInput } from 'react-native'
+import { Button } from 'react-native-elements'
 import ProfileAvatarImage from '../profileComponents/ProfileAvatarImage'
 
 
 const WritePost = (props: any) => {
     return (
         <View style={styles.mainView}>
-            <ProfileAvatarImage imageUrl={props.imageUrl}/>
+            <ProfileAvatarImage style={styles.avatarImage} imageUrl={props.imageUrl}/>
             <TouchableWithoutFeedback onPress={props.onTouch}>
                 <View style={styles.inputView}>
                     <Text style={styles.inputPlaceHolder}>Write Something...</Text>
                 </View>
             </TouchableWithoutFeedback>
-            
         </View>
     )
 }
@@ -27,20 +27,27 @@ const styles = StyleSheet.create({
    
     inputView:{
         justifyContent:'center',
-        borderWidth:1.2,
-        borderRadius:20,
+        borderWidth:0.9,
+        borderRadius:100,
         width:'80%',
-        paddingLeft:10,
+        paddingLeft:15,
         borderColor:'#ccc'
     },
     postInput:{
         borderWidth:1,
         padding:10,
         borderRadius:20,
+        
     },
     inputPlaceHolder:{
         color:'#ccc',
-        fontWeight:'bold'
+        fontFamily:'OpenSans-Regular'
+    },
+    avatarImage: {
+        width:50,
+        height:50,
+        borderRadius:25,
+        marginRight:10
     }
 })
 

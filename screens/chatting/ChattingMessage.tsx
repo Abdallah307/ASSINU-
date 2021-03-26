@@ -24,7 +24,8 @@ const styles = StyleSheet.create({
     },
     messageText: {
         color: 'white',
-        maxWidth: Dimensions.get('window').width / 2
+        maxWidth: Dimensions.get('window').width / 2,
+        fontFamily:'OpenSans-Regular'
     }
 })
 

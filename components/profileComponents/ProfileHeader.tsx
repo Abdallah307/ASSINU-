@@ -53,12 +53,13 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'center',
         fontSize: 18,
-        fontWeight: 'bold'
+        fontFamily:'OpenSans-Bold'
     },
     bio: {
         color: 'white',
         textAlign: 'center',
-        fontWeight: 'normal'
+        fontWeight: 'normal',
+        fontFamily:'OpenSans-Regular'
     }
 
 })

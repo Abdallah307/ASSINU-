@@ -21,7 +21,7 @@ const ChattingScreen = props => {
     })
 
     useEffect(() => {
-
+        console.log('Grop')
         const fetchGroupMessages = async () => {
             try {
                 const response = await CourseGroup.fetchGroupMessages(params.groupId)
@@ -37,30 +37,36 @@ const ChattingScreen = props => {
         }
         fetchGroupMessages()    
         
+        
+
+    }, [params.groupId])
+
+    useEffect(() => {
         const socket = io(`http://${HOST}:${SERVER_PORT}`)
         socket.on('message', data => {
             if (data.action === 'addmessage')
                 addMessage(data.message)
         })
+    }, [])
 
-    }, [params.groupId, messages, setMessages])
+
 
     const addMessage = (message) => {
-        if (message.ownerId === userId)
-            return (
-                <ChattingMessage
-                    messageContent={message.content}
-                    containerStyle={styles.ownerMessage}
-                />
-            )
+        // if (message.ownerId === userId)
+        //     return (
+        //         <ChattingMessage
+        //             messageContent={message.content}
+        //             containerStyle={styles.ownerMessage}
+        //         />
+        //     )
 
-        return (
-            <ChattingMessage
-                messageContent={message.content}
-                containerStyle={styles.opponentMessage}
-                messageStyle={{ color: 'black' }}
-            />
-        )
+        // return (
+        //     <ChattingMessage
+        //         messageContent={message.content}
+        //         containerStyle={styles.opponentMessage}
+        //         messageStyle={{ color: 'black' }}
+        //     />
+        // )
     }
 
     const renderMessages = (itemData) => {
@@ -76,7 +82,7 @@ const ChattingScreen = props => {
             <ChattingMessage
                 messageContent={itemData.item.content}
                 containerStyle={styles.opponentMessage}
-                messageStyle={{ color: 'black' }}
+                messageStyle={{ color: 'black'}}
             />
         )
     }

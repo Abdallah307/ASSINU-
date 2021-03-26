@@ -8,42 +8,23 @@ import axios from 'axios'
 
 const PostItem = (props) => {
 
-    const [owner, setOwner] = useState({})
-
-    useEffect(() => {
-        let isCancelled = false
-        axios.get(`http://${HOST}:${SERVER_PORT}/student/${props.ownerId}`)
-        .then(response=> {
-            if (!isCancelled)
-                setOwner(response.data)
-        })
-        .catch(err=>{
-            console.log(err)
-        })
-
-        return () => {
-            isCancelled = true
-        }
-
-    }, [owner, props.ownerId])
     return (
         
             <View style={styles.postItem}>
 
                 <PostHeader 
-                ownerName={owner.name} 
-                imageUrl={owner.imageUrl}
+                createdAt={props.createdAt}
+                ownerName={props.owner.name} 
+                imageUrl={props.owner.imageUrl}
                 />
 
                 <PostBody 
-                ownerName={owner.name} 
-                imageUrl={owner.imageUrl} 
-                postId={props.postId} 
                 onOpenPost={props.onOpenPost} 
                 content={props.content} 
                 />
 
                 <PostFooter 
+                numberOfComments={props.numberOfComments}
                 onOpenPost={props.onOpenPost} 
                 />
 

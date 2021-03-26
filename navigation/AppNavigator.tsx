@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Image } from 'react-native'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
-import StudentProfile from '../screens/mainScreens/StudentProfile'
+import UserProfile from '../screens/user/UserProfile'
 import Notifications from '../screens/mainScreens/Notifications'
 import UniversityQuestions from '../screens/questionsScreens/UniversityQuestions'
 import DepartmentQuestions from '../screens/questionsScreens/DepartmentQuestions'
@@ -20,10 +20,12 @@ import { useSelector } from 'react-redux'
 import HOST from '../configs/config'
 import ChattingScreen from '../screens/chatting/ChattingScreen'
 import { createDrawerNavigator } from '@react-navigation/drawer'
-import { options as studentProfileOptions } from '../screens/mainScreens/StudentProfile'
+import { options as studentProfileOptions } from '../screens/user/UserProfile'
 import DrawerContent from '../screens/mainScreens/DrawerContent'
 import SharingCenterScreen from '../screens/sharingCenter/SharingCenterScreen'
 import FullQuestionScreen from '../screens/questionsScreens/FullQuestionScreen'
+import SearchScreen from '../screens/questionsScreens/SearchScreen'
+import Poll from '../components/groupComponents/Poll'
 
 const Tab = createMaterialBottomTabNavigator()
 const Stack = createStackNavigator()
@@ -49,7 +51,7 @@ const DrawerNavigator = (props:any) => {
 
                 <Drawer.Screen
                     name="DepartmentQuestions"
-                    component={DepartmentQuestionsNavigator}
+                    component={DepartmentQuestions}
                     options={{
                         title: 'Home'
                     }}
@@ -57,7 +59,7 @@ const DrawerNavigator = (props:any) => {
 
                 <Drawer.Screen
                     name="UniversityQuestions"
-                    component={UniversityQuestions}
+                    component={UniversityQuestionsNavigator}
                     options={{
                         title: 'Home'
                     }}
@@ -115,8 +117,11 @@ const AppNavigator = (props) => {
         <Tab.Navigator
             shifting={true}
             initialRouteName="Feed"
+            sceneAnimationEnabled={true}
+            barStyle={{
+                backgroundColor:Colors.primary,
+            }}
             screenOptions={{
-                tabBarColor: 'white'
             }}
 
         >
@@ -125,7 +130,7 @@ const AppNavigator = (props) => {
                 name="Feed"
                 component={Feed}
                 options={{
-                    tabBarIcon: () => <Feather name="home" size={24} color={Colors.primary} />
+                    tabBarIcon: () => <Feather name="home" size={24} color='white' />
                 }}
             />
 
@@ -133,15 +138,17 @@ const AppNavigator = (props) => {
                 name="Notifications"
                 component={Notifications}
                 options={{
-                    tabBarIcon: () => <Ionicons name="notifications" size={24} color={Colors.primary} />
+                    tabBarIcon: () => <Ionicons name="notifications" size={24} color='white' />
                 }}
             />
 
             <Tab.Screen
                 name="StudentProfile"
+                
                 component={StudentProfileNavigator}
                 options={{
-                    tabBarIcon: () => <Image style={{ width: 30, height: 30, borderRadius: 25 }} source={{ uri: `http://${HOST}:4200/${userImage}` }} />
+                    title:'Profile',
+                    tabBarIcon: () => <Image style={{ width: 24, height: 24, borderRadius: 12 }} source={{ uri: `http://${HOST}:4200/${userImage}` }} />
                 }}
             />
 
@@ -152,11 +159,20 @@ const AppNavigator = (props) => {
     )
 }
 
-const DepartmentQuestionsNavigator = (props: any) => {
+const UniversityQuestionsNavigator = (props: any) => {
     return(
-        <Stack.Navigator>
-            <Stack.Screen name="DepartmentQuestions" component={DepartmentQuestions}/>
+        <Stack.Navigator
+        screenOptions={{
+            headerTintColor:'white',
+            headerTitleAlign:'center',
+            headerStyle: {
+                backgroundColor:Colors.primary,
+            }
+        }}
+        >
+            <Stack.Screen name="UniversityQuestions" component={UniversityQuestions}/>
             <Stack.Screen name="FullQuestionScreen" component={FullQuestionScreen} />
+            <Stack.Screen options={{headerShown:false}} name="SearchScreen" component={SearchScreen}/>
         </Stack.Navigator>
     )
 }
@@ -164,7 +180,11 @@ const DepartmentQuestionsNavigator = (props: any) => {
 const StudentProfileNavigator = (props: any) => {
     return (
         <Stack.Navigator
+        
             screenOptions={{
+                headerTitleStyle: {
+                    fontFamily:'OpenSans-Bold'
+                },
                 headerTitleAlign: 'center',
                 headerTintColor: 'white',
                 headerStyle: {
@@ -176,7 +196,7 @@ const StudentProfileNavigator = (props: any) => {
         >
             <Stack.Screen
                 name="Profile"
-                component={StudentProfile}
+                component={UserProfile}
                 options={studentProfileOptions}
             />
 
@@ -200,7 +220,9 @@ const StudentProfileNavigator = (props: any) => {
                 component={GroupMembers}
             />
 
-            <Stack.Screen name="ChattingScreen" component={ChattingScreen} />
+            <Stack.Screen name="Poll" component={Poll}/>
+
+            <Stack.Screen options={{title:'Chatting'}} name="ChattingScreen" component={ChattingScreen} />
         </Stack.Navigator>
     )
 }
