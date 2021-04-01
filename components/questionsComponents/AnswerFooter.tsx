@@ -7,6 +7,7 @@ const AnswerFooter = props => {
     return (
         <View style={styles.answerFooter}>
             <Button
+                onPress={props.upvote}
                 titleStyle={styles.buttonTitle}
                 type="clear"
                 title='Upvote'
@@ -14,6 +15,7 @@ const AnswerFooter = props => {
             />
 
             <Button
+                onPress={props.downvote}
                 titleStyle={styles.buttonTitle}
                 type="clear"
                 title='Downvote'
@@ -26,6 +28,7 @@ const AnswerFooter = props => {
                 title='Comment'
                 icon={<EvilIcons name="comment" size={24} color="black" />}
             />
+            <Text>{props.numberOfVotes}</Text>
         </View>
     )
 }
@@ -33,7 +36,8 @@ const AnswerFooter = props => {
 const styles = StyleSheet.create({
     answerFooter: {
         flexDirection: 'row',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        alignItems:'center'
     },
     buttonTitle: {
         marginHorizontal: 5,

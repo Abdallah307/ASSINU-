@@ -25,10 +25,10 @@ const PostHeader = (props) => {
                     <Text style={styles.username}>{props.ownerName}</Text>
                     <Text style={styles.timestamp}>{new Date(props.createdAt).toDateString()}</Text>
                 </View>
-            {props.questionOwnerId === userId ? <Button
+            {/* {props.questionOwnerId === userId ? <Button
             onPress={()=> setIsBestAnswer(!isBestAnswer)}
             title='Mark as a best answer'
-            /> : null}
+            /> : null} */}
             {props.bestAnswer ? <Icon
             name='check-circle'
             color='green'

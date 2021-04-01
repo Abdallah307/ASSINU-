@@ -5,7 +5,7 @@ import PostHeader from '../postComponents/PostHeader'
 import QuestionFooter from './QuestionFooter'
 
 const QuestionItem = props => {
-
+    
     return(
         <View style={styles.questionItem}>
             <PostHeader createdAt={props.createdAt} imageUrl={props.ownerImage} ownerName={props.ownerName}/>

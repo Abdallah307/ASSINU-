@@ -5,12 +5,16 @@ const slice = createSlice({
     name: "UniversityQuestions",
     initialState: {
         questions: [],
-        isLoaded: false
+        isLoaded: false,
+        isQuestionAdded:false
     },
     reducers: {
         setQuestions: (state, action) => {
             state.questions = [...action.payload]
             state.isLoaded = true
+        },
+        addQuestion : (state, action) => {
+            state.questions.unshift(action.payload.question)
         },
         toggleFollowingStatus: (state, action) => {
             const questionId = action.payload.questionId
@@ -38,7 +42,28 @@ const slice = createSlice({
 
             
 
+        },
+        upvoteAnswer: (state, action) => {
+             console.log('The index is : ', action.payload.answerIndex)
+             const questionIndex = state.questions.findIndex(question => {
+                 return question._id == action.payload.questionId 
+             })
+             const answerIndex = action.payload.answerIndex
+             state.questions[questionIndex].answers[answerIndex].upvoters = [...action.payload.upvoters]
+             state.questions[questionIndex].answers[answerIndex].downvoters = [...action.payload.downvoters]
+             state.questions[questionIndex].answers[answerIndex].votes = action.payload.votes
+        },
+        downvoteAnswer: (state, action) => {
+            const answerIndex = action.payload.answerIndex
+            const questionIndex = state.questions.findIndex(question => {
+                return question._id == action.payload.questionId 
+            })
+            console.log('The index is : ', answerIndex)
+            state.questions[questionIndex].answers[answerIndex].upvoters = [...action.payload.upvoters]
+            state.questions[questionIndex].answers[answerIndex].downvoters = [...action.payload.downvoters]
+            state.questions[questionIndex].answers[answerIndex].votes = action.payload.votes
         }
+
     }
 })
 

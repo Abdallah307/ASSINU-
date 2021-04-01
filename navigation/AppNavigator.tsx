@@ -26,6 +26,7 @@ import SharingCenterScreen from '../screens/sharingCenter/SharingCenterScreen'
 import FullQuestionScreen from '../screens/questionsScreens/FullQuestionScreen'
 import SearchScreen from '../screens/questionsScreens/SearchScreen'
 import Poll from '../components/groupComponents/Poll'
+import CreateQuestionScreen from '../screens/questionsScreens/CreateQuestionScreen'
 
 const Tab = createMaterialBottomTabNavigator()
 const Stack = createStackNavigator()
@@ -173,6 +174,7 @@ const UniversityQuestionsNavigator = (props: any) => {
             <Stack.Screen name="UniversityQuestions" component={UniversityQuestions}/>
             <Stack.Screen name="FullQuestionScreen" component={FullQuestionScreen} />
             <Stack.Screen options={{headerShown:false}} name="SearchScreen" component={SearchScreen}/>
+            <Stack.Screen name='CreateQuestionScreen' component={CreateQuestionScreen} />
         </Stack.Navigator>
     )
 }

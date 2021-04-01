@@ -10,7 +10,9 @@ import SearchInput from '../../components/UI/SearchInput'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { fetchUniversityQuestions } from '../../store/middleware/api'
 import CustomActivityIndicator from '../../components/UI/CustomActivityIndicator'
-import {toggleFollowingStatus} from '../../store/middleware/api'
+import { toggleFollowingStatus } from '../../store/middleware/api'
+import * as Notifications from 'expo-notifications'
+import { addUniversityQuestion } from '../../store/middleware/api'
 
 const UniversityQuestions = (props: any) => {
 
@@ -18,7 +20,10 @@ const UniversityQuestions = (props: any) => {
 
     const dispatch = useDispatch()
 
-    // const [questions, setQuestions] = useState([])
+    const userData = useSelector(state => {
+        return state.auth
+    })
+
 
     const questions = useSelector(state => {
         return state.questions.questions
@@ -52,23 +57,32 @@ const UniversityQuestions = (props: any) => {
     }
 
     const addQuestion = async () => {
-        try {
-            const response = await UniversityGroup.createQuestion(userId, createdQuestion)
-        }
-        catch (err) {
-            console.log(err)
-        }
-
+        dispatch(addUniversityQuestion({
+            content: createdQuestion,
+            ownerId: userId
+        }))
     }
 
     const onFollowPressed = (questionId) => {
-       dispatch(toggleFollowingStatus({
-           questionId:questionId,
-           userId:userId
-       }))
+
+        Notifications.scheduleNotificationAsync({
+            content: {
+                title: 'My First Local Notification',
+                body: "This is the first local notification we are sending"
+            },
+            trigger: {
+                seconds: 5,
+            }
+        })
+
+        dispatch(toggleFollowingStatus({
+            questionId: questionId,
+            userId: userId
+        }))
     }
 
     useEffect(() => {
+        console.log('Hello my dear')
         dispatch(fetchUniversityQuestions({}))
 
     }, [dispatch])
@@ -81,7 +95,7 @@ const UniversityQuestions = (props: any) => {
         if (followerIndex > -1) {
             isFollowing = true
         }
-
+        
         return (
             <QuestionItem
                 isFollowing={isFollowing}
@@ -97,33 +111,28 @@ const UniversityQuestions = (props: any) => {
 
     return (
         <>
-            <AddQuestionsModal
-                addQuestion={addQuestion}
-                createdQuestion={createdQuestion}
-                setcreatedQuestion={setcreatedQuestion}
-                closeAddQuestion={closeAddQuestion}
-                isVisible={isModalVisible}
+            <FloatingButton
+                openAddQuestion={()=> props.navigation.navigate('CreateQuestionScreen', {
+                    username:userData.name,
+                    userImage: userData.imageUrl,
+                    userId: userData.userId
+                })}
+                style={styles.floatingButton}
             />
 
-            {   !isModalVisible &&
-                <FloatingButton
-                    openAddQuestion={openAddQuestion}
-                    style={styles.floatingButton}
-                />
-            }
             <TouchableWithoutFeedback onPress={() => props.navigation.navigate('SearchScreen')} style={{ padding: 10, width: '100%' }}>
                 <SearchInput />
             </TouchableWithoutFeedback>
 
 
 
-            { !isLoaded ? <CustomActivityIndicator /> : 
-            <FlatList
-                contentContainerStyle={{ padding: 10 }}
-                data={questions}
-                renderItem={renderQuestions}
-                keyExtractor={(item => item._id)}
-            />}
+            { !isLoaded ? <CustomActivityIndicator /> :
+                <FlatList
+                    contentContainerStyle={{paddingBottom:150}}
+                    data={questions}
+                    renderItem={renderQuestions}
+                    keyExtractor={(item => item._id)}
+                />}
 
         </>
     )

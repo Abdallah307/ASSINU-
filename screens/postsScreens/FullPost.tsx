@@ -9,6 +9,7 @@ import CustomActivityIndicator from '../../components/UI/CustomActivityIndicator
 import CommentLoading from '../../components/commentComponents/CommentLoading'
 import { Ionicons } from '@expo/vector-icons';
 import { Post } from '../../api/api'
+import NoCommentsFound from '../../components/UI/NoCommentsFound'
 
 
 const FullPost = (props: any) => {
@@ -18,6 +19,8 @@ const FullPost = (props: any) => {
     const [isCommentsLoaded, setIsCommentsLoaded] = useState(false)
     const [isCommenting, setIsCommenting] = useState(false)
     const [tempInput, setTempInput] = useState('')
+
+    const [noComments, setNoComments] = useState(false)
 
     const params = props.route.params
 
@@ -125,7 +128,7 @@ const FullPost = (props: any) => {
 
 
             {   !isCommentsLoaded ? <CustomActivityIndicator /> :
-                comments.length !== 0 &&
+                comments.length !== 0 ?
                 comments.map(comment => {
                     return (
                         <CommentItem
@@ -135,7 +138,7 @@ const FullPost = (props: any) => {
                             content={comment.content}
                         />
                     )
-                })
+                }) : <NoCommentsFound/>
             }
 
         </ScrollView>

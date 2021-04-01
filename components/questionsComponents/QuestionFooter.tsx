@@ -4,7 +4,7 @@ import { Button , Icon} from 'react-native-elements'
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Colors } from '../../constants/Colors'
 const QuestionFooter = props => {
-
+    
     
     return (
         <View style={styles.questionFooter}>

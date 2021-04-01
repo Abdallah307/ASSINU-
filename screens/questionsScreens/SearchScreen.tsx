@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     View,
     StyleSheet,
@@ -6,18 +6,87 @@ import {
     TextInput,
     StatusBar,
     TouchableWithoutFeedback,
-    Keyboard
+    Keyboard,
+    Text,
+    ActivityIndicator,
 } from 'react-native'
 import { Button } from 'react-native-elements'
 import { Ionicons } from '@expo/vector-icons';
+import axios from 'axios'
+import { FlatList } from 'react-native-gesture-handler';
+import QuestionItem from '../../components/questionsComponents/QuestionItem';
+import { useSelector, useDispatch } from 'react-redux'
+import { toggleFollowingStatus } from '../../store/middleware/api'
+import NoResultFound from '../../components/UI/NoResultFound';
+
 
 const SearchScreen = props => {
+
+    const [searchValue, setSearchValue] = useState('')
+
+    const [searchResults, setSearchResults] = useState('')
+
+    const [showNoResult, setShowNoResult] = useState(false)
+
+    const dispatch = useDispatch()
+
+    const userId = useSelector(state => {
+        return state.auth.userId
+    })
+
+    const onFollowPressed = (questionId) => {
+
+        dispatch(toggleFollowingStatus({
+            questionId: questionId,
+            userId: userId
+        }))
+    }
+
+    const onOpenQuestion = (question, isFollowing) => {
+        props.navigation.navigate('FullQuestionScreen', {
+            question: question,
+            isFollowing: isFollowing,
+        })
+    }
+
+    const searchQuestion = async () => {
+        const response = await axios.get(`http://192.168.0.105:4200/student/questions/search?questionText=${searchValue}`)
+        console.log(response.data.results)
+        setSearchResults(response.data.results)
+        if (response.data.results.length == 0) setShowNoResult(true)
+        else setShowNoResult(false)
+    }
+
+    const renderQuestions = (itemData) => {
+        const followerIndex = itemData.item.followers.findIndex(follower => {
+            return follower.followerId === userId
+        })
+        let isFollowing = false
+        if (followerIndex > -1) {
+            isFollowing = true
+        }
+        console.log(itemData.item)
+
+        return (
+            <QuestionItem
+                isFollowing={isFollowing}
+                onFollowPressed={() => onFollowPressed(itemData.item._id)}
+                content={itemData.item.content}
+                onOpenQuestion={() => onOpenQuestion(itemData.item, isFollowing)}
+                ownerName={itemData.item.ownerId.name}
+                ownerImage={itemData.item.ownerId.imageUrl}
+                createdAt={itemData.item.createdAt}
+            />
+        )
+    }
+
+
     return (
-        <TouchableWithoutFeedback onPress={()=> Keyboard.dismiss()}>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={styles.searchContainer}>
                 <SafeAreaView style={styles.header}>
-                    <Button 
-                        onPress={()=> props.navigation.goBack()}
+                    <Button
+                        onPress={() => props.navigation.goBack()}
                         containerStyle={{ width: '15%' }}
                         buttonStyle={{ borderRadius: 50 }}
                         type='clear'
@@ -25,10 +94,22 @@ const SearchScreen = props => {
                     />
                     <TextInput
                         autoFocus
+                        returnKeyType='search'
+                        keyboardType='default'
+                        onSubmitEditing={searchQuestion}
                         style={styles.searchInput}
                         placeholder="Search question..."
+                        value={searchValue}
+                        onChangeText={(value) => setSearchValue(value)}
                     />
                 </SafeAreaView>
+
+                {showNoResult ? <NoResultFound /> :
+                    <FlatList
+                        data={searchResults}
+                        renderItem={renderQuestions}
+                        keyExtractor={(item) => item._id}
+                    />}
             </View>
         </TouchableWithoutFeedback>
     )
@@ -42,7 +123,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: '100%',
         height: 60,
-        backgroundColor: '#aaaaaa',
+        backgroundColor: 'lightgrey',
         alignItems: 'center',
         marginTop: StatusBar.currentHeight
     },

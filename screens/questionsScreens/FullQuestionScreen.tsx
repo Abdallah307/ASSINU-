@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, TextInput, FlatList } from 'react-native'
 import CommentItem from '../../components/commentComponents/CommentItem'
 import QuestionItem from '../../components/questionsComponents/QuestionItem'
-import {Button} from 'react-native-elements'
+import { Button } from 'react-native-elements'
 import { Ionicons } from '@expo/vector-icons';
-import {Colors} from '../../constants/Colors'
+import { Colors } from '../../constants/Colors'
 import axios from 'axios'
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import AnswerFooter from '../../components/questionsComponents/AnswerFooter'
 import AnswerItem from '../../components/questionsComponents/AnswerItem'
 
@@ -14,8 +14,8 @@ const FullQuestionScreen = props => {
 
     const params = props.route.params
 
-    const userId = useSelector(state=> {
-        return state.auth.userId 
+    const userId = useSelector(state => {
+        return state.auth.userId
     })
 
     const [answerInput, setAnswerInput] = useState('')
@@ -23,19 +23,19 @@ const FullQuestionScreen = props => {
     const [answers, setAnswers] = useState([])
 
     const submitAnswer = () => {
-        const questionId = params.question._id 
-        axios.post(`http://192.168.1.15:4200/student/university/questions/${questionId}`, {
+        const questionId = params.question._id
+        axios.post(`http://192.168.0.105:4200/student/university/questions/${questionId}`, {
             content: answerInput,
-            answerOwnerId: userId 
+            answerOwnerId: userId
         })
         setAnswerInput('')
     }
 
     useEffect(() => {
-        axios.get(`http://192.168.1.15:4200/student/university/questions/${params.question._id}`)
-        .then(response=> {
-            setAnswers(response.data.answers)
-        })
+        axios.get(`http://192.168.0.105:4200/student/university/questions/${params.question._id}`)
+            .then(response => {
+                setAnswers(response.data.answers)
+            })
     })
 
     return (
@@ -72,22 +72,27 @@ const FullQuestionScreen = props => {
             </View>
 
             <FlatList
-            contentContainerStyle={{padding:0}}
-            data={answers}
-            renderItem={(itemData) => {
-                return (
-                    <AnswerItem
-                    questionOwnerId={params.question.ownerId._id}
-                    name={itemData.item.ownerId.name}
-                    content={itemData.item.content}
-                    imageUrl={itemData.item.ownerId.imageUrl}
-                    createdAt={itemData.item.createdAt}
-                    bestAnswer={itemData.item.bestAnswer}
-                    >
-                    </AnswerItem>
-                )
-            }}
-            keyExtractor={(item)=>item._id}
+                contentContainerStyle={{ padding: 0 }}
+                data={answers}
+                renderItem={(itemData) => {
+                    
+                    return (
+                        <AnswerItem
+                            questionId={params.question._id}
+                            answerId={itemData.item._id}
+                            userId={userId}
+                            questionOwnerId={params.question.ownerId._id}
+                            name={itemData.item.ownerId.name}
+                            content={itemData.item.content}
+                            imageUrl={itemData.item.ownerId.imageUrl}
+                            createdAt={itemData.item.createdAt}
+                            bestAnswer={itemData.item.bestAnswer}
+                            numberOfVotes={itemData.item.votes}
+                        >
+                        </AnswerItem>
+                    )
+                }}
+                keyExtractor={(item) => item._id}
             />
 
 
