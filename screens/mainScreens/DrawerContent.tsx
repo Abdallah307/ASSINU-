@@ -39,49 +39,48 @@ const DrawerContent = (props) => {
                     <ProfileAvatarImage imageUrl={user.imageUrl} style={styles.userImage} />
                     <View>
                         <Text style={styles.username}>{user.name}</Text>
-                        <Text style={styles.bio}>dummy bio</Text>
                     </View>
                 </View>
             </View>
             <DrawerItem
-                icon={() => <AntDesign name="home" size={24} color="black" />}
+                icon={() => <AntDesign name="home" size={20} color={Colors.primary} />}
                 onPress={() => props.navigation.navigate('Feed')}
                 label="Home"
             />
 
             <DrawerItem
-                icon={() => <FontAwesome name="user-o" size={24} color="black" />}
+                icon={() => <FontAwesome name="user-o" size={20} color={Colors.primary} />}
                 onPress={() => props.navigation.navigate('StudentProfile')}
                 label="Profile"
             />
 
             <DrawerItem
-                icon={() => <FontAwesome name="university" size={24} color="black" />}
+                icon={() => <FontAwesome name="university" size={20} color={Colors.primary} />}
                 onPress={() => props.navigation.navigate('UniversityQuestions')}
-                label="Ask University"
+                label="Public Ask"
             />
 
             <DrawerItem
-                icon={() => <MaterialIcons name="question-answer" size={24} color="black" />}
+                icon={() => <MaterialIcons name="question-answer" size={20} color={Colors.primary} />}
                 onPress={() => props.navigation.navigate('DepartmentQuestions')}
-                label="Ask Department"
+                label="Department Ask"
             />
 
             <DrawerItem
-                icon={() => <FontAwesome name="exchange" size={24} color="black" />}
+                icon={() => <FontAwesome name="exchange" size={20} color={Colors.primary} />}
                 onPress={() => {props.navigation.navigate('SharingCenter') }}
                 label="Sharing Center"
             />
 
             <DrawerItem
                 style={{ borderBottomWidth: 0.6 }}
-                icon={() => <Feather name="settings" size={24} color="black" />}
+                icon={() => <Feather name="settings" size={20} color={Colors.primary} />}
                 onPress={() => { }}
                 label="Settings"
             />
 
             <DrawerItem
-                icon={() => <MaterialIcons name="logout" size={24} color="black" />}
+                icon={() => <MaterialIcons name="logout" size={20} color={Colors.primary} />}
                 onPress={() => {dispatch(authActions.signout({}))}}
                 label="Logout"
             />
@@ -94,7 +93,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         padding: 10,
-        paddingBottom: 50,
         borderBottomWidth: 0.8,
         paddingHorizontal: 20,
         borderColor: 'grey',

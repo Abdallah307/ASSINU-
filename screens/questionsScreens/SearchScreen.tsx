@@ -19,6 +19,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { toggleFollowingStatus } from '../../store/middleware/api'
 import NoResultFound from '../../components/UI/NoResultFound';
 
+import HOST,{SERVER_PORT} from '../../configs/config'
+
 
 const SearchScreen = props => {
 
@@ -27,6 +29,9 @@ const SearchScreen = props => {
     const [searchResults, setSearchResults] = useState('')
 
     const [showNoResult, setShowNoResult] = useState(false)
+
+    const [isLoaded, setIsLoaded] = useState(false)
+
 
     const dispatch = useDispatch()
 
@@ -50,7 +55,8 @@ const SearchScreen = props => {
     }
 
     const searchQuestion = async () => {
-        const response = await axios.get(`http://192.168.0.105:4200/student/questions/search?questionText=${searchValue}`)
+        const response = await axios.get(`http://${HOST}:${SERVER_PORT}/student/questions/search?questionText=${searchValue}`)
+        setIsLoaded(true)
         console.log(response.data.results)
         setSearchResults(response.data.results)
         if (response.data.results.length == 0) setShowNoResult(true)
@@ -101,10 +107,11 @@ const SearchScreen = props => {
                         placeholder="Search question..."
                         value={searchValue}
                         onChangeText={(value) => setSearchValue(value)}
+                        onFocus={() => setShowNoResult(false)}
                     />
                 </SafeAreaView>
 
-                {showNoResult ? <NoResultFound /> :
+                {isLoaded && showNoResult ? <NoResultFound /> :
                     <FlatList
                         data={searchResults}
                         renderItem={renderQuestions}
@@ -117,7 +124,8 @@ const SearchScreen = props => {
 
 const styles = StyleSheet.create({
     searchContainer: {
-        flex: 1
+        flex: 1,
+        backgroundColor:'white'
     },
     header: {
         flexDirection: 'row',

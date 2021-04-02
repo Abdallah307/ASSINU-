@@ -32,7 +32,7 @@ const Tab = createMaterialBottomTabNavigator()
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
 
-const DrawerNavigator = (props:any) => {
+const DrawerNavigator = (props: any) => {
     return (
         <NavigationContainer>
             <Drawer.Navigator
@@ -79,7 +79,7 @@ const DrawerNavigator = (props:any) => {
 }
 
 
-const AuthNavigator = (props:any) => {
+const AuthNavigator = (props: any) => {
     const isSignedIn = useSelector(state => {
         return state.auth.isSignedIn
     })
@@ -120,7 +120,7 @@ const AppNavigator = (props) => {
             initialRouteName="Feed"
             sceneAnimationEnabled={true}
             barStyle={{
-                backgroundColor:Colors.primary,
+                backgroundColor: Colors.primary,
             }}
             screenOptions={{
             }}
@@ -145,10 +145,10 @@ const AppNavigator = (props) => {
 
             <Tab.Screen
                 name="StudentProfile"
-                
+
                 component={StudentProfileNavigator}
                 options={{
-                    title:'Profile',
+                    title: 'Profile',
                     tabBarIcon: () => <Image style={{ width: 24, height: 24, borderRadius: 12 }} source={{ uri: `http://${HOST}:4200/${userImage}` }} />
                 }}
             />
@@ -161,20 +161,42 @@ const AppNavigator = (props) => {
 }
 
 const UniversityQuestionsNavigator = (props: any) => {
-    return(
+    return (
         <Stack.Navigator
-        screenOptions={{
-            headerTintColor:'white',
-            headerTitleAlign:'center',
-            headerStyle: {
-                backgroundColor:Colors.primary,
-            }
-        }}
+            screenOptions={{
+                headerTintColor: 'white',
+                headerTitleAlign: 'center',
+                headerStyle: {
+                    backgroundColor: Colors.primary,
+                }
+            }}
         >
-            <Stack.Screen name="UniversityQuestions" component={UniversityQuestions}/>
-            <Stack.Screen name="FullQuestionScreen" component={FullQuestionScreen} />
-            <Stack.Screen options={{headerShown:false}} name="SearchScreen" component={SearchScreen}/>
-            <Stack.Screen name='CreateQuestionScreen' component={CreateQuestionScreen} />
+            <Stack.Screen
+                name="UniversityQuestions"
+                component={UniversityQuestions}
+                options={{
+                    title: 'Public QA'
+                }}
+            />
+            <Stack.Screen
+                name="FullQuestionScreen"
+                component={FullQuestionScreen}
+                options={{
+                    title: 'Question'
+                }}
+            />
+            <Stack.Screen
+                options={{ headerShown: false }}
+                name="SearchScreen"
+                component={SearchScreen}
+            />
+            <Stack.Screen 
+            name='CreateQuestionScreen' 
+            component={CreateQuestionScreen} 
+            options={{
+                title:'Ask question'
+            }}
+            />
         </Stack.Navigator>
     )
 }
@@ -182,10 +204,10 @@ const UniversityQuestionsNavigator = (props: any) => {
 const StudentProfileNavigator = (props: any) => {
     return (
         <Stack.Navigator
-        
+
             screenOptions={{
                 headerTitleStyle: {
-                    fontFamily:'OpenSans-Bold'
+                    fontFamily: 'OpenSans-Bold'
                 },
                 headerTitleAlign: 'center',
                 headerTintColor: 'white',
@@ -222,9 +244,9 @@ const StudentProfileNavigator = (props: any) => {
                 component={GroupMembers}
             />
 
-            <Stack.Screen name="Poll" component={Poll}/>
+            <Stack.Screen name="Poll" component={Poll} />
 
-            <Stack.Screen options={{title:'Chatting'}} name="ChattingScreen" component={ChattingScreen} />
+            <Stack.Screen options={{ title: 'Chatting' }} name="ChattingScreen" component={ChattingScreen} />
         </Stack.Navigator>
     )
 }

@@ -9,21 +9,7 @@ import {upvoteAnswer, downvoteAnswer} from '../../store/middleware/api'
 const AnswerItem = props => {
     const dispatch = useDispatch()
 
-    const upvote = () => {
-        dispatch(upvoteAnswer({
-            questionId:props.questionId,
-            answerId:props.answerId,
-            upvoterId: props.userId
-        }))
-    }
-
-    const downvote = () => {
-        dispatch(downvoteAnswer({
-            questionId:props.questionId,
-            answerId:props.answerId,
-            downvoterId: props.userId
-        }))
-    }
+   
     return (
         <View style={styles.answerItem}>
             <PostHeader
@@ -35,8 +21,8 @@ const AnswerItem = props => {
             />
             <AnswerBody content={props.content} />
             <AnswerFooter 
-            upvote={upvote} 
-            downvote={downvote} 
+            upvote={props.upvote} 
+            downvote={props.downvote} 
             numberOfVotes={props.numberOfVotes} 
             />
         </View>

@@ -9,6 +9,9 @@ import axios from 'axios'
 import { useSelector } from 'react-redux'
 import AnswerFooter from '../../components/questionsComponents/AnswerFooter'
 import AnswerItem from '../../components/questionsComponents/AnswerItem'
+import HOST, { SERVER_PORT } from '../../configs/config'
+
+import CustomActivityIndicator from '../../components/UI/CustomActivityIndicator'
 
 const FullQuestionScreen = props => {
 
@@ -22,21 +25,67 @@ const FullQuestionScreen = props => {
 
     const [answers, setAnswers] = useState([])
 
+    const [isLoaded, setIsLoaded] = useState(false)
+    
+
+
     const submitAnswer = () => {
         const questionId = params.question._id
-        axios.post(`http://192.168.0.105:4200/student/university/questions/${questionId}`, {
+        axios.post(`
+        http://${HOST}:${SERVER_PORT}/student/university/questions/${questionId}`, {
             content: answerInput,
             answerOwnerId: userId
         })
+        .then(res=> {
+            fetchAnswers()
+        })
         setAnswerInput('')
+        
+    }
+
+    const upvoteAnswer = async (answerId) => {
+        const response = await axios.put(
+            `http://${HOST}:${SERVER_PORT}/student/university/questions/answer/upvote/${params.question._id}`,
+            {
+                answerId: answerId,
+                upvoterId: userId
+            }
+        )
+
+        if (response.status === 201) {
+            fetchAnswers()
+        }
+    }
+
+
+    const downvoteAnswer = async (answerId) => {
+        const response = await axios.put(
+            `http://${HOST}:${SERVER_PORT}/student/university/questions/answer/downvote/${params.question._id}`,
+            {
+                answerId: answerId,
+                downvoterId: userId
+            }
+        )
+
+        if (response.status === 201) {
+            fetchAnswers()
+        }
+    }
+
+    const fetchAnswers = () => {
+        axios.get(
+            `http://${HOST}:${SERVER_PORT}/student/university/questions/${params.question._id}`
+        )
+        .then(response => {
+            setAnswers(response.data.answers)
+            setIsLoaded(true)
+        })
     }
 
     useEffect(() => {
-        axios.get(`http://192.168.0.105:4200/student/university/questions/${params.question._id}`)
-            .then(response => {
-                setAnswers(response.data.answers)
-            })
-    })
+        console.log('fetching answers')
+        fetchAnswers()
+    }, [])
 
     return (
         <View style={styles.fullQuestionScreen}>
@@ -71,16 +120,16 @@ const FullQuestionScreen = props => {
                 }
             </View>
 
-            <FlatList
+           { !isLoaded ? <CustomActivityIndicator/> : 
+           <FlatList
                 contentContainerStyle={{ padding: 0 }}
                 data={answers}
                 renderItem={(itemData) => {
-                    
+
                     return (
                         <AnswerItem
-                            questionId={params.question._id}
-                            answerId={itemData.item._id}
-                            userId={userId}
+                            upvote={() => upvoteAnswer(itemData.item._id)}
+                            downvote={() => downvoteAnswer(itemData.item._id)}
                             questionOwnerId={params.question.ownerId._id}
                             name={itemData.item.ownerId.name}
                             content={itemData.item.content}
@@ -93,7 +142,7 @@ const FullQuestionScreen = props => {
                     )
                 }}
                 keyExtractor={(item) => item._id}
-            />
+            />}
 
 
         </View>

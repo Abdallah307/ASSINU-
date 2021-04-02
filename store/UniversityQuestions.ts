@@ -13,9 +13,12 @@ const slice = createSlice({
             state.questions = [...action.payload]
             state.isLoaded = true
         },
+
         addQuestion : (state, action) => {
             state.questions.unshift(action.payload.question)
+            state.isQuestionAdded = true
         },
+        
         toggleFollowingStatus: (state, action) => {
             const questionId = action.payload.questionId
             const userId = action.payload.userId

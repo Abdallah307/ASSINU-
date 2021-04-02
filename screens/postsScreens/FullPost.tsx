@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { View, ScrollView, StyleSheet, TextInput, ToastAndroid } from 'react-native'
 import PostItem from '../../components/postComponents/PostItem'
-import { useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import CommentItem from '../../components/commentComponents/CommentItem'
 import { Button } from 'react-native-elements'
 import { Colors } from '../../constants/Colors'
@@ -63,9 +63,9 @@ const FullPost = (props: any) => {
         const ownerId = user.userId
         const createdAt = new Date()
 
-        await Post.submitComment(postId, { 
-            content : content,
-            ownerId : ownerId, 
+        await Post.submitComment(postId, {
+            content: content,
+            ownerId: ownerId,
         })
 
         setIsCommenting(false)
@@ -129,16 +129,16 @@ const FullPost = (props: any) => {
 
             {   !isCommentsLoaded ? <CustomActivityIndicator /> :
                 comments.length !== 0 ?
-                comments.map(comment => {
-                    return (
-                        <CommentItem
-                            name={comment.ownerId.name}
-                            imageUrl={comment.ownerId.imageUrl}
-                            key={comment._id}
-                            content={comment.content}
-                        />
-                    )
-                }) : <NoCommentsFound/>
+                    comments.map(comment => {
+                        return (
+                            <CommentItem
+                                name={comment.ownerId.name}
+                                imageUrl={comment.ownerId.imageUrl}
+                                key={comment._id}
+                                content={comment.content}
+                            />
+                        )
+                    }) : <NoCommentsFound />
             }
 
         </ScrollView>
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
         borderColor: 'grey',
         marginHorizontal: 5,
         flex: 1,
-        fontFamily:'OpenSans-Regular'
+        fontFamily: 'OpenSans-Regular'
     },
     submitButtonContainer: {
         flexDirection: 'row',

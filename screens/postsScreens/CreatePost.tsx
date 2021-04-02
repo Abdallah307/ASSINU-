@@ -25,10 +25,10 @@ const CreatePost = props => {
         try {
             const groupId = params.groupId
             const ownerId = params.userId
-            const response = await CourseGroup.createPost({ 
-                groupId:groupId,
-                ownerId:ownerId,
-                content : content 
+            const response = await CourseGroup.createPost({
+                groupId: groupId,
+                ownerId: ownerId,
+                content: content
             })
 
             if (response.status === 201) {
@@ -44,33 +44,47 @@ const CreatePost = props => {
 
     useLayoutEffect(() => {
         console.log('created the post')
-        props.navigation.setOptions(screenOptions(createPost))
+        props.navigation.setOptions(screenOptions(createPost, content.length))
     })
 
 
     return (
-        <TouchableWithoutFeedback onPress={()=>Keyboard.dismiss()} style={{flex:1}}>
-        <View style={styles.createPost}>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{ flex: 1 }}>
+            <View style={styles.createPost}>
 
-            <CreatePostHeader
-                username={params.username}
-                imageUrl={params.userImage}
-            />
+                <CreatePostHeader
+                    username={params.username}
+                    imageUrl={params.userImage}
+                />
 
-            <CreatePostInput
-                onChangeText={handlePostInput}
-                content={content}
-            />
+                <CreatePostInput
+                    onChangeText={handlePostInput}
+                    content={content}
+                />
 
-        </View>
+            </View>
         </TouchableWithoutFeedback>
     )
 }
 
-const screenOptions = (createPost) => ({
+const screenOptions = (createPost, contentLength) => ({
     headerRight: () => {
         return (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+               { contentLength == 0 ? 
+               <Item
+                    title="Post"
+                    disabled={true}
+                    buttonStyle={{
+                        backgroundColor: 'lightgrey',
+                        padding: 10,
+                        color: Colors.primary,
+                        borderRadius: 10,
+
+                    }}
+                    onPress={createPost}
+                />
+                :
                 <Item
                     title="Post"
                     buttonStyle={{
@@ -81,7 +95,7 @@ const screenOptions = (createPost) => ({
 
                     }}
                     onPress={createPost}
-                />
+                />}
             </HeaderButtons>
         )
     }

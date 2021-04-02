@@ -14,7 +14,7 @@ import CustomHeaderButton from '../../components/UI/CustomHeaderButton'
 import CreatePostHeader from '../../components/postComponents/CreatePostHeader'
 import CreatePostInput from '../../components/postComponents/CreatePostInput'
 import { addUniversityQuestion } from '../../store/middleware/api'
-import { useDispatch } from 'react-redux'
+import { useDispatch , useSelector} from 'react-redux'
 
 import {Input} from 'react-native-elements'
 
@@ -32,6 +32,8 @@ const CreateQuestionScreen = props => {
             content: questionInput,
             ownerId: params.userId
         }))
+
+        props.navigation.navigate('UniversityQuestions')
     }
 
     useLayoutEffect(() => {
