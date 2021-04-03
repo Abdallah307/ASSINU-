@@ -9,6 +9,7 @@ import { CourseGroup } from '../../api/api'
 import { AntDesign } from '@expo/vector-icons';
 import MyComponent from '../../components/groupComponents/CreatePollButton'
 import CreatePollButton from '../../components/groupComponents/CreatePollButton'
+import { FlatList } from 'react-native-gesture-handler'
 
 
 const Group = (props) => {
@@ -72,9 +73,9 @@ const Group = (props) => {
         })
     }
 
-    return (
-
-            <ScrollView style={styles.group}>
+    const GroupHeaderComponent = () => {
+        return (
+            <>
                 <GroupHeader
                     numberOfMembers={params.numberOfMembers}
                     title={params.title}
@@ -88,20 +89,35 @@ const Group = (props) => {
                     onPress={openGroupMembers}
                 />
                 <CreatePollButton onPress={() => props.navigation.navigate("Poll", {
-                     groupId: params.id,
-                     userImage: params.userImage,
-                     userId: params.userId,
-                     username: params.username
-                })}/>
+                    groupId: params.id,
+                    userImage: params.userImage,
+                    userId: params.userId,
+                    username: params.username
+                })} />
 
                 <WritePost
                     imageUrl={params.userImage}
                     onTouch={openCreatePost}
                 />
+            </>
+        )
+    }
 
-                {
-                    !isLoaded ? <CustomeActivityIndicator /> :
-                        GroupPosts.map(post => {
+    const handleReachEnd = () => {
+        console.log('Reached the end of the scrolling man')
+    }
+
+    
+
+    return (
+        <>
+            {
+                !isLoaded ? <CustomeActivityIndicator /> :
+                    <FlatList
+                        ListHeaderComponent={GroupHeaderComponent}
+                        data={GroupPosts}
+                        renderItem={(itemData) => {
+                            const post = itemData.item
                             return (
                                 <PostItem
                                     numberOfComments={post.numberOfComments}
@@ -112,12 +128,13 @@ const Group = (props) => {
                                     createdAt={post.createdAt}
                                 />
                             )
-                        })
-                }
-
-            </ScrollView>
-        
-
+                        }}
+                        keyExtractor={(item, index) => index.toString()}
+                        onEndReached={handleReachEnd}
+                        onEndReachedThreshold={0}
+                    />
+            }
+        </>
     )
 }
 
@@ -126,7 +143,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'lightgrey',
         flex: 1,
     },
-    
+
 })
 
 export default Group;

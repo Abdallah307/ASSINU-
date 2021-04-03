@@ -4,6 +4,7 @@ import CreatePostHeader from '../postComponents/CreatePostHeader'
 import PollOption from './PollOption'
 import PollQuestionInput from './PollQuestionInput'
 import { Button } from 'react-native-elements'
+import RNPoll, { IChoice } from "react-native-poll";
 
 
 const Poll = props => {

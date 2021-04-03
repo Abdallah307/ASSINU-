@@ -3,11 +3,9 @@ import { View, StyleSheet } from 'react-native'
 import PostHeader from '../postComponents/PostHeader'
 import AnswerBody from './AnswerBody'
 import AnswerFooter from './AnswerFooter'
-import {useDispatch} from 'react-redux' 
-import {upvoteAnswer, downvoteAnswer} from '../../store/middleware/api'
+
 
 const AnswerItem = props => {
-    const dispatch = useDispatch()
 
    
     return (

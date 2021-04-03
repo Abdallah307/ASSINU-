@@ -8,7 +8,9 @@ const QuestionItem = props => {
     
     return(
         <View style={styles.questionItem}>
-            <PostHeader createdAt={props.createdAt} imageUrl={props.ownerImage} ownerName={props.ownerName}/>
+            <PostHeader 
+            createdAt={props.createdAt} 
+            imageUrl={props.ownerImage} ownerName={props.ownerName}/>
             <PostBody onOpenPost={props.onOpenQuestion} content={props.content}/>
             <QuestionFooter isFollowing={props.isFollowing} onFollowPressed={props.onFollowPressed} onAnswerPressed={props.onOpenQuestion}/>
         </View>

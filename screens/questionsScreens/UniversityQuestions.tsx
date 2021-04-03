@@ -2,17 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, FlatList, View, Text } from 'react-native'
 import QuestionItem from '../../components/questionsComponents/QuestionItem'
 import FloatingButton from '../../components/UI/FloatingButton'
-import AddQuestionsModal from './AddQuestionModal'
 import { useSelector, useDispatch } from 'react-redux'
-import { UniversityGroup } from '../../api/api'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
 import SearchInput from '../../components/UI/SearchInput'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { fetchUniversityQuestions } from '../../store/middleware/api'
 import CustomActivityIndicator from '../../components/UI/CustomActivityIndicator'
 import { toggleFollowingStatus } from '../../store/middleware/api'
 import * as Notifications from 'expo-notifications'
-import { addUniversityQuestion } from '../../store/middleware/api'
 
 const UniversityQuestions = (props: any) => {
 
@@ -33,7 +29,6 @@ const UniversityQuestions = (props: any) => {
         return state.questions.isLoaded
     })
 
-    const [createdQuestion, setcreatedQuestion] = useState('')
 
 
     const onOpenQuestion = (question, isFollowing) => {
@@ -47,21 +42,6 @@ const UniversityQuestions = (props: any) => {
         return state.auth.userId
     })
 
-
-    const openAddQuestion = () => {
-        setIsModalVisible(true)
-    }
-
-    const closeAddQuestion = () => {
-        setIsModalVisible(false)
-    }
-
-    const addQuestion = async () => {
-        dispatch(addUniversityQuestion({
-            content: createdQuestion,
-            ownerId: userId
-        }))
-    }
 
     const onFollowPressed = (questionId) => {
 

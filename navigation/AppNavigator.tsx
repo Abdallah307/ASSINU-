@@ -22,7 +22,7 @@ import ChattingScreen from '../screens/chatting/ChattingScreen'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { options as studentProfileOptions } from '../screens/user/UserProfile'
 import DrawerContent from '../screens/mainScreens/DrawerContent'
-import SharingCenterScreen from '../screens/sharingCenter/SharingCenterScreen'
+import SharingCenter from '../screens/sharingCenter/SharingCenter'
 import FullQuestionScreen from '../screens/questionsScreens/FullQuestionScreen'
 import SearchScreen from '../screens/questionsScreens/SearchScreen'
 import Poll from '../components/groupComponents/Poll'
@@ -68,7 +68,7 @@ const DrawerNavigator = (props: any) => {
 
                 <Drawer.Screen
                     name="SharingCenter"
-                    component={SharingCenterScreen}
+                    component={SharingCenterNavigator}
                     options={{
                         title: 'Sharing Center'
                     }}
@@ -247,6 +247,31 @@ const StudentProfileNavigator = (props: any) => {
             <Stack.Screen name="Poll" component={Poll} />
 
             <Stack.Screen options={{ title: 'Chatting' }} name="ChattingScreen" component={ChattingScreen} />
+        </Stack.Navigator>
+    )
+}
+
+const SharingCenterNavigator = props => {
+    return (
+        <Stack.Navigator
+        screenOptions={{
+            title:'Sharing Center',
+            headerTitleStyle: {
+                fontFamily: 'OpenSans-Bold'
+            },
+            headerTitleAlign: 'center',
+            headerTintColor: 'white',
+            headerStyle: {
+                backgroundColor: Colors.primary,
+                elevation: 0,
+                shadowOpacity: 0,
+            }
+        }}
+        >
+            <Stack.Screen
+                name='SharingCenter'
+                component={SharingCenter}
+            />
         </Stack.Navigator>
     )
 }
