@@ -14,6 +14,8 @@ import { useDispatch, useSelector } from 'react-redux'
 const CreatePost = props => {
 
     const [content, setContent] = useState('')
+
+
     const params = props.route.params
 
     const handlePostInput = (value) => {
@@ -67,7 +69,7 @@ const CreatePost = props => {
     )
 }
 
-const screenOptions = (createPost, contentLength) => ({
+const screenOptions = (createPost, contentLength, isPosting) => ({
     headerRight: () => {
         return (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>

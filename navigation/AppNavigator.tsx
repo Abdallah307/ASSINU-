@@ -27,6 +27,10 @@ import FullQuestionScreen from '../screens/questionsScreens/FullQuestionScreen'
 import SearchScreen from '../screens/questionsScreens/SearchScreen'
 import Poll from '../components/groupComponents/Poll'
 import CreateQuestionScreen from '../screens/questionsScreens/CreateQuestionScreen'
+import ItemDetailsScreen from '../screens/sharingCenter/ItemDetailsScreen'
+
+import { screenOptions as sharingCenterOptions } from '../screens/sharingCenter/SharingCenter'
+import ShareItemScreen from '../screens/sharingCenter/ShareItemScreen'
 
 const Tab = createMaterialBottomTabNavigator()
 const Stack = createStackNavigator()
@@ -190,12 +194,12 @@ const UniversityQuestionsNavigator = (props: any) => {
                 name="SearchScreen"
                 component={SearchScreen}
             />
-            <Stack.Screen 
-            name='CreateQuestionScreen' 
-            component={CreateQuestionScreen} 
-            options={{
-                title:'Ask question'
-            }}
+            <Stack.Screen
+                name='CreateQuestionScreen'
+                component={CreateQuestionScreen}
+                options={{
+                    title: 'Ask question'
+                }}
             />
         </Stack.Navigator>
     )
@@ -254,23 +258,39 @@ const StudentProfileNavigator = (props: any) => {
 const SharingCenterNavigator = props => {
     return (
         <Stack.Navigator
-        screenOptions={{
-            title:'Sharing Center',
-            headerTitleStyle: {
-                fontFamily: 'OpenSans-Bold'
-            },
-            headerTitleAlign: 'center',
-            headerTintColor: 'white',
-            headerStyle: {
-                backgroundColor: Colors.primary,
-                elevation: 0,
-                shadowOpacity: 0,
-            }
-        }}
+            screenOptions={{
+                headerTitleStyle: {
+                    fontFamily: 'OpenSans-Bold'
+                },
+                headerTitleAlign: 'center',
+                headerTintColor: 'white',
+                headerStyle: {
+                    backgroundColor: Colors.primary,
+                    elevation: 0,
+                    shadowOpacity: 0,
+                }
+            }}
         >
             <Stack.Screen
+                options={sharingCenterOptions}
                 name='SharingCenter'
                 component={SharingCenter}
+            />
+
+            <Stack.Screen
+                options={{
+                    title:'Details'
+                }}
+                name='ItemDetailsScreen'
+                component={ItemDetailsScreen}
+            />
+
+            <Stack.Screen
+                options={{
+                    title:'Share item'
+                }}
+                name='ShareItemScreen'
+                component={ShareItemScreen}
             />
         </Stack.Navigator>
     )
