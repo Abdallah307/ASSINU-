@@ -15,6 +15,7 @@ const SharedItem = props => {
 
     return (
         <TouchableOpacity
+            onLongPress={props.onLongPress}
             activeOpacity={0.7}
             style={{ flex: 1 }}
             onPress={props.openDetails}
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
     },
     itemName: {
         fontFamily: 'OpenSans-Bold',
-        width:'100%'
+        width: '100%'
     }
 })
 

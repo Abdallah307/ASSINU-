@@ -14,8 +14,8 @@ const PostItem = (props) => {
 
                 <PostHeader 
                 createdAt={props.createdAt}
-                ownerName={props.owner.name} 
-                imageUrl={props.owner.imageUrl}
+                ownerName={props.ownerId.name} 
+                imageUrl={props.ownerId.imageUrl}
                 />
 
                 <PostBody 

@@ -19,6 +19,8 @@ import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios'
 import HOST, { SERVER_PORT } from '../../configs/config';
 import { useSelector } from 'react-redux'
+import DropDownPicker from 'react-native-dropdown-picker';
+
 
 const ShareItemScreen = props => {
 
@@ -30,36 +32,52 @@ const ShareItemScreen = props => {
 
     const [isSharing, setIsSharing] = useState(false)
 
+    const [shareLocation, setShareLocation] = useState('public')
+
     const userId = useSelector(state => {
         return state.auth.userId
     })
 
+    const studentDepartmentId = useSelector(state => {
+        return state.student.department.departmentId
+    })
+
+
     const takeImageFromCamera = async () => {
-        let value = await ImagePicker.launchCameraAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-        });
+        try {
+            let value = await ImagePicker.launchCameraAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,
+            });
 
-        if (value.cancelled) return
+            if (value.cancelled) return
 
-        setResult(value)
-        setImage(value.uri)
+            setResult(value)
+            setImage(value.uri)
+        }
+        catch(err){}
+
+        
     }
 
     const chooseImageFromDevice = async () => {
-        let value = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-        })
+        try {
+            let value = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,
+            })
 
-        if (value.cancelled) return
+            if (value.cancelled) return
 
-        setResult(value)
-        setImage(value.uri)
+            setResult(value)
+            setImage(value.uri)
+        }
+        catch (err) { }
+
     }
 
     const uploadPhotoAsync = async () => {
@@ -85,8 +103,10 @@ const ShareItemScreen = props => {
         formData.append('details', itemDetails)
         formData.append('ownerId', userId)
 
+        shareLocation === 'department' ? formData.append('departmentId', studentDepartmentId) : null
+
         const response = await axios
-            .post(`http:${HOST}:${SERVER_PORT}/student/sharingcenter/public/shareitem`,
+            .post(`http:${HOST}:${SERVER_PORT}/student/sharingcenter/${shareLocation}/shareitem`,
                 formData, {
                 headers: {
                     'content-type': 'multipart/form-data',
@@ -96,9 +116,17 @@ const ShareItemScreen = props => {
         if (response.status === 201) {
             setIsSharing(false)
             console.log(response.data.item)
-            props.navigation.navigate('Public', {
-                item:response.data.item
-            })
+            if (shareLocation === 'public') {
+                props.navigation.navigate('Public', {
+                    item: response.data.item
+                })
+            }
+            else {
+                props.navigation.navigate('SharingDepartment', {
+                    item: response.data.item
+                })
+            }
+
         }
 
 
@@ -111,8 +139,22 @@ const ShareItemScreen = props => {
             style={{ flex: 1 }}
         >
             <TouchableWithoutFeedback style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
-                <ScrollView style={{ flex: 1, backgroundColor: 'white'}}>
-                    <Text style={styles.title}>Create item</Text>
+                <ScrollView style={{ flex: 1, backgroundColor: 'white' }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Text style={styles.title}>Create item</Text>
+                        <DropDownPicker
+
+                            placeholder="Share to..."
+                            items={[
+                                { label: 'Public', value: 'public' },
+                                { label: 'Department', value: 'department' },
+                            ]}
+                            containerStyle={{ height: 30, flex: 1, borderWidth:0 }}
+                            onChangeItem={(item) => {
+                                setShareLocation(item.value)
+                            }}
+                        />
+                    </View>
                     <ImageHeader
                         takeImage={takeImageFromCamera}
                         chooseImage={chooseImageFromDevice}
@@ -129,7 +171,7 @@ const ShareItemScreen = props => {
                             buttonStyle={styles.imageButton}
                         />
                     </ImageHeader>
-                    <View style={{ flex: 1,paddingBottom:40, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ flex: 1, paddingBottom: 40, justifyContent: 'center', alignItems: 'center' }}>
                         <Input
                             label='Item name'
                             labelStyle={styles.inputLabel}
@@ -171,7 +213,8 @@ const styles = StyleSheet.create({
     },
     title: {
         fontFamily: 'OpenSans-Bold',
-        fontSize: 30,
+        fontSize: 25,
+        flex:2,
         marginBottom: 5,
         padding: 5
     },
@@ -185,8 +228,8 @@ const styles = StyleSheet.create({
     },
     imageButton: {
         backgroundColor: Colors.primary,
-        borderRadius:15,
-        padding:15
+        borderRadius: 15,
+        padding: 15
     },
 
 })

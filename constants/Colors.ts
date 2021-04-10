@@ -1,6 +1,11 @@
 export enum Colors {
-    primary="#1646ed",
-    secondary="#5c595a"
+    primary="#fb8500",
+    secondary="#5c595a",
+    prussianBlue="#023047",
+    blueGreen="#219ebc",
+    white="#ffffff"
+
 }
+
 
 

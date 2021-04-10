@@ -3,7 +3,6 @@ import axios, { AxiosRequestConfig } from 'axios'
 import HOST, { API_PORT } from '../../configs/config'
 import {actions as studentActions} from '../student'
 
-
 export const fetchStudentData = createAction('fetchStudentData')
 
 const NajahApi = ({dispatch}) => next => async action => {

@@ -7,7 +7,7 @@ const slice = createSlice({
         name: '',
         courses: [],
         email: '',
-        department: '',
+        department: {},
         isLoaded:false 
     },
     reducers: {

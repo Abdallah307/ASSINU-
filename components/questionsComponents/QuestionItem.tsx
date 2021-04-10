@@ -12,7 +12,12 @@ const QuestionItem = props => {
             createdAt={props.createdAt} 
             imageUrl={props.ownerImage} ownerName={props.ownerName}/>
             <PostBody onOpenPost={props.onOpenQuestion} content={props.content}/>
-            <QuestionFooter isFollowing={props.isFollowing} onFollowPressed={props.onFollowPressed} onAnswerPressed={props.onOpenQuestion}/>
+            <QuestionFooter 
+            isFollowing={props.isFollowing} 
+            onFollowPressed={props.onFollowPressed} 
+            onAnswerPressed={props.onOpenQuestion}
+            numberOfAnswers={30}
+            />
         </View>
     )
 }

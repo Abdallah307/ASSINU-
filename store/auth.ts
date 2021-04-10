@@ -23,7 +23,15 @@ const slice = createSlice({
            state.bio = payload.bio 
         },
         signout: (state, action) => {
-            state.isSignedIn = false
+           state = {
+            userId:null,
+            token:null,
+            isSignedIn: false,
+            imageUrl:'',
+            name:'',
+            bio:'',
+            email:''
+           }
         }
     }
 })

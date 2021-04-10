@@ -35,6 +35,7 @@ const UniversityQuestions = (props: any) => {
         props.navigation.navigate('FullQuestionScreen', {
             question: question,
             isFollowing: isFollowing,
+            numberOfAnswers:80
         })
     }
 
@@ -78,6 +79,7 @@ const UniversityQuestions = (props: any) => {
         
         return (
             <QuestionItem
+                // numberOfAnswers={itemData.item.answers.length}
                 isFollowing={isFollowing}
                 onFollowPressed={() => onFollowPressed(itemData.item._id)}
                 content={itemData.item.content}

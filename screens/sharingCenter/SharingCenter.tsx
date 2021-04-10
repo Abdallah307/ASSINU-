@@ -9,6 +9,7 @@ import CustomHeaderButton from '../../components/UI/CustomHeaderButton'
 import { Colors } from '../../constants/Colors'
 import { Octicons } from '@expo/vector-icons';
 import MyItemsScreen from './MyItemsScreen'
+import { MaterialIcons } from '@expo/vector-icons';
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -18,13 +19,16 @@ const SharingCenter = props => {
         <Tab.Navigator>
             <Tab.Screen
                 options={{
-                    title: 'Department'
+                    title: 'Department',
                 }}
                 name='SharingDepartment'
                 component={SharingCenterDepartment}
             />
             <Tab.Screen
                 name='Public'
+                options={{
+                    tabBarIcon:() => <MaterialIcons name="public" size={24} color="black" />,
+                }}
                 component={SharingCenterPublic}
             />
 

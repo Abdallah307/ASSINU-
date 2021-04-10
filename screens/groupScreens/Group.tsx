@@ -64,11 +64,11 @@ const Group = (props) => {
 
     const openPost = (post) => {
         props.navigation.navigate('FullPost', {
-            postId: post.postId,
+            postId: post._id,
             groupId: params.id,
             content: post.content,
-            owner: post.owner,
-            numberOfComments: post.numberOfComments,
+            ownerId: post.ownerId,
+            numberOfComments: post.comments.length,
             createdAt: post.createdAt
         })
     }
@@ -120,8 +120,8 @@ const Group = (props) => {
                             const post = itemData.item
                             return (
                                 <PostItem
-                                    numberOfComments={post.numberOfComments}
-                                    owner={post.owner}
+                                    numberOfComments={post.comments.length}
+                                    ownerId={post.ownerId}
                                     key={post.postId}
                                     onOpenPost={() => openPost(post)}
                                     content={post.content}

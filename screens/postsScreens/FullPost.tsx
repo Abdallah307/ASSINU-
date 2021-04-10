@@ -10,6 +10,7 @@ import CommentLoading from '../../components/commentComponents/CommentLoading'
 import { Ionicons } from '@expo/vector-icons';
 import { Post } from '../../api/api'
 import NoCommentsFound from '../../components/UI/NoCommentsFound'
+import NotFound from '../../components/UI/NotFound'
 
 
 const FullPost = (props: any) => {
@@ -81,7 +82,7 @@ const FullPost = (props: any) => {
         <ScrollView>
 
             <PostItem
-                owner={params.owner}
+                ownerId={params.ownerId}
                 postId={params.postId}
                 content={params.content}
                 groupId={params.groupId}
@@ -138,7 +139,11 @@ const FullPost = (props: any) => {
                                 content={comment.content}
                             />
                         )
-                    }) : <NoCommentsFound />
+                    }) :
+                    <NotFound
+                        image={require('../../assets/no-comments.png')}
+                        title="No comments yet"
+                    />
             }
 
         </ScrollView>

@@ -4,6 +4,7 @@ import ProfileAvatarImage from '../../components/profileComponents/ProfileAvatar
 import ImageHeader from '../../components/sharingCenterComponents/ImageHeader'
 import HOST, { SERVER_PORT } from '../../configs/config'
 import { Button } from 'react-native-elements'
+import { Colors } from '../../constants/Colors'
 
 const ItemDetailsScreen = props => {
     const item = props.route.params.item
@@ -32,7 +33,7 @@ const ItemDetailsScreen = props => {
             <Button
                 containerStyle={{ padding: 10 }}
                 title='Message'
-                buttonStyle={{ borderRadius: 10, padding: 15 }}
+                buttonStyle={{ borderRadius: 10, padding: 15, backgroundColor:Colors.primary }}
             />
             <View style={{
                 justifyContent: 'center',

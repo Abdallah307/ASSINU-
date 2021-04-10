@@ -42,7 +42,6 @@ const GroupMembers = (props:any) => {
 
     return (
         <FlatList
-            contentContainerStyle={{ flex: 1 }}
             data={members}
             renderItem={renderMembers}
             keyExtractor={((item:any) => item._id)}

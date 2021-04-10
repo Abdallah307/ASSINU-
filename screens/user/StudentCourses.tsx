@@ -23,19 +23,19 @@ const StudentCourses = props => {
 
 
 
-    useEffect(() => {
-        let isCancelled = false
-        if (!isCancelled) {
-            dispatch(fetchStudentData({
-                studentEmail: userData.email
-            }))
-        }
+    // useEffect(() => {
+    //     let isCancelled = false
+    //     if (!isCancelled) {
+    //         dispatch(fetchStudentData({
+    //             studentEmail: userData.email
+    //         }))
+    //     }
 
-        return () => {
-            isCancelled = true
-        }
+    //     return () => {
+    //         isCancelled = true
+    //     }
 
-    }, [dispatch])
+    // }, [dispatch])
 
 
 

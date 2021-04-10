@@ -1,16 +1,18 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import HOST, { SERVER_PORT } from '../../configs/config'
-import {actions as questionsActions} from '../UniversityQuestions'
-import {createAction} from '@reduxjs/toolkit'
+import { actions as questionsActions } from '../UniversityQuestions'
+import { createAction } from '@reduxjs/toolkit'
 
 export const fetchUniversityQuestions = createAction('fetchUniversityQuestions')
 export const toggleFollowingStatus = createAction('toggleFollowingStatus')
 export const upvoteAnswer = createAction('upvoteAnswer')
 export const downvoteAnswer = createAction('downvoteAnswer')
 export const addUniversityQuestion = createAction('addUniversityQuestion')
+export const addAnswer = createAction('addAnswer')
+export const fetchQuestionAnswers = createAction('fetchAnswers')
 
-const api = ({dispatch}) => next => async action => {
-    
+const api = ({ dispatch }) => next => async action => {
+
     if (action.type === fetchUniversityQuestions.type) {
         const response = await axios.get(
             `http://${HOST}:${SERVER_PORT}/student/university/questions`
@@ -28,9 +30,9 @@ const api = ({dispatch}) => next => async action => {
 
 
         if (response.status === 201) {
-            
+
             dispatch(questionsActions.addQuestion({
-                question:response.data.question
+                question: response.data.question
             }))
         }
     }
@@ -48,13 +50,13 @@ const api = ({dispatch}) => next => async action => {
             dispatch(questionsActions.toggleFollowingStatus({
                 questionId: questionId,
                 userId: userId,
-                isFollowing:response.data.message,
-                follower: response.data.follower 
+                isFollowing: response.data.message,
+                follower: response.data.follower
             }))
         }
     }
-    
-    
+
+
     else {
         next(action)
     }

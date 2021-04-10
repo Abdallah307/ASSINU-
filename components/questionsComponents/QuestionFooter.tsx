@@ -1,11 +1,11 @@
-import React, {useState} from 'react'
-import { View, StyleSheet } from 'react-native'
-import { Button , Icon} from 'react-native-elements'
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import React, { useState } from 'react'
+import { View, StyleSheet, Text, TouchableNativeFeedback } from 'react-native'
+import { Button, Icon } from 'react-native-elements'
+import { MaterialIcons, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { Colors } from '../../constants/Colors'
 const QuestionFooter = props => {
-    
-    
+
+
     return (
         <View style={styles.questionFooter}>
             <Button
@@ -14,24 +14,30 @@ const QuestionFooter = props => {
                 titleStyle={styles.answerButtonTitle}
                 title='Answer'
                 type='clear'
-                icon={<MaterialIcons name="question-answer" size={15} color="grey" />}
+                icon={<Ionicons name="ios-create-outline" size={20} color={Colors.prussianBlue} />}
             />
 
             <Button
                 onPress={props.onFollowPressed}
                 buttonStyle={styles.answerButton}
                 titleStyle={styles.answerButtonTitle}
-                title= {props.isFollowing ? 'Following' : 'Follow'}
-                titleStyle={props.isFollowing ? {color:Colors.primary} : {color:'grey'}}
+                title={props.isFollowing ? 'Following' : 'Follow'}
+                titleStyle={props.isFollowing ? { color: Colors.primary, fontFamily:'OpenSans-Regular' } : { color: 'grey' ,fontFamily:'OpenSans-Regular'}}
                 type='clear'
                 icon={
-                    <MaterialCommunityIcons 
-                    name="signal-variant" 
-                    size={15} 
-                    color={props.isFollowing ? Colors.primary: 'grey'} 
+                    <MaterialCommunityIcons
+                        name="signal-variant"
+                        size={20}
+                        color={props.isFollowing ? Colors.primary : 'grey'}
                     />
                 }
             />
+            <TouchableNativeFeedback onPress={props.onAnswerPressed}>
+                <Text
+                    style={styles.numberOfAnswersText}>
+                    {props.numberOfAnswers} Answers
+            </Text>
+            </TouchableNativeFeedback>
 
         </View>
     )
@@ -39,15 +45,23 @@ const QuestionFooter = props => {
 
 const styles = StyleSheet.create({
     questionFooter: {
+        borderTopWidth: 0.2,
         flexDirection: 'row',
-        justifyContent: 'space-around',
-        backgroundColor:'white'
+        justifyContent: 'flex-start',
+        backgroundColor: 'white',
+        alignItems: 'center',
+        paddingHorizontal: 10
     },
     answerButtonTitle: {
-        color: 'grey',
-        marginLeft: 5
+        color: Colors.prussianBlue,
+        marginLeft: 5,
+        fontFamily:'OpenSans-Regular'
     },
     answerButton: {
+    },
+    numberOfAnswersText: {
+        fontFamily: 'OpenSans-Regular',
+        marginLeft: 'auto'
     }
 })
 

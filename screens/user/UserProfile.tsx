@@ -25,7 +25,7 @@ const StudentProfile = (props) => {
             <ProfileHeader
                 name={userData.name}
                 imageUrl={userData.imageUrl}
-                bio={studentData.department}
+                bio={studentData.department.departmentName}
                 style={styles.profileHeader}
             />
 

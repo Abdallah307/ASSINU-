@@ -6,12 +6,14 @@ import { Button } from 'react-native-elements'
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../../constants/Colors'
 import axios from 'axios'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import AnswerFooter from '../../components/questionsComponents/AnswerFooter'
 import AnswerItem from '../../components/questionsComponents/AnswerItem'
 import HOST, { SERVER_PORT } from '../../configs/config'
+import { addAnswer, fetchQuestionAnswers } from '../../store/middleware/api'
 
 import CustomActivityIndicator from '../../components/UI/CustomActivityIndicator'
+import NotFound from '../../components/UI/NotFound'
 
 const FullQuestionScreen = props => {
 
@@ -21,75 +23,66 @@ const FullQuestionScreen = props => {
         return state.auth.userId
     })
 
+
     const [answerInput, setAnswerInput] = useState('')
 
     const [answers, setAnswers] = useState([])
 
     const [isLoaded, setIsLoaded] = useState(false)
-    
 
 
-    const submitAnswer = () => {
+
+    const submitAnswer = async () => {
         const questionId = params.question._id
-        axios.post(`
+        const content = answerInput
+        const answerOwnerId = userId
+
+        const response = await axios.post(`
         http://${HOST}:${SERVER_PORT}/student/university/questions/${questionId}`, {
-            content: answerInput,
-            answerOwnerId: userId
+            content: content,
+            answerOwnerId: answerOwnerId
         })
-        .then(res=> {
-            fetchAnswers()
-        })
+
         setAnswerInput('')
+
+        if (response.status === 201) {
+            const answer = response.data.answer
+            setAnswers([...answers, answer])
+        }
+
+    }
+
+
+
+    const openAnswer = (answer, questionOwnerId) => {
+        props.navigation.navigate('FullAnswerScreen', {
+            answer: answer,
+            questionId: params.question._id,
+            questionOwnerId: questionOwnerId
+        })
+    }
+
+    const fetchAnswers = async () => {
+        const questionId = params.question._id
+
+        const response = await axios.get(
+            `http://${HOST}:${SERVER_PORT}/student/university/questions/${questionId}`
+        )
         
-    }
-
-    const upvoteAnswer = async (answerId) => {
-        const response = await axios.put(
-            `http://${HOST}:${SERVER_PORT}/student/university/questions/answer/upvote/${params.question._id}`,
-            {
-                answerId: answerId,
-                upvoterId: userId
-            }
-        )
-
-        if (response.status === 201) {
-            fetchAnswers()
-        }
-    }
-
-
-    const downvoteAnswer = async (answerId) => {
-        const response = await axios.put(
-            `http://${HOST}:${SERVER_PORT}/student/university/questions/answer/downvote/${params.question._id}`,
-            {
-                answerId: answerId,
-                downvoterId: userId
-            }
-        )
-
-        if (response.status === 201) {
-            fetchAnswers()
-        }
-    }
-
-    const fetchAnswers = () => {
-        axios.get(
-            `http://${HOST}:${SERVER_PORT}/student/university/questions/${params.question._id}`
-        )
-        .then(response => {
+        if (response.status === 200) {
             setAnswers(response.data.answers)
             setIsLoaded(true)
-        })
+        }
     }
 
     useEffect(() => {
-        console.log('fetching answers')
         fetchAnswers()
     }, [])
 
     return (
         <View style={styles.fullQuestionScreen}>
             <QuestionItem
+                numberOfAnswers={params.numberOfAnswers}
                 isFollowing={props.route.params.isFollowing}
                 content={params.question.content}
                 ownerName={params.question.ownerId.name}
@@ -98,7 +91,7 @@ const FullQuestionScreen = props => {
             />
             <View style={styles.answerInputAndButtonContainer}>
                 <TextInput
-                    placeholder='Answer...'
+                    placeholder='Add your answer...'
                     multiline={true}
                     style={styles.answerInput}
                     value={answerInput}
@@ -120,29 +113,32 @@ const FullQuestionScreen = props => {
                 }
             </View>
 
-           { !isLoaded ? <CustomActivityIndicator/> : 
-           <FlatList
-                contentContainerStyle={{ padding: 0 }}
-                data={answers}
-                renderItem={(itemData) => {
+            { !isLoaded ? <CustomActivityIndicator /> :
+                answers.length !== 0 ? <FlatList
+                    contentContainerStyle={{ padding: 0 }}
+                    data={answers}
+                    renderItem={(itemData) => {
 
-                    return (
-                        <AnswerItem
-                            upvote={() => upvoteAnswer(itemData.item._id)}
-                            downvote={() => downvoteAnswer(itemData.item._id)}
-                            questionOwnerId={params.question.ownerId._id}
-                            name={itemData.item.ownerId.name}
-                            content={itemData.item.content}
-                            imageUrl={itemData.item.ownerId.imageUrl}
-                            createdAt={itemData.item.createdAt}
-                            bestAnswer={itemData.item.bestAnswer}
-                            numberOfVotes={itemData.item.votes}
-                        >
-                        </AnswerItem>
-                    )
-                }}
-                keyExtractor={(item) => item._id}
-            />}
+                        return (
+                            <AnswerItem
+                                openAnswer={() => openAnswer(itemData.item, params.question.ownerId._id)}
+                                navigation={props.navigation}
+                                questionOwnerId={params.question.ownerId._id}
+                                answer={itemData.item}
+                                fetchAnswers={fetchAnswers}
+                                questionId={params.question._id}
+                            >
+                            </AnswerItem>
+                        )
+                    }}
+                    keyExtractor={(item) => item._id}
+                />
+                    :
+                    <NotFound
+                        image={require('../../assets/no-answers.png')}
+                        title="No answers yet"
+                    />
+            }
 
 
         </View>
@@ -155,17 +151,17 @@ const styles = StyleSheet.create({
     },
     answerInputAndButtonContainer: {
         flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
     },
     answerInput: {
-        borderWidth: 1,
+        borderBottomWidth: 0.5,
         paddingVertical: 10,
         paddingHorizontal: 20,
-        borderRadius: 20,
+        borderRadius: 0,
         borderColor: 'grey',
-        marginHorizontal: 5,
-        flex: 1
+        marginHorizontal: 0,
+        flex: 1,
+
+
     },
 })
 

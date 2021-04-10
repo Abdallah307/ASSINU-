@@ -11,7 +11,7 @@ const AnswerFooter = props => {
                 titleStyle={styles.buttonTitle}
                 type="clear"
                 title='Upvote'
-                icon={<Octicons name="arrow-up" size={20} color="black" />}
+                icon={<Octicons name="arrow-up" size={20} color="grey" />}
             />
 
             <Button
@@ -19,16 +19,17 @@ const AnswerFooter = props => {
                 titleStyle={styles.buttonTitle}
                 type="clear"
                 title='Downvote'
-                icon={<Octicons name="arrow-down" size={20} color="black" />}
+                icon={<Octicons name="arrow-down" size={20} color="grey" />}
             />
 
             <Button
+                onPress={props.openAnswer}
                 titleStyle={styles.buttonTitle}
                 type="clear"
-                title='Comment'
-                icon={<EvilIcons name="comment" size={24} color="black" />}
+                title='Discussion'
+                icon={<Octicons name="comment-discussion" size={20} color="grey" />}
             />
-            <Text>{props.numberOfVotes}</Text>
+            <Text>{props.numberOfVotes} votes</Text>
         </View>
     )
 }
@@ -42,7 +43,8 @@ const styles = StyleSheet.create({
     buttonTitle: {
         marginHorizontal: 5,
         fontFamily: 'OpenSans-Regular',
-        fontSize: 14
+        fontSize: 14,
+        color:'grey'
     }
 })
 

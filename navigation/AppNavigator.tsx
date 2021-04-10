@@ -31,10 +31,14 @@ import ItemDetailsScreen from '../screens/sharingCenter/ItemDetailsScreen'
 
 import { screenOptions as sharingCenterOptions } from '../screens/sharingCenter/SharingCenter'
 import ShareItemScreen from '../screens/sharingCenter/ShareItemScreen'
+import FullAnswerScreen from '../screens/questionsScreens/FullAnswerScreen'
+import UserTypeScreen from '../screens/authScreens/UserTypeScreen'
+import ReplyScreen from '../screens/questionsScreens/ReplyScreen'
 
 const Tab = createMaterialBottomTabNavigator()
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
+
 
 const DrawerNavigator = (props: any) => {
     return (
@@ -91,6 +95,7 @@ const AuthNavigator = (props: any) => {
         return (
             <NavigationContainer>
                 <Stack.Navigator
+                    initialRouteName='UserType'
                     screenOptions={{
                         headerStyle: {
                             elevation: 0,
@@ -100,6 +105,19 @@ const AuthNavigator = (props: any) => {
 
                     }}
                 >
+                    {/* <Stack.Screen 
+                    // name='UserType' 
+                    // component={UserTypeScreen}
+                    // options={{
+                    //     title:'Select user type',
+                    //     headerTintColor:'white',
+                    //     headerStyle: {
+                    //         backgroundColor:Colors.blueGreen,
+                    //         elevation:0,
+                    //     }
+                       
+                    // }}
+                    // /> */}
                     <Stack.Screen name="SignIn" component={SignIn} />
                     <Stack.Screen name="SignUp" component={SignUp} />
                 </Stack.Navigator>
@@ -111,6 +129,16 @@ const AuthNavigator = (props: any) => {
         <DrawerNavigator />
     )
 }
+
+// const TeachersAuth = props => {
+//     return (
+//         <NavigationContainer>
+//             <Stack.Navigator>
+//                 <Stack.Screen name=/>
+//             </Stack.Navigator>
+//         </NavigationContainer>
+//     )
+// }
 
 
 const AppNavigator = (props) => {
@@ -126,15 +154,14 @@ const AppNavigator = (props) => {
             barStyle={{
                 backgroundColor: Colors.primary,
             }}
-            screenOptions={{
-            }}
-
+            activeColor='white'
         >
 
             <Tab.Screen
                 name="Feed"
                 component={Feed}
                 options={{
+                    tabBarColor: Colors.blueGreen,
                     tabBarIcon: () => <Feather name="home" size={24} color='white' />
                 }}
             />
@@ -143,6 +170,7 @@ const AppNavigator = (props) => {
                 name="Notifications"
                 component={Notifications}
                 options={{
+                    tabBarColor: Colors.prussianBlue,
                     tabBarIcon: () => <Ionicons name="notifications" size={24} color='white' />
                 }}
             />
@@ -152,6 +180,7 @@ const AppNavigator = (props) => {
 
                 component={StudentProfileNavigator}
                 options={{
+                    tabBarColor: Colors.primary,
                     title: 'Profile',
                     tabBarIcon: () => <Image style={{ width: 24, height: 24, borderRadius: 12 }} source={{ uri: `http://${HOST}:4200/${userImage}` }} />
                 }}
@@ -186,7 +215,7 @@ const UniversityQuestionsNavigator = (props: any) => {
                 name="FullQuestionScreen"
                 component={FullQuestionScreen}
                 options={{
-                    title: 'Question'
+                    title: 'Answers'
                 }}
             />
             <Stack.Screen
@@ -199,6 +228,21 @@ const UniversityQuestionsNavigator = (props: any) => {
                 component={CreateQuestionScreen}
                 options={{
                     title: 'Ask question'
+                }}
+            />
+
+            <Stack.Screen
+                name='FullAnswerScreen'
+                component={FullAnswerScreen}
+                options={{
+                    title: 'Comments'
+                }}
+            />
+            <Stack.Screen
+                name='ReplyScreen'
+                component={ReplyScreen}
+                options={{
+                    title: 'Replays'
                 }}
             />
         </Stack.Navigator>
@@ -279,7 +323,7 @@ const SharingCenterNavigator = props => {
 
             <Stack.Screen
                 options={{
-                    title:'Details'
+                    title: 'Details'
                 }}
                 name='ItemDetailsScreen'
                 component={ItemDetailsScreen}
@@ -287,7 +331,7 @@ const SharingCenterNavigator = props => {
 
             <Stack.Screen
                 options={{
-                    title:'Share item'
+                    title: 'Share item'
                 }}
                 name='ShareItemScreen'
                 component={ShareItemScreen}

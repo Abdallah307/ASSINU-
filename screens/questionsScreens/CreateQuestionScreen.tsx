@@ -24,13 +24,14 @@ const CreateQuestionScreen = props => {
 
     const [questionInput, setQuestionInput] = useState('')
 
+    const userId = useSelector(state=> state.auth.userId)
 
     const dispatch = useDispatch()
 
     const createQuestion = () => {
         dispatch(addUniversityQuestion({
             content: questionInput,
-            ownerId: params.userId
+            ownerId: userId
         }))
 
         props.navigation.navigate('UniversityQuestions')
