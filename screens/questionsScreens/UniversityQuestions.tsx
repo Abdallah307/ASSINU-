@@ -12,7 +12,6 @@ import * as Notifications from 'expo-notifications'
 
 const UniversityQuestions = (props: any) => {
 
-    const [isModalVisible, setIsModalVisible] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -35,7 +34,7 @@ const UniversityQuestions = (props: any) => {
         props.navigation.navigate('FullQuestionScreen', {
             question: question,
             isFollowing: isFollowing,
-            numberOfAnswers:80
+            numberOfAnswers:80,
         })
     }
 

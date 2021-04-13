@@ -5,6 +5,7 @@ import { MaterialIcons, MaterialCommunityIcons, Ionicons } from '@expo/vector-ic
 import { Colors } from '../../constants/Colors'
 const QuestionFooter = props => {
 
+    const [isF , setIsF] = useState(props.isFollowing)
 
     return (
         <View style={styles.questionFooter}>
@@ -18,17 +19,20 @@ const QuestionFooter = props => {
             />
 
             <Button
-                onPress={props.onFollowPressed}
+                onPress={() => {
+                    props.onFollowPressed()
+                    setIsF(!isF)
+                }}
                 buttonStyle={styles.answerButton}
                 titleStyle={styles.answerButtonTitle}
-                title={props.isFollowing ? 'Following' : 'Follow'}
-                titleStyle={props.isFollowing ? { color: Colors.primary, fontFamily:'OpenSans-Regular' } : { color: 'grey' ,fontFamily:'OpenSans-Regular'}}
+                title={isF ? 'Following' : 'Follow'}
+                titleStyle={isF ? { color: Colors.primary, fontFamily:'OpenSans-Regular' } : { color: 'grey' ,fontFamily:'OpenSans-Regular'}}
                 type='clear'
                 icon={
                     <MaterialCommunityIcons
                         name="signal-variant"
                         size={20}
-                        color={props.isFollowing ? Colors.primary : 'grey'}
+                        color={isF ? Colors.primary : 'grey'}
                     />
                 }
             />

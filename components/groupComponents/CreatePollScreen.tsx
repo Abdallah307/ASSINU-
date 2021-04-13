@@ -1,26 +1,65 @@
 import React, { useState } from 'react'
-import { View,ScrollView, StyleSheet, TextInput } from 'react-native'
+import { View, ScrollView, StyleSheet, TextInput } from 'react-native'
 import CreatePostHeader from '../postComponents/CreatePostHeader'
 import PollOption from './PollOption'
 import PollQuestionInput from './PollQuestionInput'
 import { Button } from 'react-native-elements'
 import RNPoll, { IChoice } from "react-native-poll";
+import { CourseGroup } from '../../api/api'
+import { Colors } from '../../constants/Colors'
 
 
 const Poll = props => {
     const [options, setOptions] = useState<Array<string>>([])
     const [choice, setChoice] = useState('')
+    const [question, setQuestion] = useState('')
+    const params = props.route.params
+
+    const createPoll = async () => {
+        try {
+            const response = await CourseGroup.createPoll({
+                groupId: params.groupId,
+                ownerId: params.userId,
+                content: question,
+                choices: options
+            })
+
+            if (response.status === 201) {
+                console.log(response.data.poll)
+            }
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+
+
     return (
         <ScrollView style={styles.pollContainer}>
-            <CreatePostHeader
-                imageUrl={props.route.params.userImage}
-                username={props.route.params.username}
-            />
+            <View style={{flexDirection:'row',justifyContent:'space-between', alignItems:'center'}}>
+                <CreatePostHeader
+                    imageUrl={props.route.params.userImage}
+                    username={props.route.params.username}
+                />
+                <Button
+                    containerStyle={{paddingHorizontal:10}}
+                    buttonStyle={{
+                        borderRadius:10,
+                        backgroundColor:Colors.blueGreen
+                    }}
+                    title='Post'
+                    onPress={() => {
+                        createPoll()
+                    }}
+                />
+            </View>
 
             <View style={styles.createPollContainer}>
                 <PollQuestionInput
                     style={styles.pollQuestionInput}
                     multiline={true}
+                    value={question}
+                    onChangeText={(value) => setQuestion(value)}
                 />
 
                 <View style={{ padding: 20 }}>
@@ -41,7 +80,7 @@ const Poll = props => {
 
                     {
                         options.map(option => {
-                            return <PollOption value={option} />
+                            return <PollOption key={option} value={option} />
                         })
                     }
                     {/* <Button title='get options' onPress={() => console.log(options)}/> */}
@@ -62,22 +101,24 @@ const styles = StyleSheet.create({
     },
     pollQuestionInput: {
         borderBottomWidth: 1,
+        borderColor:'lightgrey',
         padding: 15
     },
     addOptionContainer: {
-        flexDirection:'row',
-        justifyContent:'space-between'
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     addOptionInput: {
-        flex:2.8,
-        borderWidth:1,
-        padding:5,
-        borderRadius:10
+        borderColor:'grey',
+        flex: 2.8,
+        borderWidth: 1,
+        paddingHorizontal: 10,
+        borderRadius: 10
     },
     addOptionButton: {
-        flex:1,
+        flex: 1,
         marginLeft: 5,
-        borderRadius:10
+        borderRadius: 10
         //width:'40%'
     }
 })

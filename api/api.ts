@@ -31,12 +31,38 @@ export class CourseGroup {
         )
     }
 
-    static fetchGroupMembers = (groupId) => {
+    static createPoll = (pollInfo) => {
+        return axios.post(
+            `http://${HOST}:${SERVER_PORT}/student/group/polls/createpoll`,
+            {
+                groupId: pollInfo.groupId,
+                ownerId: pollInfo.ownerId,
+                content: pollInfo.content,
+                choices: pollInfo.choices
+            },
+            {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }
+            
+        )
+    }
+
+    static fetchGroupMembers = async (groupId) => {
 
         try {
-            return axios.get(
-                `http://${HOST}:${API_PORT}/student/course/${groupId}`
+            const response = await  axios.get(
+                `http://${HOST}:${API_PORT}/student/course/members/${groupId}`
             )
+
+            if (response.status === 200) {
+                return axios.post(
+                    `http://${HOST}:${SERVER_PORT}/student/group/members`,{
+                        emails:response.data.members
+                    }
+                )
+            }
         }
         catch (err) {
             throw err

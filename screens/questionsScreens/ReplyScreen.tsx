@@ -7,12 +7,16 @@ import { Colors } from '../../constants/Colors'
 import { Button } from 'react-native-elements'
 import { Ionicons } from '@expo/vector-icons'
 import { useSelector } from 'react-redux'
+import CustomActivityIndicator from '../../components/UI/CustomActivityIndicator'
+import NotFound from '../../components/UI/NotFound'
 
 const ReplyScreen = props => {
 
     const [commentReplays, setCommentReplays] = useState([])
 
     const [replayInput, setReplayInput] = useState('')
+
+    const [isLoaded, setIsLoaded] = useState(false)
 
     const comment = props.route.params.comment
 
@@ -27,6 +31,7 @@ const ReplyScreen = props => {
 
             if (response.status === 200) {
                 setCommentReplays(response.data.replays)
+                setIsLoaded(true)
             }
         }
         catch (err) {
@@ -49,6 +54,7 @@ const ReplyScreen = props => {
 
             if (response.status === 201) {
                 setCommentReplays([...commentReplays, response.data.replay])
+
             }
         }
         catch (err) {
@@ -101,19 +107,26 @@ const ReplyScreen = props => {
                 </View>
                 <Text style={{ paddingHorizontal: 5, fontSize: 25, color: Colors.primary }}>Replays</Text>
             </View>
-            <FlatList
-                data={commentReplays}
-                renderItem={(itemData) => {
-                    return (
-                        <CommentItem
-                            imageUrl={itemData.item.ownerId.imageUrl}
-                            name={itemData.item.ownerId.name}
-                            content={itemData.item.content}
-                        />
-                    )
-                }}
-                keyExtractor={(item, index) => index.toString()}
-            />
+            {!isLoaded ? <CustomActivityIndicator /> :
+             commentReplays.length !== 0 ? <FlatList
+                    data={commentReplays}
+                    renderItem={(itemData) => {
+                        return (
+                            <CommentItem
+                                imageUrl={itemData.item.ownerId.imageUrl}
+                                name={itemData.item.ownerId.name}
+                                content={itemData.item.content}
+                            />
+                        )
+                    }}
+                    keyExtractor={(item, index) => index.toString()}
+                /> : (
+                    <NotFound
+                    image={require('../../assets/no-comments.png')}
+                    title='No replays yet'
+                    />
+                )
+            }
 
         </View>
     )

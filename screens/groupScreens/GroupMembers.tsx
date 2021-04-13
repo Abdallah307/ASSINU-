@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import {FlatList} from 'react-native'
+import { FlatList, View } from 'react-native'
 import ListItem from '../../components/UI/ListItem'
 import { CourseGroup } from '../../api/api'
 import CustomActivityIndicator from '../../components/UI/CustomActivityIndicator'
+import MemberItem from '../../components/UI/MemberItem'
 
-const GroupMembers = (props:any) => {
+const GroupMembers = (props: any) => {
     const groupId = props.route.params.groupId
     const [members, setMembers] = useState([])
     const [isLoaded, setIsLoaded] = useState(false)
@@ -18,7 +19,7 @@ const GroupMembers = (props:any) => {
                 const result = await CourseGroup.fetchGroupMembers(groupId)
                 setIsLoaded(true)
                 if (!isCancelled) {
-                    setMembers(result.data.students)
+                    setMembers(result.data.members)
                 }
             }
             catch (err) {
@@ -41,18 +42,25 @@ const GroupMembers = (props:any) => {
 
 
     return (
-        <FlatList
-            data={members}
-            renderItem={renderMembers}
-            keyExtractor={((item:any) => item._id)}
-        />
+        <View style={{backgroundColor:'white',flex:1}}>
+            <FlatList
+                data={members}
+                renderItem={renderMembers}
+                keyExtractor={((item: any) => item._id)}
+            />
+        </View>
     )
 
 
 }
 
-const renderMembers = (itemData:any) => {
-    return <ListItem title={itemData.item.studentId.name} />
+const renderMembers = (itemData: any) => {
+    return (
+        <MemberItem 
+        name={itemData.item.name}
+        imageUrl={itemData.item.imageUrl}
+        />
+    )
 }
 
 export default GroupMembers

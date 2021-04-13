@@ -10,6 +10,7 @@ import { AntDesign } from '@expo/vector-icons';
 import MyComponent from '../../components/groupComponents/CreatePollButton'
 import CreatePollButton from '../../components/groupComponents/CreatePollButton'
 import { FlatList } from 'react-native-gesture-handler'
+import { Colors } from '../../constants/Colors'
 
 
 const Group = (props) => {
@@ -84,16 +85,37 @@ const Group = (props) => {
                         groupId: params.id
                     })}
                 />
-                <Button
-                    title='Members'
-                    onPress={openGroupMembers}
-                />
-                <CreatePollButton onPress={() => props.navigation.navigate("Poll", {
-                    groupId: params.id,
-                    userImage: params.userImage,
-                    userId: params.userId,
-                    username: params.username
-                })} />
+                <View style={{flexDirection:'row',flex:1, backgroundColor:'white'}}>
+                    <Button
+                        containerStyle={{flex:1, marginHorizontal:5}}
+                        title='Participants'
+                        onPress={openGroupMembers}
+                        titleStyle={{
+                            color:Colors.blueGreen
+                        }}
+                        buttonStyle={{
+                            backgroundColor:'transparent',
+                            borderWidth:1
+                        }}
+                    />
+                    <Button
+                        title='Create poll'
+                        titleStyle={{
+                            color:Colors.blueGreen
+                        }}
+                        containerStyle={{flex:1, marginHorizontal:5}}
+                        onPress={() => props.navigation.navigate("Poll", {
+                            groupId: params.id,
+                            userImage: params.userImage,
+                            userId: params.userId,
+                            username: params.username
+                        })}
+                        buttonStyle={{
+                            backgroundColor:'transparent',
+                            borderWidth:1
+                        }}
+                    />
+                </View>
 
                 <WritePost
                     imageUrl={params.userImage}
@@ -107,7 +129,7 @@ const Group = (props) => {
         console.log('Reached the end of the scrolling man')
     }
 
-    
+
 
     return (
         <>
@@ -120,6 +142,7 @@ const Group = (props) => {
                             const post = itemData.item
                             return (
                                 <PostItem
+                                    imageUrl={post.imageUrl}
                                     numberOfComments={post.comments.length}
                                     ownerId={post.ownerId}
                                     key={post.postId}

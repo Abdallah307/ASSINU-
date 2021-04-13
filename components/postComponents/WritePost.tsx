@@ -19,7 +19,8 @@ const WritePost = (props: any) => {
 
 const styles = StyleSheet.create({
     mainView:{
-        marginVertical:15,
+        marginBottom:15,
+        marginTop:2,
         flexDirection:'row',
         padding:20,
         backgroundColor:'white'

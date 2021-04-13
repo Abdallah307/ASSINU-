@@ -36,7 +36,7 @@ const GroupHeader = (props: any) => {
                     <Text
                         style={styles.membersCount}
                     >
-                        {props.numberOfMembers} members
+                        {props.numberOfMembers} Participants
                     </Text>
                 </View>
 

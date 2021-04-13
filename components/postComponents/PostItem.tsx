@@ -19,6 +19,7 @@ const PostItem = (props) => {
                 />
 
                 <PostBody 
+                imageUrl={props.imageUrl}
                 onOpenPost={props.onOpenPost} 
                 content={props.content} 
                 />

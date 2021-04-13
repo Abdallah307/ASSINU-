@@ -21,6 +21,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { Colors } from '../../constants/Colors'
 import { useSelector } from 'react-redux'
 import CustomActivityIndicator from '../../components/UI/CustomActivityIndicator'
+import NotFound from '../../components/UI/NotFound'
 
 const FullAnswerScreen = props => {
     const answer = props.route.params.answer
@@ -120,7 +121,8 @@ const FullAnswerScreen = props => {
             </View>
             {
                 !isLoaded ? <CustomActivityIndicator /> :
-                    answerComments.map(comment => {
+
+                answerComments.length !== 0 ? answerComments.map(comment => {
                         return (
                             <CommentItem
                                 imageUrl={comment.ownerId.imageUrl}
@@ -140,7 +142,12 @@ const FullAnswerScreen = props => {
                                 </View>
                             </CommentItem>
                         )
-                    })
+                }) : (
+                    <NotFound
+                    image={require('../../assets/no-comments.png')}
+                    title="No comments yet"
+                    />
+                )
             }
 
         </ScrollView>

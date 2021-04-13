@@ -12,8 +12,6 @@ import { createStackNavigator } from '@react-navigation/stack'
 import Group from '../screens/groupScreens/Group'
 import CreatePost from '../screens/postsScreens/CreatePost'
 import FullPost from '../screens/postsScreens/FullPost'
-import SignIn from '../screens/authScreens/SignIn'
-import SignUp from '../screens/authScreens/SignUp'
 import GroupMembers from '../screens/groupScreens/GroupMembers'
 import { Colors } from '../constants/Colors'
 import { useSelector } from 'react-redux'
@@ -25,7 +23,7 @@ import DrawerContent from '../screens/mainScreens/DrawerContent'
 import SharingCenter from '../screens/sharingCenter/SharingCenter'
 import FullQuestionScreen from '../screens/questionsScreens/FullQuestionScreen'
 import SearchScreen from '../screens/questionsScreens/SearchScreen'
-import Poll from '../components/groupComponents/Poll'
+import Poll from '../components/groupComponents/CreatePollScreen'
 import CreateQuestionScreen from '../screens/questionsScreens/CreateQuestionScreen'
 import ItemDetailsScreen from '../screens/sharingCenter/ItemDetailsScreen'
 
@@ -34,6 +32,8 @@ import ShareItemScreen from '../screens/sharingCenter/ShareItemScreen'
 import FullAnswerScreen from '../screens/questionsScreens/FullAnswerScreen'
 import UserTypeScreen from '../screens/authScreens/UserTypeScreen'
 import ReplyScreen from '../screens/questionsScreens/ReplyScreen'
+import SignInn from '../screens/authScreens/SignInn'
+import SignUpp from '../screens/authScreens/SignUpp'
 
 const Tab = createMaterialBottomTabNavigator()
 const Stack = createStackNavigator()
@@ -97,9 +97,10 @@ const AuthNavigator = (props: any) => {
                 <Stack.Navigator
                     initialRouteName='UserType'
                     screenOptions={{
+                        headerTintColor:'white',
                         headerStyle: {
                             elevation: 0,
-                            backgroundColor: 'white',
+                            backgroundColor: Colors.blueGreen,
                         },
                         headerTitleAlign: 'center',
 
@@ -118,8 +119,8 @@ const AuthNavigator = (props: any) => {
                        
                     // }}
                     // /> */}
-                    <Stack.Screen name="SignIn" component={SignIn} />
-                    <Stack.Screen name="SignUp" component={SignUp} />
+                    <Stack.Screen name="SignIn" component={SignInn} />
+                    <Stack.Screen name="SignUp" component={SignUpp} />
                 </Stack.Navigator>
             </NavigationContainer>
         )
