@@ -39,12 +39,13 @@ const ChattingScreen = props => {
         
         
 
-    }, [params.groupId])
+    }, [])
 
     useEffect(() => {
         const socket = io(`http://${HOST}:${SERVER_PORT}`)
         socket.on('message', data => {
             if (data.action === 'addmessage')
+                if (data.message.groupId == params.groupId)
                 addMessage(data.message)
         })
     }, [])
@@ -52,6 +53,7 @@ const ChattingScreen = props => {
 
 
     const addMessage = (message) => {
+        setMessages([...messages, message])
         // if (message.ownerId === userId)
         //     return (
         //         <ChattingMessage

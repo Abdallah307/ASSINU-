@@ -16,7 +16,7 @@ const QuestionItem = props => {
             isFollowing={props.isFollowing} 
             onFollowPressed={props.onFollowPressed} 
             onAnswerPressed={props.onOpenQuestion}
-            numberOfAnswers={30}
+            numberOfAnswers={0}
             />
         </View>
     )

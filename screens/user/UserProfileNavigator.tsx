@@ -10,7 +10,7 @@ const UserProfileNavigator = props => {
     return (
         <Tab.Navigator>
             <Tab.Screen name="StudentCourses" component={StudentCourses}/>
-            <Tab.Screen name="Articles" component={Articles}/>
+            {/* <Tab.Screen name="Articles" component={Articles}/> */}
         </Tab.Navigator>
     )
 }

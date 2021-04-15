@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const slice = createSlice({
-    name: "student",
+    name: "teacher",
     initialState: {
         id:'',
         name: '',
@@ -11,7 +11,7 @@ const slice = createSlice({
         isLoaded:false 
     },
     reducers: {
-        setStudent: (state, action) => {
+        setTeacher: (state, action) => {
             const payload = action.payload
             state.name = payload.name,
             state.courses = payload.courses,

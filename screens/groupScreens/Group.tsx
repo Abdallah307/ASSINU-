@@ -6,9 +6,6 @@ import WritePost from '../../components/postComponents/WritePost'
 import { Button } from 'react-native-elements'
 import CustomeActivityIndicator from '../../components/UI/CustomActivityIndicator'
 import { CourseGroup } from '../../api/api'
-import { AntDesign } from '@expo/vector-icons';
-import MyComponent from '../../components/groupComponents/CreatePollButton'
-import CreatePollButton from '../../components/groupComponents/CreatePollButton'
 import { FlatList } from 'react-native-gesture-handler'
 import { Colors } from '../../constants/Colors'
 
@@ -44,7 +41,15 @@ const Group = (props) => {
         return () => {
             isCancelled = true
         }
-    }, [props.route.params.postCreated])
+    }, [])
+
+    useEffect(() => {
+        if (params?.post) {
+            let posts = [...GroupPosts]
+            posts.unshift(params.post)
+            setGroupPosts(posts)
+        }
+    }, [params?.post])
 
 
     const openGroupMembers = () => {
@@ -53,24 +58,13 @@ const Group = (props) => {
         })
     }
 
-
     const openCreatePost = () => {
         props.navigation.navigate('CreatePost', {
             groupId: params.id,
             userImage: params.userImage,
             userId: params.userId,
-            username: params.username
-        })
-    }
-
-    const openPost = (post) => {
-        props.navigation.navigate('FullPost', {
-            postId: post._id,
-            groupId: params.id,
-            content: post.content,
-            ownerId: post.ownerId,
-            numberOfComments: post.comments.length,
-            createdAt: post.createdAt
+            username: params.username,
+            navScreen:'Group'
         })
     }
 
@@ -85,25 +79,25 @@ const Group = (props) => {
                         groupId: params.id
                     })}
                 />
-                <View style={{flexDirection:'row',flex:1, backgroundColor:'white'}}>
+                <View style={{ flexDirection: 'row', flex: 1, backgroundColor: 'white' }}>
                     <Button
-                        containerStyle={{flex:1, marginHorizontal:5}}
+                        containerStyle={{ flex: 1, marginHorizontal: 5 }}
                         title='Participants'
                         onPress={openGroupMembers}
                         titleStyle={{
-                            color:Colors.blueGreen
+                            color: Colors.blueGreen
                         }}
                         buttonStyle={{
-                            backgroundColor:'transparent',
-                            borderWidth:1
+                            backgroundColor: 'transparent',
+                            borderWidth: 1
                         }}
                     />
                     <Button
                         title='Create poll'
                         titleStyle={{
-                            color:Colors.blueGreen
+                            color: Colors.blueGreen
                         }}
-                        containerStyle={{flex:1, marginHorizontal:5}}
+                        containerStyle={{ flex: 1, marginHorizontal: 5 }}
                         onPress={() => props.navigation.navigate("Poll", {
                             groupId: params.id,
                             userImage: params.userImage,
@@ -111,8 +105,8 @@ const Group = (props) => {
                             username: params.username
                         })}
                         buttonStyle={{
-                            backgroundColor:'transparent',
-                            borderWidth:1
+                            backgroundColor: 'transparent',
+                            borderWidth: 1
                         }}
                     />
                 </View>
@@ -140,15 +134,14 @@ const Group = (props) => {
                         data={GroupPosts}
                         renderItem={(itemData) => {
                             const post = itemData.item
+                            let imageUrl;
+                            try { imageUrl = post.imageUrl } catch (err) { imageUrl = null }
+
                             return (
                                 <PostItem
-                                    imageUrl={post.imageUrl}
-                                    numberOfComments={post.comments.length}
-                                    ownerId={post.ownerId}
-                                    key={post.postId}
-                                    onOpenPost={() => openPost(post)}
-                                    content={post.content}
-                                    createdAt={post.createdAt}
+                                    navigation={props.navigation}
+                                    imageUrl={imageUrl}
+                                    post={post}
                                 />
                             )
                         }}

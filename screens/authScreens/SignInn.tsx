@@ -20,7 +20,7 @@ import { signIn } from '../../store/middleware/auth'
 const SignInn = (props: any) => {
 
     const [showPassword, setShowPassword] = useState(true)
-    const [email, setEmail] = useState('a.dereia@stu.najah.edu')
+    const [email, setEmail] = useState('armoush@najah.edu')
     const [password, setPassword] = useState('12345')
 
     const dispatch = useDispatch()

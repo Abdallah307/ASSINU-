@@ -8,25 +8,42 @@ import axios from 'axios'
 
 const PostItem = (props) => {
 
+    const openImage = () => {
+        props.navigation.navigate('FullImageScreen', {
+            imageUrl:props.imageUrl 
+        })
+    }
+
+    const openPost = () => {
+        let imageUrl;
+        try { imageUrl = props.post.imageUrl } catch (err) { imageUrl = null }
+        props.navigation.navigate('FullPost', {
+            groupId: props.post.groupId,
+            post:props.post,
+            imageUrl: imageUrl,
+        })
+    }
+
     return (
         
             <View style={styles.postItem}>
 
                 <PostHeader 
-                createdAt={props.createdAt}
-                ownerName={props.ownerId.name} 
-                imageUrl={props.ownerId.imageUrl}
+                createdAt={props.post.createdAt}
+                ownerName={props.post.ownerId.name} 
+                imageUrl={props.post.ownerId.imageUrl}
                 />
 
                 <PostBody 
+                openImage={openImage}
                 imageUrl={props.imageUrl}
-                onOpenPost={props.onOpenPost} 
-                content={props.content} 
+                onOpenPost={openPost} 
+                content={props.post.content} 
                 />
 
                 <PostFooter 
-                numberOfComments={props.numberOfComments}
-                onOpenPost={props.onOpenPost} 
+                numberOfComments={props.post.numberOfComments}
+                onOpenPost={openPost} 
                 />
 
             </View>

@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     profileHeader: {
         backgroundColor: Colors.primary,
         alignItems: 'center',
+        justifyContent:'center',
         borderBottomLeftRadius: 40,
         borderBottomRightRadius: 40
     },

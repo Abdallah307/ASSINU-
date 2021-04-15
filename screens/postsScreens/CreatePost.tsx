@@ -1,5 +1,15 @@
 import React, { useState, useLayoutEffect } from 'react'
-import { View, StyleSheet, Text, ActivityIndicator, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import {
+    View,
+    ImageBackground,
+    StyleSheet,
+    Image,
+    Text,
+    ActivityIndicator,
+    TouchableWithoutFeedback,
+    Keyboard,
+    ScrollView
+} from 'react-native'
 import CreatePostHeader from '../../components/postComponents/CreatePostHeader'
 import CreatePostInput from '../../components/postComponents/CreatePostInput'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
@@ -10,8 +20,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import * as ImagePicker from 'expo-image-picker';
 import HOST, { SERVER_PORT } from '../../configs/config'
-
-
+import { Button } from 'react-native-elements'
+import { AntDesign } from '@expo/vector-icons';
 
 const CreatePost = props => {
 
@@ -25,13 +35,14 @@ const CreatePost = props => {
             let value = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.All,
                 allowsEditing: true,
-                aspect: [4, 3],
+                //aspect: [4, 3],
                 quality: 1,
             })
 
             if (value.cancelled) return
 
             setImage(value.uri)
+
             setResult(value)
         }
         catch (err) { }
@@ -57,23 +68,27 @@ const CreatePost = props => {
         formData.append('ownerId', params.userId)
         formData.append('content', content)
 
-
-        const response = await axios.post(
-            `http://${HOST}:${SERVER_PORT}/student/createpost`,
-            formData,
-            {
-                headers: {
-                    'content-type': 'multipart/form-data',
+        try {
+            const response = await axios.post(
+                `http://${HOST}:${SERVER_PORT}/student/createpost`,
+                formData,
+                {
+                    headers: {
+                        'content-type': 'multipart/form-data',
+                    }
                 }
+
+            )
+
+            if (response.status === 201) {
+                setIsSharing(false)
+                props.navigation.navigate(params.navScreen, {
+                    post: response.data.post
+                })
             }
-
-        )
-
-        if (response.status === 201) {
-            setIsSharing(false)
-            props.navigation.navigate('Group', {
-                postCreated: true
-            })
+        }
+        catch (err) {
+            console.log(err.message)
         }
 
 
@@ -98,8 +113,8 @@ const CreatePost = props => {
             })
 
             if (response.status === 201) {
-                props.navigation.navigate('Group', {
-                    postCreated: true
+                props.navigation.navigate(params.navScreen, {
+                    post: response.data.post
                 })
             }
         }
@@ -116,27 +131,48 @@ const CreatePost = props => {
         else {
             props.navigation.setOptions(screenOptions(uploadPhotoAsync, content.length))
         }
-        
+
     })
 
 
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{ flex: 1 }}>
-            <View style={styles.createPost}>
+            <ScrollView style={{ backgroundColor: 'white' }}>
+                <View style={styles.createPost}>
+                    <CreatePostHeader
+                        chooseImageFromDevice={chooseImageFromDevice}
+                        username={params.username}
+                        imageUrl={params.userImage}
+                    />
 
-                <CreatePostHeader
-                    chooseImageFromDevice={chooseImageFromDevice}
-                    username={params.username}
-                    imageUrl={params.userImage}
-                />
+                    <CreatePostInput
+                        onChangeText={handlePostInput}
+                        content={content}
+                    />
 
-                <CreatePostInput
-                    onChangeText={handlePostInput}
-                    content={content}
-                />
+                    {
+                        image && (
+                            <View style={styles.postImageContainer}>
+                                <ImageBackground
+                                    style={{ width: '100%', aspectRatio: 4 / 3 }}
+                                    source={{
+                                        uri: image
+                                    }}
+                                >
+                                    <Button
+                                        onPress={() => setImage(null)}
+                                        type='clear'
+                                        containerStyle={styles.imageRemoveButton}
+                                        icon={<AntDesign name="delete" size={24} color={Colors.primary} />}
+                                    />
+                                </ImageBackground>
+                            </View>
+                        )
+                    }
+                </View>
+            </ScrollView>
 
-            </View>
-        </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback >
     )
 }
 
@@ -178,6 +214,15 @@ const styles = StyleSheet.create({
     createPost: {
         flex: 1,
         backgroundColor: 'white',
+        paddingBottom: 30
+    },
+    postImageContainer: {
+        flex: 1,
+    },
+    imageRemoveButton: {
+        position: 'absolute',
+        top: 0,
+        right: 10,
     }
 })
 

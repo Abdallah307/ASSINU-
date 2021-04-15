@@ -3,11 +3,16 @@ import {View , Text , StyleSheet , Image} from 'react-native'
 import HOST from '../../configs/config'
 
 const ProfileAvatarImage = (props: any)  => {
+    let uri;
+    if (props.imageUrl == '') {
+        uri = 'https://images.pexels.com/photos/2312369/pexels-photo-2312369.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+    }
+    else uri = `http://${HOST}:4200/${props.imageUrl}`
     return(
         <Image
         style={{...styles.profileImage, ...props.style}}
         source={{
-            uri:`http://${HOST}:4200/${props.imageUrl}`,
+            uri:uri,
         }}
     />
     )

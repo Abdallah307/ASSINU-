@@ -31,7 +31,7 @@ const FullPost = (props: any) => {
 
     const fetchComments = async () => {
         try {
-            const response = await Post.fetchComments(params.postId)
+            const response = await Post.fetchComments(params.post._id)
 
             if (response.status === 200) {
                 setComments(response.data.comments)
@@ -59,7 +59,7 @@ const FullPost = (props: any) => {
         setIsCommenting(true)
         setCommentInput('')
 
-        const postId = params.postId
+        const postId = params.post._id
         const content = commentInput
         const ownerId = user.userId
         const createdAt = new Date()
@@ -80,72 +80,71 @@ const FullPost = (props: any) => {
 
     return (
         <ScrollView>
+            <View style={{flex:1, paddingBottom:50}}>
 
-            <PostItem
-                ownerId={params.ownerId}
-                postId={params.postId}
-                content={params.content}
-                groupId={params.groupId}
-                numberOfComments={params.numberOfComments}
-                createdAt={params.createdAt}
-            />
-
-            <View
-                style={styles.commentInputAndButtonContainer}
-            >
-
-                <TextInput
-                    style={styles.commentInput}
-                    placeholder="Add a comment..."
-                    multiline={true}
-                    value={commentInput}
-                    onChangeText={handleCommentInput}
+                <PostItem
+                    imageUrl={params.imageUrl}
+                    post={params.post}
+                    groupId={params.groupId}
+                    navigation={props.navigation}
                 />
-                {
-                    commentInput !== '' &&
-                    <Button
-                        type="clear"
-                        onPress={handleSubmitComment}
-                        buttonStyle={styles.submitButton}
-                        icon={
-                            <Ionicons
-                                name="send"
-                                size={24}
-                                color={Colors.primary}
-                            />
-                        }
-                        containerStyle={styles.submitButtonContainer}
+
+                <View
+                    style={styles.commentInputAndButtonContainer}
+                >
+
+                    <TextInput
+                        style={styles.commentInput}
+                        placeholder="Add a comment..."
+                        multiline={true}
+                        value={commentInput}
+                        onChangeText={handleCommentInput}
+                    />
+                    {
+                        commentInput !== '' &&
+                        <Button
+                            type="clear"
+                            onPress={handleSubmitComment}
+                            buttonStyle={styles.submitButton}
+                            icon={
+                                <Ionicons
+                                    name="send"
+                                    size={24}
+                                    color={Colors.primary}
+                                />
+                            }
+                            containerStyle={styles.submitButtonContainer}
+                        />
+                    }
+
+                </View>
+                {isCommenting &&
+                    <CommentLoading
+                        content={tempInput}
+                        name={user.name}
+                        imageUrl={user.imageUrl}
                     />
                 }
 
+
+                {!isCommentsLoaded ? <CustomActivityIndicator /> :
+                    comments.length !== 0 ?
+                        comments.map(comment => {
+                            return (
+                                <CommentItem
+                                    name={comment.ownerId.name}
+                                    imageUrl={comment.ownerId.imageUrl}
+                                    key={comment._id}
+                                    content={comment.content}
+                                />
+                            )
+                        }) :
+                        <NotFound
+                            image={require('../../assets/no-comments.png')}
+                            title="No comments yet"
+                        />
+                }
             </View>
-            {isCommenting &&
-                <CommentLoading
-                    content={tempInput}
-                    name={user.name}
-                    imageUrl={user.imageUrl}
-                />
-            }
-
-
-            {   !isCommentsLoaded ? <CustomActivityIndicator /> :
-                comments.length !== 0 ?
-                    comments.map(comment => {
-                        return (
-                            <CommentItem
-                                name={comment.ownerId.name}
-                                imageUrl={comment.ownerId.imageUrl}
-                                key={comment._id}
-                                content={comment.content}
-                            />
-                        )
-                    }) :
-                    <NotFound
-                        image={require('../../assets/no-comments.png')}
-                        title="No comments yet"
-                    />
-            }
-
         </ScrollView>
     )
 }

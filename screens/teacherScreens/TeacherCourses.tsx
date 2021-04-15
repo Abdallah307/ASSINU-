@@ -17,8 +17,8 @@ const StudentCourses = props => {
         return state.auth
     })
 
-    const studentData = useSelector(state => {
-        return state.student
+    const teacherData = useSelector(state => {
+        return state.teacher
     })
 
 
@@ -52,11 +52,11 @@ const StudentCourses = props => {
     return (
         <>
             {
-                !studentData.isLoaded ? <CustomActivityIndicator /> :
+                // !teacherData.isLoaded ? <CustomActivityIndicator /> :
                     <FlatList
                         numColumns={2}
                         contentContainerStyle={{ padding: 20 }}
-                        data={studentData.courses}
+                        data={teacherData.courses}
                         renderItem={renderItems}
                         keyExtractor={(item) => item._id.toString()}
                         refreshing={refreshing}

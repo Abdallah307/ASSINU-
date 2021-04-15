@@ -3,6 +3,7 @@ import axios, { AxiosRequestConfig } from 'axios'
 import HOST, { API_PORT, SERVER_PORT } from '../../configs/config'
 import {actions as authActions} from '../auth'
 import {actions as studentActions} from '../student'
+import {actions as teacherActions} from '../teacher'
 export const signIn = createAction('signIn')
 
 
@@ -28,19 +29,33 @@ const authApi = ({ dispatch, getState }) => next => async action => {
 
             if (result.status == 200) {
                 dispatch(authActions.signIn(result.data))
+                let userType;
+
+                email.split('@')[1] === 'stu.najah.edu' ? userType = 'student': userType = 'teacher'
+
                 const response = await axios.get(
-                    `http://${HOST}:${API_PORT}/student/info/${email}`
+                    `http://${HOST}:${API_PORT}/${userType}/info/${email}`
                 )
     
                 if (response.status === 200) {
-                    //console.log(response.data)
-                    console.log("Najah api ya man what are you doing right now")
-                    dispatch(studentActions.setStudent({
-                        name:response.data.name,
-                        courses: response.data.courses,
-                        email: response.data.email,
-                        department:  response.data.department
-                    }))
+                    if (userType === 'student') {
+                        dispatch(studentActions.setStudent({
+                            name:response.data.name,
+                            courses: response.data.courses,
+                            email: response.data.email,
+                            departmentId:  response.data.departmentId
+                        }))
+                    }
+                    else {
+                        
+                        dispatch(teacherActions.setTeacher({
+                            name:response.data.name,
+                            courses: response.data.courses,
+                            email: response.data.email,
+                            departmentId:  response.data.departmentId
+                        }))
+                    }
+                    
                 }
             }
         }

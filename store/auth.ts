@@ -9,7 +9,7 @@ const slice = createSlice({
         imageUrl:'',
         name:'',
         bio:'',
-        email:''
+        email:'',
     },
     reducers:{
         signIn: (state, action) => {

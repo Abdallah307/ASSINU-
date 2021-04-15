@@ -1,9 +1,10 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { View, StyleSheet, Text, ImageBackground } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Colors } from '../../constants/Colors'
 import {Button} from 'react-native-elements'
 import { AntDesign } from '@expo/vector-icons';
+import { useSelector } from 'react-redux'
 
 
 const GroupHeader = (props: any) => {

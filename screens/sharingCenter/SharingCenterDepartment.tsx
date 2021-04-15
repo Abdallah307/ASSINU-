@@ -23,7 +23,7 @@ const SharingCenterDepartment = props => {
     const [isSearching, setIsSearching] = useState(false)
 
     const studentDepartmentId = useSelector(state=> {
-        return state.student.department.departmentId
+        return state.student.department._id
     })
 
     const searchForItems = async (value: string) => {
