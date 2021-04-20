@@ -76,7 +76,8 @@ const Group = (props) => {
                     title={params.title}
                     openGroupMembers={openGroupMembers}
                     openChatting={() => props.navigation.navigate('ChattingScreen', {
-                        groupId: params.id
+                        groupId: params.id,
+                        title:params.title
                     })}
                 />
                 <View style={{ flexDirection: 'row', flex: 1, backgroundColor: 'white' }}>

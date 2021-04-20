@@ -10,6 +10,7 @@ const ChattingMessage = (props: any) => {
                 style={{ ...styles.messageText, ...props.messageStyle }}>
                 {props.messageContent}
             </Text>
+            {props.children}
         </View>
     )
 }

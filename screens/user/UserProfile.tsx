@@ -20,12 +20,13 @@ const StudentProfile = (props) => {
     })
 
 
+
     return (
         <View style={styles.mainView}>
             <ProfileHeader
                 name={userData.name}
                 imageUrl={userData.imageUrl}
-                bio={studentData.department.departmentName}
+                bio={studentData.department.name}
                 style={styles.profileHeader}
             />
 

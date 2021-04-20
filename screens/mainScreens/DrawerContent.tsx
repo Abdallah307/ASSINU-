@@ -36,7 +36,7 @@ const DrawerContent = (props) => {
         <DrawerContentScrollView  {...props}>
             <View style={{ flex: 1 }}>
                 <View style={styles.userInfo}>
-                    <ProfileAvatarImage imageUrl={user.imageUrl} style={styles.userImage} />
+                    <ProfileAvatarImage imageUrl={user.avatar} style={styles.userImage} />
                     <View>
                         <Text style={styles.username}>{user.name}</Text>
                     </View>

@@ -29,7 +29,8 @@ const styles = StyleSheet.create({
     mainView: {
         flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop:20
     },
     inputStyle: {
         backgroundColor: '#eeeeee',

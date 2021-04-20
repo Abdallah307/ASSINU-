@@ -74,6 +74,16 @@ export class CourseGroup {
             `http://${HOST}:${SERVER_PORT}/student/group/messages/${groupId}`
         )
     }
+
+    static sendMessage = (msgInfo) => {
+        const {ownerId, groupId, content} = msgInfo
+
+        axios.post(`http://${HOST}:${SERVER_PORT}/student/group/messages/addmessage`, {
+            ownerId: ownerId ,
+            groupId: groupId,
+            content: content,
+        })
+    }
 }
 
 export class Post {

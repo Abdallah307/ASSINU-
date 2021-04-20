@@ -73,7 +73,9 @@ const StudentProfileNavigator = (props: any) => {
             <Stack.Screen name="Poll" component={Poll} />
 
             <Stack.Screen
-                options={{ title: 'Chatting' }}
+                options={({route}) => ({
+                    title:route.params.title 
+                })}
                 name="ChattingScreen"
                 component={ChattingScreen}
             />

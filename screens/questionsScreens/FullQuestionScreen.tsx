@@ -52,6 +52,55 @@ const FullQuestionScreen = props => {
 
     }
 
+    const setAnswerState = (answerId, response) => {
+        setAnswers(prevState=> {
+            const answerIndex = answers.findIndex(answer=> {
+                return answer._id == answerId
+            })
+
+            let updatedAnswers = [...prevState]
+
+            const responseAnswer = response.data.answer
+
+            updatedAnswers[answerIndex].upvoters = responseAnswer.upvoters
+            updatedAnswers[answerIndex].downvoters = responseAnswer.downvoters
+            updatedAnswers[answerIndex].numberOfUpvotes = responseAnswer.numberOfUpvotes
+            updatedAnswers[answerIndex].numberOfDownvotes = responseAnswer.numberOfDownvotes
+
+            return [...updatedAnswers]
+        })
+    }
+
+    const upvoteAnswer = async (answerId) => {
+
+        const response = await axios.put(
+            `http://${HOST}:${SERVER_PORT}/student/university/questions/answer/upvote`,
+            {
+                answerId: answerId,
+                upvoterId: userId
+            }
+        )
+
+        if (response.status === 201) {
+            setAnswerState(answerId, response)
+        }
+    }
+
+
+    const downvoteAnswer = async (answerId) => {
+        const response = await axios.put(
+            `http://${HOST}:${SERVER_PORT}/student/university/questions/answer/downvote`,
+            {
+                answerId: answerId,
+                downvoterId: userId
+            }
+        )
+
+        if (response.status === 201) {
+            setAnswerState(answerId, response)
+        }
+    }
+
 
 
     const openAnswer = (answer, questionOwnerId) => {
@@ -118,7 +167,6 @@ const FullQuestionScreen = props => {
                     contentContainerStyle={{ padding: 0 }}
                     data={answers}
                     renderItem={(itemData) => {
-
                         return (
                             <AnswerItem
                                 openAnswer={() => openAnswer(itemData.item, params.question.ownerId._id)}
@@ -127,6 +175,8 @@ const FullQuestionScreen = props => {
                                 answer={itemData.item}
                                 fetchAnswers={fetchAnswers}
                                 questionId={params.question._id}
+                                upvoteAnswer={() => upvoteAnswer(itemData.item._id)}
+                                downvoteAnswer={() => downvoteAnswer(itemData.item._id)}
                             >
                             </AnswerItem>
                         )

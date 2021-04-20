@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import PostHeader from '../postComponents/PostHeader'
 import AnswerBody from './AnswerBody'
 import AnswerFooter from './AnswerFooter'
@@ -15,36 +15,9 @@ const AnswerItem = props => {
 
     const answer = props.answer
 
-    const upvoteAnswer = async () => {
-        const response = await axios.put(
-            `http://${HOST}:${SERVER_PORT}/student/university/questions/answer/upvote/${props.questionId}`,
-            {
-                answerId: answer._id,
-                upvoterId: userId
-            }
-        )
-
-        if (response.status === 201) {
-            props.fetchAnswers()
-        }
-    }
+   
 
 
-    const downvoteAnswer = async () => {
-        const response = await axios.put(
-            `http://${HOST}:${SERVER_PORT}/student/university/questions/answer/downvote/${props.questionId}`,
-            {
-                answerId: answer._id,
-                downvoterId: userId
-            }
-        )
-
-        if (response.status === 201) {
-            props.fetchAnswers()
-        }
-    }
-
-    
     return (
 
         <View style={styles.answerItem}>
@@ -58,11 +31,13 @@ const AnswerItem = props => {
             <TouchableOpacity onPress={props.openAnswer} activeOpacity={0.7}>
                 <AnswerBody content={answer.content} />
             </TouchableOpacity>
+            <View style={{padding:5}}>
+                <Text>{answer.numberOfUpvotes} Upovtes {answer.numberOfDownvotes} Downvotes</Text>
+            </View>
             <AnswerFooter
                 openAnswer={props.openAnswer}
-                upvote={upvoteAnswer}
-                downvote={downvoteAnswer}
-                numberOfVotes={answer.votes}
+                upvote={props.upvoteAnswer}
+                downvote={props.downvoteAnswer}
             />
         </View>
     )

@@ -45,27 +45,6 @@ const slice = createSlice({
 
 
         },
-        // upvoteAnswer: (state, action) => {
-        //     console.log('The index is : ', action.payload.answerIndex)
-        //     const questionIndex = state.questions.findIndex(question => {
-        //         return question._id == action.payload.questionId
-        //     })
-        //     const answerIndex = action.payload.answerIndex
-        //     state.questions[questionIndex].answers[answerIndex].upvoters = [...action.payload.upvoters]
-        //     state.questions[questionIndex].answers[answerIndex].downvoters = [...action.payload.downvoters]
-        //     state.questions[questionIndex].answers[answerIndex].votes = action.payload.votes
-        // },
-        // downvoteAnswer: (state, action) => {
-        //     const answerIndex = action.payload.answerIndex
-        //     const questionIndex = state.questions.findIndex(question => {
-        //         return question._id == action.payload.questionId
-        //     })
-        //     console.log('The index is : ', answerIndex)
-        //     state.questions[questionIndex].answers[answerIndex].upvoters = [...action.payload.upvoters]
-        //     state.questions[questionIndex].answers[answerIndex].downvoters = [...action.payload.downvoters]
-        //     state.questions[questionIndex].answers[answerIndex].votes = action.payload.votes
-        // }
-
     }
 })
 

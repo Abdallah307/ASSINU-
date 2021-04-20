@@ -43,7 +43,7 @@ const authApi = ({ dispatch, getState }) => next => async action => {
                             name:response.data.name,
                             courses: response.data.courses,
                             email: response.data.email,
-                            departmentId:  response.data.departmentId
+                            department:response.data.departmentId
                         }))
                     }
                     else {

@@ -8,6 +8,7 @@ import Notifications from '../screens/mainScreens/Notifications'
 import StudentProfileNavigator from './StudentProfileNavigator'
 import { Image } from 'react-native'
 import HOST, { SERVER_PORT } from '../configs/config'
+import MessagesNavigator from "./MessagesNavigator"
 
 const Tab = createMaterialBottomTabNavigator()
 
@@ -32,7 +33,7 @@ const StudentTabNavigator = (props) => {
 
             <Tab.Screen
                 name="Feed"
-                component={Feed}
+                component={MessagesNavigator}
                 options={{
                     tabBarColor: Colors.blueGreen,
                     tabBarIcon: () => (

@@ -16,7 +16,7 @@ const slice = createSlice({
             state.name = payload.name,
             state.courses = payload.courses,
             state.email = payload.email,
-            state.department = payload.departmentId
+            state.department = payload.department
             state.isLoaded = true 
 
         }

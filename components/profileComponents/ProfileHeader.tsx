@@ -2,7 +2,7 @@ import React from 'react'
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { Colors } from '../../constants/Colors'
 import ProfileAvatarImage from './ProfileAvatarImage'
-
+import {Button } from 'react-native-elements'
 
 const ProfileHeader = (props: any) => {
 

@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { Button } from 'react-native-elements'
-import { AntDesign,EvilIcons,Octicons } from '@expo/vector-icons';
+import { AntDesign, EvilIcons, Octicons } from '@expo/vector-icons';
 
 const AnswerFooter = props => {
+
+    const [isUpvoter, setIsUpvoter] = useState(props.isUpvoter)
+    const [isDownvoter, setIsDownvoter] = useState(props.isDownvoter)
+
     return (
         <View style={styles.answerFooter}>
             <Button
@@ -11,7 +15,13 @@ const AnswerFooter = props => {
                 titleStyle={styles.buttonTitle}
                 type="clear"
                 title='Upvote'
-                icon={<Octicons name="arrow-up" size={20} color="grey" />}
+                icon={
+                    <Octicons
+                        name="arrow-up"
+                        size={20}
+                        color="grey"
+                    />
+                }
             />
 
             <Button
@@ -19,7 +29,13 @@ const AnswerFooter = props => {
                 titleStyle={styles.buttonTitle}
                 type="clear"
                 title='Downvote'
-                icon={<Octicons name="arrow-down" size={20} color="grey" />}
+                icon={
+                    <Octicons
+                        name="arrow-down"
+                        size={20}
+                        color="grey"
+                    />
+                }
             />
 
             <Button
@@ -29,7 +45,6 @@ const AnswerFooter = props => {
                 title='Discussion'
                 icon={<Octicons name="comment-discussion" size={20} color="grey" />}
             />
-            <Text>{props.numberOfVotes} votes</Text>
         </View>
     )
 }
@@ -38,13 +53,13 @@ const styles = StyleSheet.create({
     answerFooter: {
         flexDirection: 'row',
         backgroundColor: 'white',
-        alignItems:'center'
+        alignItems: 'center'
     },
     buttonTitle: {
         marginHorizontal: 5,
         fontFamily: 'OpenSans-Regular',
         fontSize: 14,
-        color:'grey'
+        color: 'grey'
     }
 })
 
