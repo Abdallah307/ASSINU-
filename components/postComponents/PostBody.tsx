@@ -1,10 +1,10 @@
 import React from 'react'
 import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native'
 import HOST, { SERVER_PORT } from '../../configs/config'
-
+import HyperlinkedText from 'react-native-hyperlinked-text'
+import { Colors } from '../../constants/Colors'
 const PostBody = (props: any) => {
 
-   
 
     return (
 
@@ -13,15 +13,17 @@ const PostBody = (props: any) => {
                 activeOpacity={0.7}
                 onPress={props.onOpenPost}
             >
-                <Text
-                    numberOfLines={5}
+                <HyperlinkedText
+                    linkStyle={{
+                        color: Colors.primary
+                    }}
                     style={styles.postContent}>{props.content}
-                </Text>
+                </HyperlinkedText>
             </TouchableOpacity>
             {props.imageUrl ? (
                 <TouchableOpacity activeOpacity={0.7} onPress={props.openImage}>
                     <Image
-                        style={{ width: '100%', aspectRatio: 1 / 1}}
+                        style={{ width: '100%', aspectRatio: 1 / 1 }}
                         source={{
                             uri: `http://${HOST}:${SERVER_PORT}/${props.imageUrl}`
                         }}

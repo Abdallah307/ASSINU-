@@ -2,7 +2,7 @@ import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import Poll from '../components/groupComponents/CreatePollScreen'
-import ChattingScreen from '../screens/chatting/ChattingScreen'
+import GroupChatting from '../screens/groupScreens/GroupChatting'
 import Group from '../screens/groupScreens/Group'
 import GroupMembers from '../screens/groupScreens/GroupMembers'
 import CreatePost from '../screens/postsScreens/CreatePost'
@@ -77,7 +77,7 @@ const StudentProfileNavigator = (props: any) => {
                     title:route.params.title 
                 })}
                 name="ChattingScreen"
-                component={ChattingScreen}
+                component={GroupChatting}
             />
         </Stack.Navigator>
     )

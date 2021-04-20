@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useRef, useEffect} from 'react'
 import { View, TextInput, StyleSheet } from 'react-native'
 import {Button} from 'react-native-elements'
 import { Ionicons } from '@expo/vector-icons';
@@ -6,6 +6,8 @@ import { Colors } from '../../constants/Colors'
 
 
 const ChattingInput = (props) => {
+   
+
     return (
         <View style={styles.mainView}>
             <TextInput
@@ -13,6 +15,9 @@ const ChattingInput = (props) => {
                 onChangeText={(value) => props.onChangeText(value)}
                 style={styles.inputStyle}
                 placeholder="Type a message.."
+                multiline={true}
+                
+                scrollEnabled={true}
             />
             { props.value.length !== 0 &&
                 <Button
@@ -35,9 +40,10 @@ const styles = StyleSheet.create({
     inputStyle: {
         backgroundColor: '#eeeeee',
         paddingHorizontal: 15,
-        borderRadius: 30,
+        borderRadius: 15,
         paddingVertical: 10,
-        flex: 1
+        flex: 1,
+        maxHeight:100
     }
 })
 

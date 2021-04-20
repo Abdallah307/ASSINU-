@@ -33,7 +33,7 @@ const StudentTabNavigator = (props) => {
 
             <Tab.Screen
                 name="Feed"
-                component={MessagesNavigator}
+                component={Feed}
                 options={{
                     tabBarColor: Colors.blueGreen,
                     tabBarIcon: () => (
@@ -63,7 +63,6 @@ const StudentTabNavigator = (props) => {
 
             <Tab.Screen
                 name="StudentProfile"
-
                 component={StudentProfileNavigator}
                 options={{
                     tabBarColor: Colors.primary,
