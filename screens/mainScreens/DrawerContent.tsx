@@ -11,10 +11,11 @@ import {
     AntDesign,
     FontAwesome,
     Feather,
-    MaterialIcons
+    MaterialIcons,
+    MaterialCommunityIcons
 } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux'
-import {actions as authActions} from '../../store/auth'
+import { actions as authActions } from '../../store/auth'
 
 const DrawerContent = (props) => {
 
@@ -49,6 +50,12 @@ const DrawerContent = (props) => {
             />
 
             <DrawerItem
+                icon={() => <MaterialCommunityIcons name="head-question" size={20} color={Colors.primary} />}
+                onPress={() => props.navigation.navigate('Ask')}
+                label="My ASK"
+            />
+
+            <DrawerItem
                 icon={() => <FontAwesome name="user-o" size={20} color={Colors.primary} />}
                 onPress={() => props.navigation.navigate('StudentProfile')}
                 label="Profile"
@@ -68,7 +75,7 @@ const DrawerContent = (props) => {
 
             <DrawerItem
                 icon={() => <FontAwesome name="exchange" size={20} color={Colors.primary} />}
-                onPress={() => {props.navigation.navigate('SharingCenter') }}
+                onPress={() => { props.navigation.navigate('SharingCenter') }}
                 label="Sharing Center"
             />
 
@@ -81,7 +88,7 @@ const DrawerContent = (props) => {
 
             <DrawerItem
                 icon={() => <MaterialIcons name="logout" size={20} color={Colors.primary} />}
-                onPress={() => {dispatch(authActions.signout({}))}}
+                onPress={() => { dispatch(authActions.signout({})) }}
                 label="Logout"
             />
         </DrawerContentScrollView>

@@ -11,6 +11,9 @@ import FullPost from '../screens/postsScreens/FullPost'
 import UserProfile from '../screens/user/UserProfile'
 import { options as studentProfileOptions } from '../screens/user/UserProfile'
 import { Colors } from '../constants/Colors'
+import AskScreen from '../screens/Ask/AskScreen'
+import FullQuestionScreen from '../screens/Ask/FullQuestionScreen'
+import AddAnswerScreen from '../screens/Ask/AddAnswerScreen'
 
 const Stack = createStackNavigator()
 
@@ -44,6 +47,11 @@ const StudentProfileNavigator = (props: any) => {
             />
 
             <Stack.Screen
+                name="Ask"
+                component={AskScreen}
+            />
+
+            <Stack.Screen
                 name="CreatePost"
                 component={CreatePost}
             />
@@ -72,9 +80,11 @@ const StudentProfileNavigator = (props: any) => {
 
             <Stack.Screen name="Poll" component={Poll} />
 
+            <Stack.Screen name="FullQuestion" component={FullQuestionScreen} />
+
             <Stack.Screen
-                options={({route}) => ({
-                    title:route.params.title 
+                options={({ route }) => ({
+                    title: route.params.title
                 })}
                 name="ChattingScreen"
                 component={GroupChatting}

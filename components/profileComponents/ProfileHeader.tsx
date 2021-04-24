@@ -27,7 +27,6 @@ const ProfileHeader = (props: any) => {
                 <Text style={styles.username}>{props.name}</Text>
                 <Text style={styles.bio}>{props.bio}</Text>
             </View>
-
         </View>
 
     )

@@ -1,6 +1,7 @@
 import React from 'react'
 import {View, Image, StyleSheet, Text} from 'react-native'
 import { FontAwesome5 } from '@expo/vector-icons';
+import { Colors } from '../../constants/Colors';
 
 const NotFound = props => {
     return (
@@ -10,7 +11,7 @@ const NotFound = props => {
             source={props.image}
             style={{width:100, height:100}}
             />
-            <Text>{props.title}</Text>
+            <Text style={{color:props.titleColor, fontFamily:"OpenSans-Bold"}}>{props.title}</Text>
         </View>
     )
 }
