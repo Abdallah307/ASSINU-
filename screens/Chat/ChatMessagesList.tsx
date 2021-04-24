@@ -11,16 +11,32 @@ import ProfileAvatarImage from '../../components/profileComponents/ProfileAvatar
 
 const ChatMessagesList = (props) => {
 
+
     const flatRef = useRef(null)
 
     const renderMessages = (itemData) => {
-        if (itemData.item.ownerId._id === props.userId)
+        let pubId;
+        let senId;
+        if (itemData.item.ownerId == undefined) {
+            senId = itemData.item.sender
+        }
+        else {
+            senId = itemData.item.ownerId
+        }
+        if (senId._id == props.userId)
             return (
                 <ChattingMessage
                     messageContent={itemData.item.content}
                     containerStyle={styles.ownerMessage}
                 />
             )
+            if (itemData.item.groupId == undefined) {
+                pubId = itemData.item.receiver 
+            }
+            else {
+                pubId = itemData.item.ownerId
+            }
+             
 
         return (
 
@@ -30,14 +46,14 @@ const ChatMessagesList = (props) => {
                 alignItems: 'center'
             }}>
                 <ProfileAvatarImage
-                    imageUrl={itemData.item.ownerId.imageUrl}
+                    imageUrl={senId.imageUrl}
                     style={styles.avatarImage}
                 />
                 <View>
                     <Text
                         style={styles.messageOwnerName}
                     >
-                        {itemData.item.ownerId.name}
+                        {senId.name}
                     </Text>
                     <ChattingMessage
                         messageContent={itemData.item.content}

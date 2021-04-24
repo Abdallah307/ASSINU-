@@ -8,7 +8,8 @@ import Notifications from '../screens/mainScreens/Notifications'
 import StudentProfileNavigator from './StudentProfileNavigator'
 import { Image } from 'react-native'
 import HOST, { SERVER_PORT } from '../configs/config'
-import MessagesNavigator from "./MessagesNavigator"
+import ChattingNavigator from "./ChattingNavigator"
+
 
 const Tab = createMaterialBottomTabNavigator()
 
@@ -56,6 +57,21 @@ const StudentTabNavigator = (props) => {
                             name="notifications"
                             size={24}
                             color='white'
+                        />
+                    )
+                }}
+            />
+
+            <Tab.Screen
+                name="Chatting"
+                component={ChattingNavigator}
+                options={{
+                    tabBarColor: Colors.prussianBlue,
+                    tabBarIcon: () => (
+                        <Ionicons 
+                        name="ios-chatbubbles-sharp" 
+                        size={24} 
+                        color="white" 
                         />
                     )
                 }}

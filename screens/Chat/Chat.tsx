@@ -2,7 +2,8 @@
  * Created by Abdallah Dereia
  */
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState} from 'react'
+import {Colors} from '../../constants/Colors'
 import {
     View,
     StyleSheet,
@@ -12,6 +13,7 @@ import {
 import ChatMessagesList from './ChatMessagesList'
 import ChattingInput from './ChattingInput'
 import StartChatting from './StartChatting'
+import { IsTypingPoints } from './IsTypingPoints'
 
 interface Props {
     isTyping?: boolean,
@@ -38,7 +40,12 @@ const Chat = (props: Props) => {
                     />
             }
 
-            { props.isTyping && <Text>{props.typerUsername} is typing...</Text>}
+            { props.isTyping &&
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <IsTypingPoints/>
+                    <Text style={{color:Colors.primary}}>  {props.typerUsername} is typing..</Text>
+                </View>
+            }
 
             <ChattingInput
                 value={message}
@@ -46,7 +53,7 @@ const Chat = (props: Props) => {
                     setMessage(value)
                     props.onTextInputChange(value)
                 }}
-                onSend={()=> {
+                onSend={() => {
                     setMessage('')
                     props.onSend()
                 }}

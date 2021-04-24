@@ -76,13 +76,13 @@ const ChattingScreen = props => {
 
 
         socket.on('message', listener)
-        socket.on('ttt', isTypingListener)
-        socket.on('stoppedTyping', stoppedTypingListener)
+        socket.on('tttG', isTypingListener)
+        socket.on('stoppedTypingG', stoppedTypingListener)
 
         return () => {
             socket.off('message', listener)
-            socket.off('ttt', isTypingListener)
-            socket.off('stoppedTyping', stoppedTypingListener)
+            socket.off('tttG', isTypingListener)
+            socket.off('stoppedTypingG', stoppedTypingListener)
         }
     }, [])
 
@@ -94,7 +94,7 @@ const ChattingScreen = props => {
 
 
     const sendMessage = () => {
-        socket.emit('typingEvent', {
+        socket.emit('typingEventG', {
             value:'',
             groupId:props.route.params.groupId,
             username:username
@@ -114,7 +114,7 @@ const ChattingScreen = props => {
         <Chat
             messages={messages}
             onTextInputChange={(value) => {
-                socket.emit('typingEvent', {
+                socket.emit('typingEventG', {
                     value:value,
                     groupId:props.route.params.groupId,
                     username:username
