@@ -9,7 +9,6 @@ import CustomActivityIndicator from '../../components/UI/CustomActivityIndicator
 import CommentLoading from '../../components/commentComponents/CommentLoading'
 import { Ionicons } from '@expo/vector-icons';
 import { Post } from '../../api/api'
-import NoCommentsFound from '../../components/UI/NoCommentsFound'
 import NotFound from '../../components/UI/NotFound'
 
 
@@ -83,6 +82,9 @@ const FullPost = (props: any) => {
             <View style={{flex:1, paddingBottom:50}}>
 
                 <PostItem
+                    onPostHeaderPressed={()=> props.navigation.navigate('StudentProfile',{
+                        student: params.post.ownerId
+                    })}
                     imageUrl={params.imageUrl}
                     post={params.post}
                     groupId={params.groupId}

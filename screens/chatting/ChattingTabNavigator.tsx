@@ -1,12 +1,12 @@
 import React from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
-import Questions from './Questions'
-import AskedQuestions from './AskedQuestions'
-import AnsweredQuestions from './AnsweredQuestions'
+import MessagesList from './MessagesList'
+import OtherMessagesList from './OtherMessagesList'
+import PendMessagesList from './PendMessagesList'
 
 const Tab = createMaterialTopTabNavigator()
 
-const AskNavigator = props => {
+const ChattingTabNavigator = props => {
     return (
         <Tab.Navigator
             tabBarOptions={{
@@ -15,35 +15,31 @@ const AskNavigator = props => {
                 }
             }}
         >
-
             <Tab.Screen
-                name='Questions'
                 options={{
-                    title: "questions"
+                    title: "Chat"
                 }}
-                component={Questions}
-            />
-
-            <Tab.Screen
-                name='AskedQuestions'
-                options={{
-                    title: 'asked'
-                }}
-                component={AskedQuestions}
+                name='MessagesListScreen'
+                component={MessagesList}
             />
 
             <Tab.Screen
                 options={{
-                    title: 'answered'
+                    title: "Other"
                 }}
-                name='AnsweredQuestions'
-                component={AnsweredQuestions}
+                name='OtherMessagesList'
+                component={OtherMessagesList}
             />
 
+            <Tab.Screen
+                options={{
+                    title: "pend messages"
+                }}
+                name='PendMessagesList'
+                component={PendMessagesList}
+            />
         </Tab.Navigator>
     )
 }
 
-
-
-export default AskNavigator;
+export default ChattingTabNavigator;

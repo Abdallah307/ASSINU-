@@ -1,39 +1,40 @@
 import React from 'react'
-import { View, StyleSheet, Text } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
 import ProfileAvatarImage from '../profileComponents/ProfileAvatarImage'
-import {useSelector} from 'react-redux'
-import {Button, Icon} from 'react-native-elements'
+import { useSelector } from 'react-redux'
+import { Button, Icon } from 'react-native-elements'
 
 const PostHeader = (props) => {
 
-    const userId = useSelector(state=> {
+    const userId = useSelector(state => {
         return state.auth.userId
     })
 
 
     return (
         <View style={styles.postHeader}>
+            <TouchableOpacity onPress={props.onPostHeaderPressed}>
+                <View style={styles.info}>
 
-            <View style={styles.info}>
+                    <ProfileAvatarImage
+                        imageUrl={props.imageUrl}
+                        style={styles.profileImage}
+                    />
 
-                <ProfileAvatarImage
-                    imageUrl={props.imageUrl}
-                    style={styles.profileImage}
-                />
-
-                <View style={styles.postInfo}>
-                    <Text style={styles.username}>{props.ownerName}</Text>
-                    <Text style={styles.timestamp}>{new Date(props.createdAt).toDateString()}</Text>
-                </View>
-            {/* {props.questionOwnerId === userId ? <Button
+                    <View style={styles.postInfo}>
+                        <Text style={styles.username}>{props.ownerName}</Text>
+                        <Text style={styles.timestamp}>{new Date(props.createdAt).toDateString()}</Text>
+                    </View>
+                    {/* {props.questionOwnerId === userId ? <Button
             onPress={()=> setIsBestAnswer(!isBestAnswer)}
             title='Mark as a best answer'
             /> : null} */}
-            {props.bestAnswer ? <Icon
-            name='check-circle'
-            color='green'
-            />: null}
-            </View>
+                    {props.bestAnswer ? <Icon
+                        name='check-circle'
+                        color='green'
+                    /> : null}
+                </View>
+            </TouchableOpacity>
 
         </View>
     )
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
     },
     username: {
         fontSize: 14,
-        fontFamily:'OpenSans-Bold'
+        fontFamily: 'OpenSans-Bold',
     },
     postInfo: {
 
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
     timestamp: {
         fontSize: 12,
         color: 'grey',
-        fontFamily:'OpenSans-Light'
+        fontFamily: 'OpenSans-Light'
     }
 })
 

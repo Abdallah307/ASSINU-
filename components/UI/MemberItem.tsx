@@ -15,7 +15,7 @@ const MemberItem = (props: any) => {
 
 
     return (
-        <TouchableCmp activeOpacity={0.7} onPress={() => console.log('pressed')}>
+        <TouchableCmp activeOpacity={0.7} onPress={props.openStudentProfile}>
             <View style={styles.memberItem}>
                 <ProfileAvatarImage
                     style={styles.avatar}

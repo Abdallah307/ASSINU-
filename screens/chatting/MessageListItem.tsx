@@ -17,7 +17,8 @@ const MessagesListItem = props => {
                     style={styles.avatar}
                 />
                 <View>
-                    <Text>{props.name}</Text>
+                    <Text style={styles.username}>{props.name}</Text>
+                    <Text style={{maxWidth:'100%'}}  numberOfLines={1} ellipsizeMode='tail'>{props.lastMessage}</Text>
                 </View>
             </View>
         </TouchableOpacity>
@@ -29,14 +30,17 @@ export default MessagesListItem
 const styles = StyleSheet.create({
     listItem: {
         flexDirection: 'row',
-        backgroundColor: 'red',
         marginVertical: 10,
         alignItems: 'center',
-        padding: 10
+        padding: 15,
     },
     avatar: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
+        width: 60,
+        height: 60,
+        borderRadius: 30,
+    },
+    username: {
+        fontFamily:'OpenSans-Bold',
+        fontSize:16
     }
 })

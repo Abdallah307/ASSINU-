@@ -1,11 +1,11 @@
 import React from 'react'
-import { Feather, Ionicons } from '@expo/vector-icons'
+import { Feather, Ionicons, FontAwesome } from '@expo/vector-icons'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import { useSelector } from 'react-redux'
 import { Colors } from '../constants/Colors'
 import StudentProfileNavigator from './StudentProfileNavigator'
 import { Image, View, Text } from 'react-native'
-import { SERVER_PORT } from '../configs/config'
+import HOST, { SERVER_PORT } from '../configs/config'
 import { NavigationContainer } from '@react-navigation/native'
 import Feed from '../screens/teacherScreens/Feed'
 import DepartmentGroup from '../screens/teacherScreens/DepartmentGroup'
@@ -19,6 +19,7 @@ import CreatePost from '../screens/postsScreens/CreatePost'
 import Poll from '../components/groupComponents/CreatePollScreen'
 import FullImageScreen from '../screens/postsScreens/FullImageScreen'
 import FullPost from '../screens/postsScreens/FullPost'
+import StudentProfile from '../screens/Student/StudentProfile'
 
 const Tab = createMaterialBottomTabNavigator()
 const Stack = createStackNavigator()
@@ -27,6 +28,11 @@ const Stack = createStackNavigator()
 
 
 const TeacherTabNavigator = (props) => {
+
+    const userImage = useSelector(state => {
+        return state.auth.imageUrl
+    })
+
 
     return (
         <NavigationContainer>
@@ -43,22 +49,64 @@ const TeacherTabNavigator = (props) => {
                 <Tab.Screen
                     name='Feed'
                     component={Feed}
+                    options={{
+                        tabBarColor: Colors.blueGreen,
+                        tabBarIcon: () => (
+                            <Feather
+                                name="home"
+                                size={24}
+                                color='white'
+                            />
+                        )
+                    }}
                 />
 
                 <Tab.Screen
                     initialParams={{ abdo: 'abdo' }}
                     name='DepartmentGroup'
                     component={DepartmentGroupNavigator}
+                    options={{
+                        title: 'D.Group',
+                        tabBarColor: Colors.blueGreen,
+                        tabBarIcon: () => (
+                            <FontAwesome
+                                name="group"
+                                size={24}
+                                color="white"
+                            />
+
+                        )
+                    }}
                 />
 
                 <Tab.Screen
                     name='Notifications'
                     component={Notifications}
+                    options={{
+                        tabBarColor: Colors.prussianBlue,
+                        tabBarIcon: () => (
+                            <Ionicons
+                                name="notifications"
+                                size={24}
+                                color='white'
+                            />
+                        )
+                    }}
                 />
 
                 <Tab.Screen
                     name='UserProfile'
                     component={TeacherProfileNavigator}
+                    options={{
+                        tabBarColor: Colors.primary,
+                        title: 'Profile',
+                        tabBarIcon: () => (
+                            <Image
+                                style={{ width: 24, height: 24, borderRadius: 12 }}
+                                source={{ uri: `http://${HOST}:${SERVER_PORT}/${userImage}` }}
+                            />
+                        )
+                    }}
                 />
 
 
@@ -158,6 +206,11 @@ const TeacherProfileNavigator = (props: any) => {
             <Stack.Screen
                 name="GroupMembers"
                 component={GroupMembers}
+            />
+
+            <Stack.Screen
+                name="StudentProfile"
+                component={StudentProfile}
             />
 
             <Stack.Screen

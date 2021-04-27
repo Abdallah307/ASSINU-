@@ -4,12 +4,14 @@ import ListItem from '../../components/UI/ListItem'
 import { CourseGroup } from '../../api/api'
 import CustomActivityIndicator from '../../components/UI/CustomActivityIndicator'
 import MemberItem from '../../components/UI/MemberItem'
+import { useSelector } from 'react-redux'
 
 const GroupMembers = (props: any) => {
     const groupId = props.route.params.groupId
     const [members, setMembers] = useState([])
     const [isLoaded, setIsLoaded] = useState(false)
 
+    const userId = useSelector(state => state.auth.userId)
 
     useEffect(() => {
 
@@ -36,13 +38,31 @@ const GroupMembers = (props: any) => {
 
     }, [])
 
+    const renderMembers = (itemData: any) => {
+        return (
+            <MemberItem
+                openStudentProfile={() => {
+                    if (itemData.item._id === userId) {
+                        props.navigation.navigate('Profile')
+                    }
+                    else
+                        props.navigation.navigate('StudentProfile', {
+                            student: itemData.item
+                        })
+                }}
+                name={itemData.item.name}
+                imageUrl={itemData.item.imageUrl}
+            />
+        )
+    }
+
     if (!isLoaded)
         return <CustomActivityIndicator />
 
 
 
     return (
-        <View style={{backgroundColor:'white',flex:1}}>
+        <View style={{ backgroundColor: 'white', flex: 1 }}>
             <FlatList
                 data={members}
                 renderItem={renderMembers}
@@ -54,13 +74,6 @@ const GroupMembers = (props: any) => {
 
 }
 
-const renderMembers = (itemData: any) => {
-    return (
-        <MemberItem 
-        name={itemData.item.name}
-        imageUrl={itemData.item.imageUrl}
-        />
-    )
-}
+
 
 export default GroupMembers

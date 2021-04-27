@@ -7,7 +7,7 @@ import HOST, { SERVER_PORT } from '../../configs/config'
 import { Colors } from '../../constants/Colors'
 import MessagesListItem from './MessageListItem'
 
-const MessagesList = props => {
+const OtherMessagesList = props => {
 
     const [chats, setChats] = useState([])
     const [isChatUsersLoaded, setChatUsersLoaded] = useState(false)
@@ -26,7 +26,6 @@ const MessagesList = props => {
     useEffect(() => {
         axios.get(`http://${HOST}:${SERVER_PORT}/student/messages/chats/${userId}`)
             .then(response => {
-               // console.log(response.data.chatUsers)
                 setChats(response.data.chatUsers)
                 setChatUsersLoaded(true)
             })
@@ -40,11 +39,10 @@ const MessagesList = props => {
                         chats.map(chat => {
                             return (
                                 <MessagesListItem
-                                    key={chat.user._id}
-                                    openChat={() => openChat(chat.user._id)}
-                                    imageUrl={chat.user.imageUrl}
-                                    name={chat.user.name}
-                                    lastMessage={chat.lastMessage}
+                                    key={chat._id}
+                                    openChat={() => openChat(chat._id)}
+                                    imageUrl={chat.imageUrl}
+                                    name={chat.name}
                                 />
                             )
                         })
@@ -63,4 +61,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default MessagesList;
+export default OtherMessagesList;

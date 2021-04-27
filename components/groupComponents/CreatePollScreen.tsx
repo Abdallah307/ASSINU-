@@ -25,7 +25,9 @@ const Poll = props => {
             })
 
             if (response.status === 201) {
-                console.log(response.data.poll)
+                props.navigation.navigate(params.navScreen, {
+                    poll: response.data.poll
+                })
             }
         }
         catch (err) {

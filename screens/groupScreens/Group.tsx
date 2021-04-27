@@ -8,6 +8,9 @@ import CustomeActivityIndicator from '../../components/UI/CustomActivityIndicato
 import { CourseGroup } from '../../api/api'
 import { FlatList } from 'react-native-gesture-handler'
 import { Colors } from '../../constants/Colors'
+import PollItemSingleChoice from '../../components/groupComponents/PollItemSingleChoice'
+import axios from 'axios'
+import HOST, { SERVER_PORT } from '../../configs/config'
 
 
 const Group = (props) => {
@@ -51,6 +54,14 @@ const Group = (props) => {
         }
     }, [params?.post])
 
+    useEffect(() => {
+        if (params?.poll) {
+            let posts = [...GroupPosts]
+            posts.unshift(params.poll)
+            setGroupPosts(posts)
+        }
+    }, [params?.poll])
+
 
     const openGroupMembers = () => {
         props.navigation.navigate('GroupMembers', {
@@ -64,7 +75,29 @@ const Group = (props) => {
             userImage: params.userImage,
             userId: params.userId,
             username: params.username,
-            navScreen:'Group'
+            navScreen: 'Group'
+        })
+    }
+
+    const votePoll = (pollId, choiceId) => {
+        const voterId = params.userId
+        axios.post(`http://${HOST}:${SERVER_PORT}/student/group/polls/vote`, {
+            pollId: pollId,
+            voterId: voterId,
+            choiceId: choiceId
+        })
+            .then(response => {
+                response.status === 201 ? console.log('Voted Successfully') : null
+            })
+            .catch(err => {
+                console.log(err.message)
+            })
+    }
+
+    const openVotersListScreen = (voters, choiceId) => {
+        props.navigation.navigate('VotersListScreen', {
+            voters: voters,
+            choiceId: choiceId
         })
     }
 
@@ -77,7 +110,7 @@ const Group = (props) => {
                     openGroupMembers={openGroupMembers}
                     openChatting={() => props.navigation.navigate('ChattingScreen', {
                         groupId: params.id,
-                        title:params.title
+                        title: params.title
                     })}
                 />
                 <View style={{ flexDirection: 'row', flex: 1, backgroundColor: 'white' }}>
@@ -103,7 +136,8 @@ const Group = (props) => {
                             groupId: params.id,
                             userImage: params.userImage,
                             userId: params.userId,
-                            username: params.username
+                            username: params.username,
+                            navScreen: 'Group'
                         })}
                         buttonStyle={{
                             backgroundColor: 'transparent',
@@ -134,19 +168,51 @@ const Group = (props) => {
                         ListHeaderComponent={GroupHeaderComponent}
                         data={GroupPosts}
                         renderItem={(itemData) => {
-                            const post = itemData.item
-                            let imageUrl;
-                            try { imageUrl = post.imageUrl } catch (err) { imageUrl = null }
+                            if (itemData.item.type === 'post') {
+                                const post = itemData.item
+                                let imageUrl;
+                                try { imageUrl = post.imageUrl } catch (err) { imageUrl = null }
 
-                            return (
-                                <PostItem
-                                    navigation={props.navigation}
-                                    imageUrl={imageUrl}
-                                    post={post}
-                                />
-                            )
+                                return (
+                                    <PostItem
+                                        onPostHeaderPressed={() => {
+                                            props.navigation.navigate('StudentProfile', {
+                                                student: post.ownerId,
+                                            })
+                                        }}
+                                        navigation={props.navigation}
+                                        imageUrl={imageUrl}
+                                        post={post}
+                                    />
+                                )
+                            }
+                            else if (itemData.item.type === 'poll') {
+                                const voters = itemData.item.voters
+                                let isAlreadyVoted;
+                                let voter;
+                                if (voters.length !== 0) {
+                                    voter = voters.find(voter => {
+                                        return voter.voterId._id === params.userId
+                                    })
+
+                                    if (!voter) {
+                                        isAlreadyVoted = false
+                                    }
+                                    else isAlreadyVoted = true
+
+                                }
+                                return (
+                                    <PollItemSingleChoice
+                                        openVotersListScreen={(choiceId) => openVotersListScreen(itemData.item.voters, choiceId)}
+                                        votePoll={votePoll}
+                                        isAlreadyVoted={isAlreadyVoted}
+                                        voter={voter}
+                                        poll={itemData.item}
+                                    />
+                                )
+                            }
                         }}
-                        keyExtractor={(item, index) => index.toString()}
+                        keyExtractor={(item, index) => item._id.toString()}
                         onEndReached={handleReachEnd}
                         onEndReachedThreshold={0}
                     />

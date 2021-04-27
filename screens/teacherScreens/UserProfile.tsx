@@ -4,23 +4,21 @@ import ProfileHeader from '../../components/profileComponents/ProfileHeader'
 import { useSelector } from 'react-redux'
 import TeacherCourses from './TeacherCourses'
 import TeacherProfileNavigator from './TeacherProfileNavigator'
+import Profile from '../Profile/Profile'
 
 const UserProfile = (props: any) => {
     const teacherData = useSelector(state => {
         return state.auth
     })
     return (
-        <View style={styles.mainView}>
-            <ProfileHeader
-                imageUrl={teacherData.imageUrl}
-                name={teacherData.name}
-                bio={teacherData.bio}
-                style={styles.profileHeader}
-            />
-            <View style={styles.profileBody}>
-                <TeacherProfileNavigator />
-            </View>
-        </View>
+
+        <Profile
+            imageUrl={teacherData.imageUrl}
+            name={teacherData.name}
+        >
+            <TeacherCourses navigation={props.navigation} />
+        </Profile>
+
     )
 }
 

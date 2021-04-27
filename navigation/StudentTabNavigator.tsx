@@ -9,6 +9,7 @@ import StudentProfileNavigator from './StudentProfileNavigator'
 import { Image } from 'react-native'
 import HOST, { SERVER_PORT } from '../configs/config'
 import ChattingNavigator from "./ChattingNavigator"
+import Profile from "../screens/Profile/Profile"
 
 
 const Tab = createMaterialBottomTabNavigator()

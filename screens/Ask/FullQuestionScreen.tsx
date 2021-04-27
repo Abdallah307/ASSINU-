@@ -86,7 +86,8 @@ const FullQuestionScreen = props => {
                         }
                     />
                 }
-            </View>}
+            </View>
+            }
 
         </View>
     )

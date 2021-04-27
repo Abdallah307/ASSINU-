@@ -17,6 +17,8 @@ const ChattingScreen = props => {
 
   const [typingUsername, setTypingUsername] = useState('')
 
+
+
   const username = useSelector(state => {
     return state.auth.name
   })
@@ -106,7 +108,6 @@ const ChattingScreen = props => {
       receiver: params.receiverId,
       content: message
     })
-      //.then(() => { ToastAndroid.show('Sent', ToastAndroid.SHORT) }).catch(err => console.log(err))
   }
 
   return (

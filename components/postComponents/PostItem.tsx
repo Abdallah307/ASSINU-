@@ -1,16 +1,16 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, Text } from 'react-native'
 import PostBody from './PostBody'
 import PostFooter from './PostFooter'
 import PostHeader from './PostHeader'
-import HOST, {SERVER_PORT} from '../../configs/config'
+import HOST, { SERVER_PORT } from '../../configs/config'
 import axios from 'axios'
 
 const PostItem = (props) => {
 
     const openImage = () => {
         props.navigation.navigate('FullImageScreen', {
-            imageUrl:props.imageUrl 
+            imageUrl: props.imageUrl
         })
     }
 
@@ -19,35 +19,36 @@ const PostItem = (props) => {
         try { imageUrl = props.post.imageUrl } catch (err) { imageUrl = null }
         props.navigation.navigate('FullPost', {
             groupId: props.post.groupId,
-            post:props.post,
+            post: props.post,
             imageUrl: imageUrl,
         })
     }
 
     return (
-        
-            <View style={styles.postItem}>
 
-                <PostHeader 
+        <View style={styles.postItem}>
+
+            <PostHeader
+                onPostHeaderPressed={props.onPostHeaderPressed}
                 createdAt={props.post.createdAt}
-                ownerName={props.post.ownerId.name} 
+                ownerName={props.post.ownerId.name}
                 imageUrl={props.post.ownerId.imageUrl}
-                />
+            />
 
-                <PostBody 
+            <PostBody
                 openImage={openImage}
                 imageUrl={props.imageUrl}
-                onOpenPost={openPost} 
-                content={props.post.content} 
-                />
+                onOpenPost={openPost}
+                content={props.post.content}
+            />
 
-                <PostFooter 
+            <PostFooter
                 numberOfComments={props.post.numberOfComments}
-                onOpenPost={openPost} 
-                />
+                onOpenPost={openPost}
+            />
 
-            </View>
-       
+        </View>
+
     )
 }
 

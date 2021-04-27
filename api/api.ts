@@ -6,7 +6,7 @@ export class CourseGroup {
     static fetchPosts = (groupId: string) => {
         try {
             return axios.get(
-                `http://${HOST}:${SERVER_PORT}/student/group/posts/${groupId}`
+                `http://${HOST}:${SERVER_PORT}/student/group/postspolls/${groupId}`
             )
         }
         catch (err) {

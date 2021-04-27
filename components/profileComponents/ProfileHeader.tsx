@@ -2,7 +2,7 @@ import React from 'react'
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { Colors } from '../../constants/Colors'
 import ProfileAvatarImage from './ProfileAvatarImage'
-import {Button } from 'react-native-elements'
+import { Button } from 'react-native-elements'
 
 const ProfileHeader = (props: any) => {
 
@@ -27,6 +27,7 @@ const ProfileHeader = (props: any) => {
                 <Text style={styles.username}>{props.name}</Text>
                 <Text style={styles.bio}>{props.bio}</Text>
             </View>
+            {props.children}
         </View>
 
     )
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
     profileHeader: {
         backgroundColor: Colors.primary,
         alignItems: 'center',
-        justifyContent:'center',
+        justifyContent: 'center',
         borderBottomLeftRadius: 40,
         borderBottomRightRadius: 40
     },
@@ -53,13 +54,13 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'center',
         fontSize: 18,
-        fontFamily:'OpenSans-Bold'
+        fontFamily: 'OpenSans-Bold'
     },
     bio: {
         color: 'white',
         textAlign: 'center',
         fontWeight: 'normal',
-        fontFamily:'OpenSans-Regular'
+        fontFamily: 'OpenSans-Regular'
     }
 
 })

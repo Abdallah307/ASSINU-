@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, Text, FlatList } from 'react-native'
-import {Colors} from '../../constants/Colors'
+import { Colors } from '../../constants/Colors'
 import ListItem from '../../components/UI/ListItem'
 import CustomActivityIndicator from '../../components/UI/CustomActivityIndicator'
 import { fetchStudentData } from '../../store/middleware/NajahApi'
@@ -11,7 +11,7 @@ const StudentCourses = props => {
 
     const [refreshing, setRefresh] = useState(false)
 
-     const dispatch = useDispatch()
+    const dispatch = useDispatch()
 
     const userData = useSelector(state => {
         return state.auth
@@ -34,12 +34,12 @@ const StudentCourses = props => {
             userImage: userData.imageUrl,
             numberOfMembers: item.courseId.students.length,
             userId: userData.userId,
-            username:userData.name 
+            username: userData.name
         })
 
     }
 
-    
+
 
 
     const renderItems = (itemData) => {
@@ -60,7 +60,7 @@ const StudentCourses = props => {
                         renderItem={renderItems}
                         keyExtractor={(item) => item._id.toString()}
                         refreshing={refreshing}
-                        onRefresh={() => {}}
+                        onRefresh={() => { }}
                     />
             }
         </>
@@ -71,17 +71,17 @@ const styles = StyleSheet.create({
     titleContainer: {
         marginVertical: 10,
         marginHorizontal: 20,
-        justifyContent:'center',
-        alignItems:'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     title: {
         fontSize: 20,
         color: 'white',
         backgroundColor: Colors.primary,
-        borderRadius:10,
-        paddingHorizontal:10,
-        paddingVertical:5,
-        fontFamily:'OpenSans-Bold'
+        borderRadius: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        fontFamily: 'OpenSans-Bold'
 
     }
 })
