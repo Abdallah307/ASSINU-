@@ -16,6 +16,7 @@ import FullQuestionScreen from '../screens/Ask/FullQuestionScreen'
 import AddAnswerScreen from '../screens/Ask/AddAnswerScreen'
 import StudentProfile from '../screens/Student/StudentProfile'
 import VotersListScreen from '../components/groupComponents/VotersListScreen'
+import GroupNavigator from './GroupNavigator'
 
 const Stack = createStackNavigator()
 
@@ -52,8 +53,11 @@ const StudentProfileNavigator = (props: any) => {
             />
 
             <Stack.Screen
+                options={{
+                    headerShown:false
+                }}
                 name="Group"
-                component={Group}
+                component={GroupNavigator}
             />
 
             <Stack.Screen

@@ -24,13 +24,13 @@ const FullPost = (props: any) => {
 
     const params = props.route.params
 
-    const user = useSelector(state => {
+    const {userId , token , name, imageUrl} = useSelector(state => {
         return state.auth
     })
 
     const fetchComments = async () => {
         try {
-            const response = await Post.fetchComments(params.post._id)
+            const response = await Post.fetchComments(params.post._id, token)
 
             if (response.status === 200) {
                 setComments(response.data.comments)
@@ -60,13 +60,13 @@ const FullPost = (props: any) => {
 
         const postId = params.post._id
         const content = commentInput
-        const ownerId = user.userId
+        const ownerId = userId
         const createdAt = new Date()
 
         await Post.submitComment(postId, {
             content: content,
             ownerId: ownerId,
-        })
+        }, token)
 
         setIsCommenting(false)
         fetchComments()
@@ -123,8 +123,8 @@ const FullPost = (props: any) => {
                 {isCommenting &&
                     <CommentLoading
                         content={tempInput}
-                        name={user.name}
-                        imageUrl={user.imageUrl}
+                        name={name}
+                        imageUrl={imageUrl}
                     />
                 }
 

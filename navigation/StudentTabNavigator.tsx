@@ -1,5 +1,5 @@
 import React from "react"
-import { Feather, Ionicons } from '@expo/vector-icons'
+import { Feather, FontAwesome, Ionicons } from '@expo/vector-icons'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import { useSelector } from 'react-redux'
 import { Colors } from '../constants/Colors'
@@ -10,6 +10,11 @@ import { Image } from 'react-native'
 import HOST, { SERVER_PORT } from '../configs/config'
 import ChattingNavigator from "./ChattingNavigator"
 import Profile from "../screens/Profile/Profile"
+import GroupScreen from "../screens/Group/GroupScreen"
+import DepartmentGroup from "../screens/teacherScreens/DepartmentGroup"
+import DepartmentGroupNavigator from "./DepartmentGroupNavigator"
+import QuestionsScreen from "../screens/QuestionsScreens/QuestionsScreen"
+import {createStackNavigator} from '@react-navigation/stack'
 
 
 const Tab = createMaterialBottomTabNavigator()
@@ -49,6 +54,22 @@ const StudentTabNavigator = (props) => {
             />
 
             <Tab.Screen
+                name="DepartmentGroup"
+                component={DepartmentGroupNavigator}
+                options={{
+                    title:'الملتقى',
+                    tabBarColor: Colors.blueGreen,
+                    tabBarIcon: () => (
+                        <FontAwesome
+                            name="group"
+                            size={20}
+                            color='white'
+                        />
+                    )
+                }}
+            />
+
+            <Tab.Screen
                 name="Notifications"
                 component={Notifications}
                 options={{
@@ -69,10 +90,10 @@ const StudentTabNavigator = (props) => {
                 options={{
                     tabBarColor: Colors.prussianBlue,
                     tabBarIcon: () => (
-                        <Ionicons 
-                        name="ios-chatbubbles-sharp" 
-                        size={24} 
-                        color="white" 
+                        <Ionicons
+                            name="ios-chatbubbles-sharp"
+                            size={24}
+                            color="white"
                         />
                     )
                 }}
@@ -97,6 +118,16 @@ const StudentTabNavigator = (props) => {
 
         </Tab.Navigator>
 
+    )
+}
+
+const Stack = createStackNavigator()
+
+const QuestionsNavigator = () => {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name='Questions' component={QuestionsScreen}/>
+        </Stack.Navigator>
     )
 }
 

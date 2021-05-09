@@ -9,6 +9,7 @@ import axios from 'axios';
 import HOST, { SERVER_PORT } from '../../configs/config';
 import AnswerItem from './components/AnswerItem';
 import NotFound from '../../components/UI/NotFound';
+import { useSelector } from 'react-redux';
 
 const FullQuestionScreen = props => {
     const params = props.route.params
@@ -17,10 +18,16 @@ const FullQuestionScreen = props => {
 
     const [questionAnswer, setQuestionAnswer] = useState('')
 
+    const token = useSelector(state => state.auth.token)
+
     const submitAnswer = () => {
-        axios.post(`http://${HOST}:${SERVER_PORT}/student/ask/answerquestion`, {
+        axios.post(`http://${HOST}:${SERVER_PORT}/ask/answerquestion`, {
             questionId: params.question._id,
             answer: answerInput
+        }, {
+            headers: {
+                'Authorization':'Bearer ' + token
+            }
         })
             .then(response => {
                 props.navigation.goBack()
@@ -29,7 +36,11 @@ const FullQuestionScreen = props => {
     }
 
     const getQuestionAnswer = () => {
-        axios.get(`http://${HOST}:${SERVER_PORT}/student/ask/question/answer/${params.question._id}`)
+        axios.get(`http://${HOST}:${SERVER_PORT}/ask/question/answer/${params.question._id}`, {
+            headers: {
+                'Authorization':'Bearer ' + token
+            }
+        })
             .then(response => {
                 setQuestionAnswer(response.data.answer.answer)
             })

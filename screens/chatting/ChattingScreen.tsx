@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import HOST, { SERVER_PORT } from '../../configs/config'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
@@ -23,8 +23,8 @@ const ChattingScreen = props => {
     return state.auth.name
   })
 
-  const userId = useSelector(state => {
-    return state.auth.userId
+  const { userId, token } = useSelector(state => {
+    return state.auth
   })
 
   const params = props.route.params
@@ -33,21 +33,25 @@ const ChattingScreen = props => {
 
   useEffect(() => {
 
-    
-      axios.post(`http://${HOST}:${SERVER_PORT}/student/messages`, {
-        sender:userId,
-        receiver:params.receiverId
-      })
+
+    axios.post(`http://${HOST}:${SERVER_PORT}/user/messages`, {
+      sender: userId,
+      receiver: params.receiverId
+    }, {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    })
       .then(response => {
         setMessages(response.data.messages)
       })
-      .catch(err=> {
+      .catch(err => {
         console.log(err)
       })
 
-      
-  
-  
+
+
+
 
   }, [])
 
@@ -103,10 +107,14 @@ const ChattingScreen = props => {
     let msg = message
     setMessage('')
     setIsTyping(false)
-    axios.post(`http://${HOST}:${SERVER_PORT}/student/messages/createmessage`, {
+    axios.post(`http://${HOST}:${SERVER_PORT}/user/messages/createmessage`, {
       sender: userId,
       receiver: params.receiverId,
       content: message
+    }, {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
     })
   }
 

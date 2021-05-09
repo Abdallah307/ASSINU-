@@ -19,8 +19,8 @@ const FullQuestionScreen = props => {
 
     const params = props.route.params
 
-    const userId = useSelector(state => {
-        return state.auth.userId
+    const {userId, token} = useSelector(state => {
+        return state.auth
     })
 
 
@@ -38,9 +38,13 @@ const FullQuestionScreen = props => {
         const answerOwnerId = userId
 
         const response = await axios.post(`
-        http://${HOST}:${SERVER_PORT}/student/university/questions/${questionId}`, {
+        http://${HOST}:${SERVER_PORT}/university/questions/${questionId}`, {
             content: content,
             answerOwnerId: answerOwnerId
+        }, {
+            headers: {
+                'Authorization':'Bearer ' + token
+            }
         })
 
         setAnswerInput('')
@@ -74,10 +78,15 @@ const FullQuestionScreen = props => {
     const upvoteAnswer = async (answerId) => {
 
         const response = await axios.put(
-            `http://${HOST}:${SERVER_PORT}/student/university/questions/answer/upvote`,
+            `http://${HOST}:${SERVER_PORT}/university/questions/answer/upvote`,
             {
                 answerId: answerId,
                 upvoterId: userId
+            },
+            {
+                headers: {
+                    'Authorization':'Bearer ' + token
+                }
             }
         )
 
@@ -89,10 +98,15 @@ const FullQuestionScreen = props => {
 
     const downvoteAnswer = async (answerId) => {
         const response = await axios.put(
-            `http://${HOST}:${SERVER_PORT}/student/university/questions/answer/downvote`,
+            `http://${HOST}:${SERVER_PORT}/university/questions/answer/downvote`,
             {
                 answerId: answerId,
                 downvoterId: userId
+            },
+            {
+                headers: {
+                    'Authorization':'Bearer ' + token
+                }
             }
         )
 
@@ -115,8 +129,12 @@ const FullQuestionScreen = props => {
         const questionId = params.question._id
 
         const response = await axios.get(
-            `http://${HOST}:${SERVER_PORT}/student/university/questions/${questionId}`
-        )
+            `http://${HOST}:${SERVER_PORT}/university/questions/${questionId}`
+        , {
+            headers: {
+                'Authorization':'Bearer ' + token
+            }
+        })
         
         if (response.status === 200) {
             setAnswers(response.data.answers)
@@ -131,6 +149,7 @@ const FullQuestionScreen = props => {
     return (
         <View style={styles.fullQuestionScreen}>
             <QuestionItem
+                onFollowPressed={() => props.route.params.onFollowPressed(params.question._id)}
                 numberOfAnswers={params.numberOfAnswers}
                 isFollowing={props.route.params.isFollowing}
                 content={params.question.content}

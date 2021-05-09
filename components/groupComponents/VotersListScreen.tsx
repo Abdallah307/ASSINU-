@@ -8,10 +8,10 @@ const VotersListScreen = props => {
             <ScrollView style={{ flex: 1 }}>
                 {
                     props.route.params.voters.map(voter => {
-                        console.log(voter.voterId.name)
                         if (voter.choiceId === props.route.params.choiceId)
                             return (
                                 <MemberItem
+                                    key={voter.voterId._id}
                                     imageUrl={voter.voterId.imageUrl}
                                     name={voter.voterId.name}
                                 />

@@ -7,6 +7,7 @@ import { Button } from 'react-native-elements'
 import RNPoll, { IChoice } from "react-native-poll";
 import { CourseGroup } from '../../api/api'
 import { Colors } from '../../constants/Colors'
+import { useSelector } from 'react-redux'
 
 
 const Poll = props => {
@@ -15,6 +16,8 @@ const Poll = props => {
     const [question, setQuestion] = useState('')
     const params = props.route.params
 
+    const token = useSelector(state => state.auth.token)
+
     const createPoll = async () => {
         try {
             const response = await CourseGroup.createPoll({
@@ -22,7 +25,7 @@ const Poll = props => {
                 ownerId: params.userId,
                 content: question,
                 choices: options
-            })
+            }, token)
 
             if (response.status === 201) {
                 props.navigation.navigate(params.navScreen, {
@@ -76,7 +79,10 @@ const Poll = props => {
                         <Button
                             containerStyle={styles.addOptionButton}
                             title='Add'
-                            onPress={() => setOptions([...options, choice])}
+                            onPress={() => {
+                                setOptions([...options, choice])
+                                setChoice('')
+                            }}
                         />
                     </View>
 

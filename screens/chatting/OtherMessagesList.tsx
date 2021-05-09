@@ -12,8 +12,8 @@ const OtherMessagesList = props => {
     const [chats, setChats] = useState([])
     const [isChatUsersLoaded, setChatUsersLoaded] = useState(false)
 
-    const userId = useSelector(state => {
-        return state.auth.userId
+    const { userId, token } = useSelector(state => {
+        return state.auth
     })
 
     const openChat = (id) => {
@@ -24,7 +24,11 @@ const OtherMessagesList = props => {
 
 
     useEffect(() => {
-        axios.get(`http://${HOST}:${SERVER_PORT}/student/messages/chats/${userId}`)
+        axios.get(`http://${HOST}:${SERVER_PORT}/user/messages/chats/${userId}`, {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        })
             .then(response => {
                 setChats(response.data.chatUsers)
                 setChatUsersLoaded(true)
@@ -56,7 +60,7 @@ const OtherMessagesList = props => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor:'white'
+        backgroundColor: 'white'
 
     }
 })

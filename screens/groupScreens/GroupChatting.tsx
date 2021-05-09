@@ -29,15 +29,15 @@ const ChattingScreen = props => {
 
     const params = props.route.params
 
-    const userId = useSelector(state => {
-        return state.auth.userId
+    const {userId, token} = useSelector(state => {
+        return state.auth
     })
 
     useEffect(() => {
         console.log('Grop')
         const fetchGroupMessages = async () => {
             try {
-                const response = await CourseGroup.fetchGroupMessages(params.groupId)
+                const response = await CourseGroup.fetchGroupMessages(params.groupId, token)
 
                 if (response.status === 200) {
                     setMessages(response.data.messages)
@@ -102,10 +102,14 @@ const ChattingScreen = props => {
         let msg = message
         setMessage('')
         setIsTyping(false)
-        axios.post(`http://${HOST}:${SERVER_PORT}/student/group/messages/addmessage`, {
+        axios.post(`http://${HOST}:${SERVER_PORT}/group/messages/addmessage`, {
             ownerId: userId,
             groupId: props.route.params.groupId,
             content: message
+        }, {
+            headers: {
+                'Authorization':'Bearer ' + token
+            }
         })
             .then(() => { ToastAndroid.show('Sent', ToastAndroid.SHORT) }).catch(err => console.log(err))
     }

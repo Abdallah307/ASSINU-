@@ -8,8 +8,12 @@ const slice = createSlice({
         isSignedIn: false,
         imageUrl:'',
         name:'',
-        bio:'',
         email:'',
+        departmentName:'',
+        departmentId:'',
+        userType:'',
+        courses:[],
+        numberOfMembers : 0
     },
     reducers:{
         signIn: (state, action) => {
@@ -19,8 +23,12 @@ const slice = createSlice({
            state.token = payload.token
            state.isSignedIn = true 
            state.imageUrl = payload.imageUrl
-           state.name = payload.name  
-           state.bio = payload.bio 
+           state.name = payload.name
+           state.departmentName = payload.departmentName,
+           state.userType = payload.userType
+           state.courses = payload.courses,
+           state.departmentId = payload.departmentId,
+           state.numberOfMembers = payload.numberOfMembers  
         },
         signout: (state, action) => {
            state = {
@@ -29,8 +37,12 @@ const slice = createSlice({
             isSignedIn: false,
             imageUrl:'',
             name:'',
-            bio:'',
-            email:''
+            email:'',
+            departmentName : '',
+            userType :''  ,
+            courses:[],
+            departmentId : '',
+            numberOfMembers: 0
            }
         }
     }

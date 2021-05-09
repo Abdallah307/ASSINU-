@@ -6,10 +6,7 @@ import CustomActivityIndicator from '../../components/UI/CustomActivityIndicator
 import NotFound from '../../components/UI/NotFound'
 import HOST, { SERVER_PORT } from '../../configs/config'
 import QuestionItem from './components/QuestionItem'
-import Modal from 'react-native-modalbox'
-import { Colors } from '../../constants/Colors'
-import { Button, Input } from 'react-native-elements'
-import { Ionicons } from '@expo/vector-icons';
+
 
 const Questions = props => {
 
@@ -17,8 +14,8 @@ const Questions = props => {
 
     const [isLoaded, setIsLoaded] = useState(false)
 
-    const userId = useSelector(state => {
-        return state.auth.userId
+    const {userId, token} = useSelector(state => {
+        return state.auth
     })
 
     const openQuestion = (question) => {
@@ -28,7 +25,11 @@ const Questions = props => {
     }
 
     useEffect(() => {
-        axios.get(`http://${HOST}:${SERVER_PORT}/student/ask/receivedquestions/${userId}`)
+        axios.get(`http://${HOST}:${SERVER_PORT}/ask/receivedquestions/${userId}`, {
+            headers: {
+                'Authorization':'Bearer ' + token
+            }
+        })
             .then(response => {
                 setQuestions(response.data.questions)
                 setIsLoaded(true)

@@ -27,8 +27,8 @@ const FullAnswerScreen = props => {
     const answer = props.route.params.answer
     const params = props.route.params
 
-    const userId = useSelector(state => {
-        return state.auth.userId
+    const {userId, token} = useSelector(state => {
+        return state.auth
     })
 
     const [answerComments, setAnswerComments] = useState([])
@@ -39,8 +39,12 @@ const FullAnswerScreen = props => {
 
     const fetchAnswerComments = async () => {
         const response = await axios.get(
-            `http://${HOST}:${SERVER_PORT}/student/university/questions/answer/${answer._id}/comments`
-        )
+            `http://${HOST}:${SERVER_PORT}/university/questions/answer/${answer._id}/comments`
+        , {
+            headers: {
+                'Authorization':'Bearer ' + token
+            }
+        })
 
         if (response.status === 200) {
             console.log(response.data.comments)
@@ -56,12 +60,17 @@ const FullAnswerScreen = props => {
         const content = commentValue
 
         const response = await axios.post(
-            `http://${HOST}:${SERVER_PORT}/student/university/questions/answer/addcomment`,
+            `http://${HOST}:${SERVER_PORT}/university/questions/answer/addcomment`,
             {
                 // questionId:questionId,
                 answerId: answerId,
                 commentOwnerId: commentOwnerId,
                 content: content,
+            },
+            {
+                headers: {
+                    'Authorization':'Bearer ' + token
+                }
             }
         )
 

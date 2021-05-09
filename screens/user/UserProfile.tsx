@@ -20,9 +20,6 @@ const StudentUserProfile = (props) => {
         return state.auth
     })
 
-    const studentData = useSelector(state => {
-        return state.student
-    })
 
 
 
@@ -31,7 +28,7 @@ const StudentUserProfile = (props) => {
         <Profile
             imageUrl={userData.imageUrl}
             name={userData.name}
-            bio={studentData.department.name}
+            bio={userData.departmentName}
         >
             <StudentCourses navigation={props.navigation} />
         </Profile>
@@ -40,6 +37,7 @@ const StudentUserProfile = (props) => {
 }
 
 export const options = ({ route, navigation }) => ({
+    title:'الحساب',
     headerLeft: () => (
         <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
             <Item

@@ -1,12 +1,20 @@
 import HOST, { SERVER_PORT, API_PORT } from '../configs/config'
 import axios from 'axios'
+import { useSelector } from 'react-redux'
 
 
 export class CourseGroup {
-    static fetchPosts = (groupId: string) => {
+
+
+    static fetchPosts = (groupId: string, token:string) => {
         try {
             return axios.get(
-                `http://${HOST}:${SERVER_PORT}/student/group/postspolls/${groupId}`
+                `http://${HOST}:${SERVER_PORT}/group/postspolls/${groupId}`,
+                {
+                    headers: {
+                        'Authorization':'Bearer ' + token
+                    }
+                }
             )
         }
         catch (err) {
@@ -14,9 +22,9 @@ export class CourseGroup {
         }
     }
 
-    static createPost = (postInfo) => {
+    static createPost = (postInfo, token) => {
         return axios.post(
-            `http://${HOST}:${SERVER_PORT}/student/createpost`,
+            `http://${HOST}:${SERVER_PORT}/group/createpost`,
             {
                 groupId: postInfo.groupId,
                 ownerId: postInfo.ownerId,
@@ -24,16 +32,17 @@ export class CourseGroup {
             },
             {
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    'Authorization':'Bearer ' + token
                 }
             }
             
         )
     }
 
-    static createPoll = (pollInfo) => {
+    static createPoll = (pollInfo, token) => {
         return axios.post(
-            `http://${HOST}:${SERVER_PORT}/student/group/polls/createpoll`,
+            `http://${HOST}:${SERVER_PORT}/group/polls/createpoll`,
             {
                 groupId: pollInfo.groupId,
                 ownerId: pollInfo.ownerId,
@@ -42,24 +51,30 @@ export class CourseGroup {
             },
             {
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    'Authorization':'Bearer ' + token
                 }
             }
             
         )
     }
 
-    static fetchGroupMembers = async (groupId) => {
+    static fetchGroupMembers = async (groupId, token) => {
 
         try {
             const response = await  axios.get(
-                `http://${HOST}:${API_PORT}/student/course/members/${groupId}`
+                `http://${HOST}:${API_PORT}/course/members/${groupId}`
             )
 
             if (response.status === 200) {
                 return axios.post(
-                    `http://${HOST}:${SERVER_PORT}/student/group/members`,{
+                    `http://${HOST}:${SERVER_PORT}/group/members`,{
                         emails:response.data.members
+                    },
+                    {
+                        headers: {
+                            'Authorization':'Bearer ' + token
+                        }
                     }
                 )
             }
@@ -69,33 +84,45 @@ export class CourseGroup {
         }
     }
 
-    static fetchGroupMessages = (groupId) => {
+    static fetchGroupMessages = (groupId, token) => {
         return axios.get(
-            `http://${HOST}:${SERVER_PORT}/student/group/messages/${groupId}`
-        )
+            `http://${HOST}:${SERVER_PORT}/group/messages/${groupId}`
+        , {
+            headers: {
+                'Authorization':'Bearer ' + token
+            }
+        })
     }
 
-    static sendMessage = (msgInfo) => {
+    static sendMessage = (msgInfo, token) => {
         const {ownerId, groupId, content} = msgInfo
 
-        axios.post(`http://${HOST}:${SERVER_PORT}/student/group/messages/addmessage`, {
+        axios.post(`http://${HOST}:${SERVER_PORT}/group/messages/addmessage`, {
             ownerId: ownerId ,
             groupId: groupId,
             content: content,
+        }, {
+            headers: {
+                'Authorization':'Bearer ' + token
+            }
         })
     }
 }
 
 export class Post {
-    static fetchComments = (postId) => {
+    static fetchComments = (postId, token) => {
         return axios.get(
-            `http://${HOST}:${SERVER_PORT}/student/group/posts/comments/${postId}`
+            `http://${HOST}:${SERVER_PORT}/group/posts/comments/${postId}`,{
+                headers : {
+                    'Authorization':'Bearer ' + token
+                }
+            }
         )
     }
 
-    static submitComment = (postId, commentInfo) => {
+    static submitComment = (postId, commentInfo, token) => {
         return axios.put(
-            `http://${HOST}:${SERVER_PORT}/student/group/posts/comment/createcomment`,
+            `http://${HOST}:${SERVER_PORT}/group/posts/comment/createcomment`,
             {
                 content: commentInfo.content,
                 ownerId : commentInfo.ownerId,
@@ -103,7 +130,8 @@ export class Post {
             },
             {
                 headers : {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    'Authorization':'Bearer ' + token
                 }
             }
         )
@@ -113,23 +141,36 @@ export class Post {
 
 export class UniversityGroup {
     
-    static fetchQuestions = () => {
-        return axios.get(`http://${HOST}:${SERVER_PORT}/student/university/questions`)
+    static fetchQuestions = (token) => {
+        return axios.get(`http://${HOST}:${SERVER_PORT}/university/questions`, {
+            headers : {
+                'Authorization':'Bearer ' + token
+            }
+        })
     }
 
-    static followQuestion = (questionId, userId) => {
+    static followQuestion = (questionId, userId, token) => {
         return axios.put(
-            `http://${HOST}:${SERVER_PORT}/student/university/questions/follow/${questionId}`,
+            `http://${HOST}:${SERVER_PORT}/university/questions/follow/${questionId}`,
             {
                 followerId: userId
+            },
+            {
+                headers: {
+                    'Authorization':'Bearer ' + token
+                }
             }
         )
     }
 
-    static createQuestion = (userId, createdQuestion) => {
-        return axios.post(`http://${HOST}:${SERVER_PORT}/student/university/questions/addquestion`, {
+    static createQuestion = (userId, createdQuestion, token) => {
+        return axios.post(`http://${HOST}:${SERVER_PORT}/university/questions/addquestion`, {
             content: createdQuestion,
             ownerId: userId,
+        },{
+            headers: {
+                'Authorization':'Bearer ' + token
+            }
         })
     }
 }

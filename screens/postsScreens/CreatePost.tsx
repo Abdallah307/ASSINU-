@@ -30,6 +30,8 @@ const CreatePost = props => {
     const [result, setResult] = useState()
     const [isSharing, setIsSharing] = useState(false)
 
+    const token = useSelector(state => state.auth.token)
+
     const chooseImageFromDevice = async () => {
         try {
             let value = await ImagePicker.launchImageLibraryAsync({
@@ -70,14 +72,14 @@ const CreatePost = props => {
 
         try {
             const response = await axios.post(
-                `http://${HOST}:${SERVER_PORT}/student/createpost`,
+                `http://${HOST}:${SERVER_PORT}/group/createpost`,
                 formData,
                 {
                     headers: {
                         'content-type': 'multipart/form-data',
+                        'Authorization':'Bearer ' + token
                     }
                 }
-
             )
 
             if (response.status === 201) {
@@ -110,7 +112,7 @@ const CreatePost = props => {
                 groupId: groupId,
                 ownerId: ownerId,
                 content: content
-            })
+            }, token)
 
             if (response.status === 201) {
                 props.navigation.navigate(params.navScreen, {

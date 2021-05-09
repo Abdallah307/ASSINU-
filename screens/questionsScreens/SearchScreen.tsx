@@ -35,8 +35,8 @@ const SearchScreen = props => {
 
     const dispatch = useDispatch()
 
-    const userId = useSelector(state => {
-        return state.auth.userId
+    const {userId, token} = useSelector(state => {
+        return state.auth
     })
 
     const onFollowPressed = (questionId) => {
@@ -55,7 +55,11 @@ const SearchScreen = props => {
     }
 
     const searchQuestion = async () => {
-        const response = await axios.get(`http://${HOST}:${SERVER_PORT}/student/questions/search?questionText=${searchValue}`)
+        const response = await axios.get(`http://${HOST}:${SERVER_PORT}/university/questions/search?questionText=${searchValue}`, {
+            headers: {
+                'Authorization':'Bearer ' + token
+            }
+        })
         setIsLoaded(true)
         console.log(response.data.results)
         setSearchResults(response.data.results)

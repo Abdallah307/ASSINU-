@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, Text, ScrollView } from 'react-native'
-import GroupHeader from '../../components/groupComponents/GroupHeader'
 import PostItem from '../../components/postComponents/PostItem'
 import WritePost from '../../components/postComponents/WritePost'
 import { Button } from 'react-native-elements'
 import CustomeActivityIndicator from '../../components/UI/CustomActivityIndicator'
 import { CourseGroup } from '../../api/api'
-import { FlatList } from 'react-native-gesture-handler'
 import { Colors } from '../../constants/Colors'
 import PollItemSingleChoice from '../../components/groupComponents/PollItemSingleChoice'
 import axios from 'axios'
 import HOST, { SERVER_PORT } from '../../configs/config'
+import GroupScreen from '../Group/GroupScreen'
+import GroupHeader from '../Group/GroupHeader'
+import { useSelector } from 'react-redux'
 
 
 const Group = (props) => {
@@ -21,13 +22,15 @@ const Group = (props) => {
 
     const params = props.route.params
 
+    const token = useSelector(state => state.auth.token)
+
     useEffect(() => {
         let isCancelled = false
         const fetchGroupPosts = async () => {
             console.log('fetch group posts')
             try {
                 const groupId = params.id
-                const response = await CourseGroup.fetchPosts(groupId)
+                const response = await CourseGroup.fetchPosts(groupId, token)
 
                 if (response.status === 200) {
                     setIsLoaded(true)
@@ -81,10 +84,14 @@ const Group = (props) => {
 
     const votePoll = (pollId, choiceId) => {
         const voterId = params.userId
-        axios.post(`http://${HOST}:${SERVER_PORT}/student/group/polls/vote`, {
+        axios.post(`http://${HOST}:${SERVER_PORT}/group/polls/vote`, {
             pollId: pollId,
             voterId: voterId,
             choiceId: choiceId
+        }, {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
         })
             .then(response => {
                 response.status === 201 ? console.log('Voted Successfully') : null
@@ -101,18 +108,61 @@ const Group = (props) => {
         })
     }
 
-    const GroupHeaderComponent = () => {
-        return (
-            <>
-                <GroupHeader
-                    numberOfMembers={params.numberOfMembers}
-                    title={params.title}
-                    openGroupMembers={openGroupMembers}
-                    openChatting={() => props.navigation.navigate('ChattingScreen', {
-                        groupId: params.id,
-                        title: params.title
-                    })}
+
+    const renderGroupPostAndPolls = (itemData) => {
+        if (itemData.item.type === 'post') {
+            const post = itemData.item
+            let imageUrl;
+            try { imageUrl = post.imageUrl } catch (err) { imageUrl = null }
+
+            return (
+                <PostItem
+                    onPostHeaderPressed={() => {
+                        props.navigation.navigate('StudentProfile', {
+                            student: post.ownerId,
+                        })
+                    }}
+                    navigation={props.navigation}
+                    imageUrl={imageUrl}
+                    post={post}
                 />
+            )
+        }
+        else if (itemData.item.type === 'poll') {
+            const voters = itemData.item.voters
+            let isAlreadyVoted;
+            let voter;
+            if (voters.length !== 0) {
+                voter = voters.find(voter => {
+                    return voter.voterId._id === params.userId
+                })
+
+                if (!voter) {
+                    isAlreadyVoted = false
+                }
+                else isAlreadyVoted = true
+
+            }
+            return (
+                <PollItemSingleChoice
+                    openVotersListScreen={(choiceId) => openVotersListScreen(itemData.item.voters, choiceId)}
+                    votePoll={votePoll}
+                    isAlreadyVoted={isAlreadyVoted}
+                    voter={voter}
+                    poll={itemData.item}
+                />
+            )
+        }
+    }
+
+
+    const handleReachEnd = () => {
+        console.log('Reached the end of the scrolling man')
+    }
+
+    const GroupHeaderChildren = () => {
+        return (
+            <View>
                 <View style={{ flexDirection: 'row', flex: 1, backgroundColor: 'white' }}>
                     <Button
                         containerStyle={{ flex: 1, marginHorizontal: 5 }}
@@ -150,12 +200,8 @@ const Group = (props) => {
                     imageUrl={params.userImage}
                     onTouch={openCreatePost}
                 />
-            </>
+            </View>
         )
-    }
-
-    const handleReachEnd = () => {
-        console.log('Reached the end of the scrolling man')
     }
 
 
@@ -164,58 +210,28 @@ const Group = (props) => {
         <>
             {
                 !isLoaded ? <CustomeActivityIndicator /> :
-                    <FlatList
-                        ListHeaderComponent={GroupHeaderComponent}
+                    <GroupScreen
+                        ListHeaderComponent={
+                            <GroupHeader
+                                showChattingButton={true}
+                                numberOfMembers={params.numberOfMembers}
+                                title={params.title}
+                                openGroupMembers={openGroupMembers}
+                                openChatting={() => props.navigation.navigate('ChattingScreen', {
+                                    groupId: params.id,
+                                    title: params.title
+                                })}
+                            >
+                                <GroupHeaderChildren />
+                            </GroupHeader>
+                        }
                         data={GroupPosts}
-                        renderItem={(itemData) => {
-                            if (itemData.item.type === 'post') {
-                                const post = itemData.item
-                                let imageUrl;
-                                try { imageUrl = post.imageUrl } catch (err) { imageUrl = null }
-
-                                return (
-                                    <PostItem
-                                        onPostHeaderPressed={() => {
-                                            props.navigation.navigate('StudentProfile', {
-                                                student: post.ownerId,
-                                            })
-                                        }}
-                                        navigation={props.navigation}
-                                        imageUrl={imageUrl}
-                                        post={post}
-                                    />
-                                )
-                            }
-                            else if (itemData.item.type === 'poll') {
-                                const voters = itemData.item.voters
-                                let isAlreadyVoted;
-                                let voter;
-                                if (voters.length !== 0) {
-                                    voter = voters.find(voter => {
-                                        return voter.voterId._id === params.userId
-                                    })
-
-                                    if (!voter) {
-                                        isAlreadyVoted = false
-                                    }
-                                    else isAlreadyVoted = true
-
-                                }
-                                return (
-                                    <PollItemSingleChoice
-                                        openVotersListScreen={(choiceId) => openVotersListScreen(itemData.item.voters, choiceId)}
-                                        votePoll={votePoll}
-                                        isAlreadyVoted={isAlreadyVoted}
-                                        voter={voter}
-                                        poll={itemData.item}
-                                    />
-                                )
-                            }
-                        }}
+                        renderItem={renderGroupPostAndPolls}
                         keyExtractor={(item, index) => item._id.toString()}
-                        onEndReached={handleReachEnd}
-                        onEndReachedThreshold={0}
+                        onEndReached={() => console.log('End Reached')}
+                        onEndReachedThreshold={0.1}
                     />
+
             }
         </>
     )

@@ -12,8 +12,8 @@ const MessagesList = props => {
     const [chats, setChats] = useState([])
     const [isChatUsersLoaded, setChatUsersLoaded] = useState(false)
 
-    const userId = useSelector(state => {
-        return state.auth.userId
+    const {userId, token} = useSelector(state => {
+        return state.auth
     })
 
     const openChat = (id) => {
@@ -24,7 +24,11 @@ const MessagesList = props => {
 
 
     useEffect(() => {
-        axios.get(`http://${HOST}:${SERVER_PORT}/student/messages/chats/${userId}`)
+        axios.get(`http://${HOST}:${SERVER_PORT}/user/messages/chats/${userId}`, {
+            headers: {
+                'Authorization':'Bearer ' + token
+            }
+        })
             .then(response => {
                // console.log(response.data.chatUsers)
                 setChats(response.data.chatUsers)

@@ -24,7 +24,7 @@ const CreateQuestionScreen = props => {
 
     const [questionInput, setQuestionInput] = useState('')
 
-    const userId = useSelector(state=> state.auth.userId)
+    const {userId, token} = useSelector(state=> state.auth)
 
     const dispatch = useDispatch()
 

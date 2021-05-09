@@ -1,141 +1,61 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, FlatList, View, Text } from 'react-native'
-import QuestionItem from '../../components/questionsComponents/QuestionItem'
-import FloatingButton from '../../components/UI/FloatingButton'
-import { useSelector, useDispatch } from 'react-redux'
-import SearchInput from '../../components/UI/SearchInput'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
-import { fetchUniversityQuestions } from '../../store/middleware/api'
-import CustomActivityIndicator from '../../components/UI/CustomActivityIndicator'
-import { toggleFollowingStatus } from '../../store/middleware/api'
-import * as Notifications from 'expo-notifications'
+import React, { useState, useEffect } from "react";
+import { StyleSheet, FlatList, View, Text } from "react-native";
+import QuestionItem from "../../components/questionsComponents/QuestionItem";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchUniversityQuestions } from "../../store/middleware/api";
+import CustomActivityIndicator from "../../components/UI/CustomActivityIndicator";
+import QuestionsScreen from "../QuestionsScreens/QuestionsScreen";
+import withQuestions from "../QuestionsScreens/WithQuestions";
 
 const UniversityQuestions = (props: any) => {
+  const dispatch = useDispatch();
 
+  const { renderQuestions, openCreateQuestion, openSearchScreen} = props;
 
-    const dispatch = useDispatch()
+  const {questions, isLoaded} = useSelector((state) => {
+    return state.questions;
+  });
 
-    const userData = useSelector(state => {
-        return state.auth
-    })
+  const userId = useSelector((state) => {
+    return state.auth.userId;
+  });
 
+  useEffect(() => {
+    dispatch(fetchUniversityQuestions({}));
+  }, [dispatch]);
 
-    const questions = useSelector(state => {
-        return state.questions.questions
-    })
-
-    const isLoaded = useSelector(state => {
-        return state.questions.isLoaded
-    })
-
-
-
-    const onOpenQuestion = (question, isFollowing) => {
-        props.navigation.navigate('FullQuestionScreen', {
-            question: question,
-            isFollowing: isFollowing,
-            numberOfAnswers:80,
-        })
-    }
-
-    const userId = useSelector(state => {
-        return state.auth.userId
-    })
-
-
-    const onFollowPressed = (questionId) => {
-
-        Notifications.scheduleNotificationAsync({
-            content: {
-                title: 'My First Local Notification',
-                body: "This is the first local notification we are sending"
-            },
-            trigger: {
-                seconds: 5,
-            }
-        })
-
-        dispatch(toggleFollowingStatus({
-            questionId: questionId,
-            userId: userId
-        }))
-    }
-
-    useEffect(() => {
-        console.log('Hello my dear')
-        dispatch(fetchUniversityQuestions({}))
-
-    }, [dispatch])
-
-    const renderQuestions = (itemData) => {
-        const followerIndex = itemData.item.followers.findIndex(follower => {
-            return follower.followerId === userId
-        })
-        let isFollowing = false
-        if (followerIndex > -1) {
-            isFollowing = true
-        }
-        
-        return (
-            <QuestionItem
-                // numberOfAnswers={itemData.item.answers.length}
-                isFollowing={isFollowing}
-                onFollowPressed={() => onFollowPressed(itemData.item._id)}
-                content={itemData.item.content}
-                onOpenQuestion={() => onOpenQuestion(itemData.item, isFollowing)}
-                ownerName={itemData.item.ownerId.name}
-                ownerImage={itemData.item.ownerId.imageUrl}
-                createdAt={itemData.item.createdAt}
-            />
-        )
-    }
-
-    return (
-        <>
-            <FloatingButton
-                openAddQuestion={()=> props.navigation.navigate('CreateQuestionScreen', {
-                    username:userData.name,
-                    userImage: userData.imageUrl,
-                    userId: userData.userId
-                })}
-                style={styles.floatingButton}
-            />
-
-            <TouchableWithoutFeedback onPress={() => props.navigation.navigate('SearchScreen')} style={{ padding: 10, width: '100%' }}>
-                <SearchInput />
-            </TouchableWithoutFeedback>
-
-
-
-            { !isLoaded ? <CustomActivityIndicator /> :
-                <FlatList
-                    contentContainerStyle={{paddingBottom:150}}
-                    data={questions}
-                    renderItem={renderQuestions}
-                    keyExtractor={(item => item._id)}
-                />}
-
-        </>
-    )
-}
+  return (
+    <>
+      <QuestionsScreen
+        onPressFloatingButton={openCreateQuestion}
+        onPressSearchInput={openSearchScreen}
+      >
+        {!isLoaded ? (
+          <CustomActivityIndicator />
+        ) : (
+          <FlatList
+            contentContainerStyle={{ paddingBottom: 150 }}
+            data={questions}
+            renderItem={renderQuestions}
+            keyExtractor={(item) => item._id}
+          />
+        )}
+      </QuestionsScreen>
+    </>
+  );
+};
 
 const styles = StyleSheet.create({
+  floatingButton: {},
+  searchView: {
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 20,
+    marginVertical: 10,
+    marginHorizontal: 10,
+    paddingVertical: 15,
+    borderColor: "#aaa",
+  },
+});
 
-    floatingButton: {
-        bottom: 50,
-        right: 15,
-        zIndex: 1,
-
-    },
-    searchView: {
-        borderWidth: 1,
-        padding: 10,
-        borderRadius: 20,
-        marginVertical: 10,
-        marginHorizontal: 10,
-        paddingVertical: 15,
-        borderColor: '#aaa',
-    }
-})
-
-export default UniversityQuestions;
+export default withQuestions(UniversityQuestions);

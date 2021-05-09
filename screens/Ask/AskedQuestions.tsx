@@ -14,8 +14,8 @@ const AskedQuestions = props => {
 
     const [isLoaded, setIsLoaded] = useState(false)
 
-    const userId = useSelector(state => {
-        return state.auth.userId
+    const {userId, token} = useSelector(state => {
+        return state.auth
     })
 
     const openQuestion = (question) => {
@@ -25,7 +25,11 @@ const AskedQuestions = props => {
     }
 
     useEffect(() => {
-        axios.get(`http://${HOST}:${SERVER_PORT}/student/ask/askedquestions/${userId}`)
+        axios.get(`http://${HOST}:${SERVER_PORT}/ask/askedquestions/${userId}`, {
+            headers: {
+                'Authorization':'Bearer ' + token
+            }
+        })
             .then(response => {
                 setQuestions(response.data.questions)
                 setIsLoaded(true)

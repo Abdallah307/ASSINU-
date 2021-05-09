@@ -29,34 +29,6 @@ const authApi = ({ dispatch, getState }) => next => async action => {
 
             if (result.status == 200) {
                 dispatch(authActions.signIn(result.data))
-                let userType;
-
-                email.split('@')[1] === 'stu.najah.edu' ? userType = 'student': userType = 'teacher'
-
-                const response = await axios.get(
-                    `http://${HOST}:${API_PORT}/${userType}/info/${email}`
-                )
-    
-                if (response.status === 200) {
-                    if (userType === 'student') {
-                        dispatch(studentActions.setStudent({
-                            name:response.data.name,
-                            courses: response.data.courses,
-                            email: response.data.email,
-                            department:response.data.departmentId
-                        }))
-                    }
-                    else {
-                        
-                        dispatch(teacherActions.setTeacher({
-                            name:response.data.name,
-                            courses: response.data.courses,
-                            email: response.data.email,
-                            departmentId:  response.data.departmentId
-                        }))
-                    }
-                    
-                }
             }
         }
         catch (err) {

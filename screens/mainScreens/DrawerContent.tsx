@@ -63,15 +63,16 @@ const DrawerContent = (props) => {
 
             <DrawerItem
                 icon={() => <FontAwesome name="university" size={20} color={Colors.primary} />}
-                onPress={() => props.navigation.navigate('UniversityQuestions')}
-                label="Public Ask"
+                onPress={() => props.navigation.navigate('PublicGroupScreen')}
+                label="Public Group"
             />
 
             <DrawerItem
                 icon={() => <MaterialIcons name="question-answer" size={20} color={Colors.primary} />}
-                onPress={() => props.navigation.navigate('DepartmentQuestions')}
-                label="Department Ask"
+                onPress={() => props.navigation.navigate('PrivateGroupScreen')}
+                label="Private Group"
             />
+
 
             <DrawerItem
                 icon={() => <FontAwesome name="exchange" size={20} color={Colors.primary} />}

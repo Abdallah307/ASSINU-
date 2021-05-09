@@ -20,6 +20,7 @@ import Poll from '../components/groupComponents/CreatePollScreen'
 import FullImageScreen from '../screens/postsScreens/FullImageScreen'
 import FullPost from '../screens/postsScreens/FullPost'
 import StudentProfile from '../screens/Student/StudentProfile'
+import VotersListScreen from '../components/groupComponents/VotersListScreen'
 
 const Tab = createMaterialBottomTabNavigator()
 const Stack = createStackNavigator()
@@ -232,6 +233,8 @@ const TeacherProfileNavigator = (props: any) => {
                 name="ChattingScreen"
                 component={ChattingScreen}
             />
+
+            <Stack.Screen name='VotersListScreen' component={VotersListScreen} />
         </Stack.Navigator>
     )
 }

@@ -13,15 +13,19 @@ const MyItemsScreen = props => {
 
     const [myItems, setMyItems] = useState([])
 
-    const userId = useSelector(state => {
-        return state.auth.userId
+    const {userId, token} = useSelector(state => {
+        return state.auth
     })
 
     const fetchItems = async (isCancelled: boolean) => {
         try {
             const response = await axios.get(
-                `http://${HOST}:${SERVER_PORT}/student/sharingcenter/myitems/${userId}`
-            )
+                `http://${HOST}:${SERVER_PORT}/sharingcenter/myitems/${userId}`
+            , {
+                headers: {
+                    'Authorization':'Bearer ' + token
+                }
+            })
 
             if (response.status === 200) {
                 if (!isCancelled) {

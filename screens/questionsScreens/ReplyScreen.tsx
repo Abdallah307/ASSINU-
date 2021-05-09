@@ -20,14 +20,18 @@ const ReplyScreen = props => {
 
     const comment = props.route.params.comment
 
-    const userId = useSelector(state => state.auth.userId)
+    const {userId, token} = useSelector(state => state.auth)
 
 
     const fetchReplays = async () => {
         try {
             const response = await axios.get(
-                `http://${HOST}:${SERVER_PORT}/student/university/questions/answers/comments/${comment._id}/replays`
-            )
+                `http://${HOST}:${SERVER_PORT}/university/questions/answers/comments/${comment._id}/replays`
+            , {
+                headers: {
+                    'Authorization':'Bearer ' + token
+                }
+            })
 
             if (response.status === 200) {
                 setCommentReplays(response.data.replays)
@@ -43,10 +47,15 @@ const ReplyScreen = props => {
         try {
             const content = replayInput
             const response = await axios.post(
-                `http://${HOST}:${SERVER_PORT}/student/university/questions/answers/comments/${comment._id}/replays/addreplay`,
+                `http://${HOST}:${SERVER_PORT}/university/questions/answers/comments/${comment._id}/replays/addreplay`,
                 {
                     ownerId: userId,
                     content: content
+                }, 
+                {
+                    headers: {
+                        'Authorization':'Bearer ' + token
+                    }
                 }
             )
 

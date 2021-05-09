@@ -26,6 +26,8 @@ const SharingCenterDepartment = props => {
         return state.student.department._id
     })
 
+    const token = useSelector(state => state.auth.token)
+
     const searchForItems = async (value: string) => {
         setIsSearching(true)
         setSearchInput(value)
@@ -38,8 +40,12 @@ const SharingCenterDepartment = props => {
         try {
             setIsSearching(true)
             const response = await axios.get(
-                `http://${HOST}:${SERVER_PORT}/student/sharingcenter/department/search?name=${value}`
-            )
+                `http://${HOST}:${SERVER_PORT}/sharingcenter/department/search?name=${value}`
+            , {
+                headers: {
+                    'Authorization':'Bearer ' + token
+                }
+            })
 
             if (response.status === 200) {
                 setItems(response.data.items)
@@ -57,8 +63,12 @@ const SharingCenterDepartment = props => {
     const fetchItems = async (isCancelled: boolean) => {
         try {
             const response = await axios.get(
-                `http://${HOST}:${SERVER_PORT}/student/sharingcenter/department/${studentDepartmentId}`
-            )
+                `http://${HOST}:${SERVER_PORT}/sharingcenter/department/${studentDepartmentId}`
+            ,{
+                headers: {
+                    'Authorization':'Bearer ' + token
+                }
+            })
 
             if (response.status === 200) {
                 if (!isCancelled) {

@@ -34,8 +34,8 @@ const ShareItemScreen = props => {
 
     const [shareLocation, setShareLocation] = useState('public')
 
-    const userId = useSelector(state => {
-        return state.auth.userId
+    const {userId, token} = useSelector(state => {
+        return state.auth
     })
 
     const studentDepartmentId = useSelector(state => {
@@ -106,10 +106,11 @@ const ShareItemScreen = props => {
         shareLocation === 'department' ? formData.append('departmentId', studentDepartmentId) : null
 
         const response = await axios
-            .post(`http:${HOST}:${SERVER_PORT}/student/sharingcenter/${shareLocation}/shareitem`,
+            .post(`http:${HOST}:${SERVER_PORT}/sharingcenter/${shareLocation}/shareitem`,
                 formData, {
                 headers: {
                     'content-type': 'multipart/form-data',
+                    'Authorization':'Bearer ' + token
                 },
             });
 

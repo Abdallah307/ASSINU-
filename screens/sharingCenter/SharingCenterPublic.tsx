@@ -5,6 +5,7 @@ import HOST, { SERVER_PORT } from '../../configs/config'
 import axios from 'axios'
 import SearchInput from '../../components/sharingCenterComponents/SearchInput'
 import CustomActivityIndicator from '../../components/UI/CustomActivityIndicator'
+import { useSelector } from 'react-redux'
 
 const SharingCenterPublic = props => {
 
@@ -15,6 +16,8 @@ const SharingCenterPublic = props => {
     const [searchInput, setSearchInput] = useState('')
 
     const [isSearching, setIsSearching] = useState(false)
+
+    const token = useSelector(state=> state.auth.token)
 
     const searchForItems = async (value: string) => {
         setIsSearching(true)
@@ -28,8 +31,12 @@ const SharingCenterPublic = props => {
         try {
             setIsSearching(true)
             const response = await axios.get(
-                `http://${HOST}:${SERVER_PORT}/student/sharingcenter/public/search?name=${value}`
-            )
+                `http://${HOST}:${SERVER_PORT}/sharingcenter/public/search?name=${value}`
+            , {
+                headers: {
+                    'Authorization':'Bearer ' + token
+                }
+            })
 
             if (response.status === 200) {
                 setItems(response.data.items)
@@ -47,8 +54,12 @@ const SharingCenterPublic = props => {
     const fetchItems = async (isCancelled: boolean) => {
         try {
             const response = await axios.get(
-                `http://${HOST}:${SERVER_PORT}/student/sharingcenter/public`
-            )
+                `http://${HOST}:${SERVER_PORT}/sharingcenter/public`
+            , {
+                headers: {
+                    'Authorization':'Bearer ' + token
+                }
+            })
 
             if (response.status === 200) {
                 if (!isCancelled) {

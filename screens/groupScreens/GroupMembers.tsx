@@ -11,14 +11,14 @@ const GroupMembers = (props: any) => {
     const [members, setMembers] = useState([])
     const [isLoaded, setIsLoaded] = useState(false)
 
-    const userId = useSelector(state => state.auth.userId)
+    const {userId, token} = useSelector(state => state.auth)
 
     useEffect(() => {
 
         let isCancelled = false
         const fetchMembers = async () => {
             try {
-                const result = await CourseGroup.fetchGroupMembers(groupId)
+                const result = await CourseGroup.fetchGroupMembers(groupId, token)
                 setIsLoaded(true)
                 if (!isCancelled) {
                     setMembers(result.data.members)
