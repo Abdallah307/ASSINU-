@@ -24,15 +24,18 @@ export const withGroup = (WrappedComponent) => {
     };
 
     const openPost = (post) => {
+      let groupName;
+      !post.departmentId ? groupName = 'publicgroup' : groupName = 'departmentgroup'
+      console.log('Group Name is  : ',groupName)
       props.navigation.navigate('FullPostScreen', {
-        post : post
+        post : post,
+        groupName : groupName
       })
     }
 
     const openQuestion = (question, isFollowed) => {
       props.navigation.navigate('FullQuestionScreen', {
         question : question,
-        isFollowed : isFollowed,
       })
     }
 

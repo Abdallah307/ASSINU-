@@ -21,25 +21,17 @@ const DrawerContent = (props) => {
 
     const dispatch = useDispatch()
 
-    const user = useSelector(state => {
-        const { imageUrl, name } = state.auth
-        return {
-            imageUrl,
-            name
-        }
-    })
+    const {imageUrl , name , departmentName} = useSelector(state => state.auth)
 
-    const studentBio = useSelector(state => {
-        return state.student.bio
-    })
+    
 
     return (
         <DrawerContentScrollView  {...props}>
             <View style={{ flex: 1 }}>
                 <View style={styles.userInfo}>
-                    <ProfileAvatarImage imageUrl={user.imageUrl} style={styles.userImage} />
+                    <ProfileAvatarImage imageUrl={imageUrl} style={styles.userImage} />
                     <View>
-                        <Text style={styles.username}>{user.name}</Text>
+                        <Text style={styles.username}>{name}</Text>
                     </View>
                 </View>
             </View>
@@ -64,13 +56,13 @@ const DrawerContent = (props) => {
             <DrawerItem
                 icon={() => <FontAwesome name="university" size={20} color={Colors.primary} />}
                 onPress={() => props.navigation.navigate('PublicGroupScreen')}
-                label="Public Group"
+                label={() => <Text>طلاب جامعة النجاح Group</Text>}
             />
 
             <DrawerItem
                 icon={() => <MaterialIcons name="question-answer" size={20} color={Colors.primary} />}
                 onPress={() => props.navigation.navigate('PrivateGroupScreen')}
-                label="Private Group"
+                label={() => <Text>طلاب {departmentName} Group</Text>}
             />
 
 

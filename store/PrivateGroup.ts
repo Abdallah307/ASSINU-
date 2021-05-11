@@ -52,6 +52,14 @@ const slice = createSlice({
             console.log('after followers : ', state.data[questionIndex].followers)
             
         },
+        INCREMENT_NUMBER_OF_POST_COMMENTS : (state, action) => {
+            const postId = action.payload.postId 
+            const postIndex = state.data.findIndex(item => {
+                return item.type === 'post' && item._id === postId 
+            })
+
+            state.data[postIndex].numberOfComments += 1
+        }
 
     }
 })

@@ -1,25 +1,42 @@
 import axios from 'axios'
 import React, {useState} from 'react'
-import {View, StyleSheet,FlatList, Text} from 'react-native'
-import { useSelector } from 'react-redux'
+import {View, StyleSheet,FlatList, Text, Keyboard} from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 import HOST, { SERVER_PORT } from '../../../configs/config'
+import AnswerItem from '../components/AnswerItem'
 import Body from '../components/Body'
 import Header from '../components/Header'
 import Input from '../components/Input'
+import {actions as commentActions} from '../../../store/comment'
+import CommentItem from '../../../components/commentComponents/CommentItem'
+import {Button} from 'react-native-elements'
+import {upvoteAnswer, downvoteAnswer} from '../../../store/middleware/api'
+import {actions as answersActions} from '../../../store/answer'
 
 const FullAnswerScreen = props => {
-    const answer = props.route.params.answer  
     const [inputValue ,setInputValue] = useState('')
 
-    const [comments , setComments] = useState([])
+    const groupName = props.route.params.groupName
 
-    const {token} = useSelector(state=> state.auth)
+    const dispatch = useDispatch()
+    const {token , userId} = useSelector(state=> state.auth)
 
-    const fetchAnswerComments = () => {
+    const answer = useSelector(state => {
+       return  state.answers.answers.find(answer => {
+            return answer._id === props.route.params.answer._id
+        })
+    })
+
+    const comments = useSelector(state=> {
+        return state.comments.comments
+    })
+
+
+    const fetchAnswerComments = async () => {
         try {
             const answerId = answer._id
-            const response = axios.get(
-                `http://${HOST}:${SERVER_PORT}/${props.groupName}/questions/answer/${answerId}/comments`,{
+            const response = await axios.get(
+                `http://${HOST}:${SERVER_PORT}/${groupName}/questions/answer/${answerId}/comments`,{
                     headers : {
                         Authorization : `Bearer ${token}`
                     }
@@ -27,7 +44,10 @@ const FullAnswerScreen = props => {
             )
 
             if (response.status === 200) {
-                setComments(response.data.comments)
+                console.log(response.data.comments)
+                dispatch(commentActions.SET_COMMENTS({
+                    comments : response.data.comments,
+                }))
             }
         }
         catch(err) {
@@ -35,21 +55,111 @@ const FullAnswerScreen = props => {
         }
     }
 
+    React.useEffect(() => {
+        dispatch(commentActions.CLEAR_COMMENTS({}))
+        fetchAnswerComments()
+    }, [])
+
+    const submitComment = async () => {
+        try {
+            setInputValue('')
+            Keyboard.dismiss()
+            const response = await axios.post(
+                `http://${HOST}:${SERVER_PORT}/${groupName}/questions/answer/addcomment`,{
+                    answer : answer._id,
+                    content : inputValue
+                },
+                {
+                    headers : {
+                        Authorization : `Bearer ${token}`
+                    }
+                }
+            )
+
+            if (response.status === 201) {
+                console.log(response.data.comment)
+                dispatch(commentActions.CREATE_COMMENT({
+                    comment : response.data.comment
+                }))
+
+                dispatch(answersActions.INCREMENT_NUMBER_OF_COMMENTS({
+                    answerId : answer._id 
+                }))
+
+                
+            }
+        }
+        catch (err) {
+
+        }
+    }
+
+    const checkIfVoted = (voters) => {
+        return voters.some(voter => {
+            return voter === userId
+        })
+    }
+
+    const openReplaysScreen = (comment) => {
+        props.navigation.navigate('AnswerReplaysScreen', {
+            comment : comment,
+            groupName : groupName
+        })
+    }
 
     return (
         <View style={styles.mainContainer}>
-            <Header
-            name={answer.owner.name}
-            imageUrl={answer.owner.imageUrl}
-            date={answer.createdAt}
-            />
-            <Body
-            content={answer.content}
+            <FlatList
+            contentContainerStyle={{paddingBottom : 200}}
+            ListHeaderComponent={() => {
+                let isUpvoted = false;
+                let isDownvoted = false;
+                isUpvoted = checkIfVoted(answer.upvoters)
+                !isUpvoted ? isDownvoted = checkIfVoted(answer.downvoters) : null 
+                return (
+                    <AnswerItem
+                    isUpvoted={isUpvoted}
+                    isDownvoted={isDownvoted}
+                    answer={answer}
+                    upvoteAnswer={() => {
+                        dispatch(upvoteAnswer({
+                            groupName : groupName ,
+                            userId : userId,
+                            answerId : answer._id 
+                        }))
+                    }}
+                    downvoteAnswer={() => {
+                        dispatch(downvoteAnswer({
+                            groupName : groupName,
+                            userId : userId,
+                            answerId : answer._id 
+                        }))
+                    }}
+                    />
+                )
+            }}
+            data={comments}
+            renderItem={({item}) => {
+                return (
+                    <CommentItem
+                    imageUrl={item.owner.imageUrl}
+                    name={item.owner.name}
+                    content={item.content}
+                    createdAt={item.createdAt}
+                    >
+                        <Button
+                        title='Replay'
+                        onPress={openReplaysScreen.bind(this, item)}
+                        />
+                        </CommentItem>
+                )
+            }}
+            keyExtractor={(item) => item._id}
             />
             <Input
             value={inputValue}
             onChangeText={(value) => setInputValue(value)}
-            onPressButton={() => {}}
+            onPressButton={submitComment}
             />
         </View>
     )

@@ -6,7 +6,7 @@ const CommentBodyHeader = props => {
         <View style={styles.texts}>
             <Text style={styles.name}>{props.name}</Text>
             <Text style={styles.info}>Computer Engineer</Text>
-            <Text style={styles.info}>5h</Text>
+            <Text style={styles.info}>{props.createdAt}</Text>
         </View>
     )
 }

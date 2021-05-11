@@ -5,7 +5,7 @@ import { Button } from "react-native-elements";
 import { Colors } from "../../../constants/Colors";
 
 const QuestionFooter = (props) => {
-  const [isFollowed, setIsFollowed] = useState(props.isFollowed)
+ // const [isFollowed, setIsFollowed] = useState(props.isFollowed)
   return (
     <View style={styles.questionFooter}>
       <Button
@@ -25,17 +25,16 @@ const QuestionFooter = (props) => {
       <Button
         onPress={() => {
           props.onFollowPressed()
-          setIsFollowed(!isFollowed)
         }}
         title="Follow"
         buttonStyle={styles.button}
         type="clear"
-        titleStyle={{...styles.buttonTitle, color : isFollowed ? Colors.primary : 'grey'}}
+        titleStyle={{...styles.buttonTitle, color : props.isFollowed ? Colors.primary : 'grey'}}
         icon={
           <MaterialCommunityIcons
             name="signal-variant"
             size={20}
-            color={isFollowed ? Colors.primary : 'grey'}
+            color={props.isFollowed ? Colors.primary : 'grey'}
           />
         }
       />

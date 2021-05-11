@@ -26,6 +26,8 @@ const AnswerItem = props => {
                 </AssinuText>
             </View>
             <AnswerFooter
+            isUpvoted={props.isUpvoted}
+            isDownvoted={props.isDownvoted}
             upvoteAnswer={props.upvoteAnswer}
             downvoteAnswer={props.downvoteAnswer}
             />

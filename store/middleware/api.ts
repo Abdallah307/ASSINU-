@@ -3,27 +3,21 @@ import HOST, { SERVER_PORT } from "../../configs/config";
 import { actions as questionsActions } from "../UniversityQuestions";
 import { actions as publicGroupActions } from "../PublicGroup";
 import { actions as privateGroupActions } from "../PrivateGroup";
+import {actions as answersActions} from '../answer'
 import { createAction } from "@reduxjs/toolkit";
 
 export const fetchUniversityQuestions = createAction(
   "fetchUniversityQuestions"
 );
 export const toggleFollowingStatus = createAction("toggleFollowingStatus");
-export const upvoteAnswer = createAction("upvoteAnswer");
-export const downvoteAnswer = createAction("downvoteAnswer");
 export const addUniversityQuestion = createAction("addUniversityQuestion");
 export const addAnswer = createAction("addAnswer");
 export const fetchQuestionAnswers = createAction("fetchAnswers");
 export const fetchPublicGroupData = createAction("fetchPublicGroupData");
 export const fetchPrivateGroupData = createAction("fetchPrivateGroupData");
-export const createPublicGroupPost = createAction("createPublicGroupPost");
-export const createPrivateGroupPost = createAction("createPrivateGroupPost");
-export const createPublicGroupQuestion = createAction(
-  "createPublicGroupQuestion"
-);
-export const createPrivateGroupQuestion = createAction(
-  "createPrivateGroupQuestion"
-);
+export const upvoteAnswer = createAction('upvoteAnswer')
+export const downvoteAnswer = createAction('downvoteAnswer')
+
 
 const api = ({ dispatch, getState }) => (next) => async (action) => {
   const token = getState().auth.token;
@@ -100,6 +94,58 @@ const api = ({ dispatch, getState }) => (next) => async (action) => {
     }
     catch(err) {
         console.log(err)
+    }
+  }
+  else if (action.type === upvoteAnswer.type) {
+    try {
+      const {groupName, answerId, userId} = action.payload
+      const response = await axios.put(
+        `http://${HOST}:${SERVER_PORT}/${groupName}/questions/answer/upvote`, {
+          answerId : answerId ,
+        },
+        {
+          headers : {
+            Authorization : `Bearer ${token}`
+          }
+        }
+      )
+
+      if (response.status === 201) {
+        dispatch(answersActions.UPVOTE_ANSWER({
+          answerId : answerId ,
+          userId : userId 
+        }))
+      }
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
+  else if (action.type === downvoteAnswer.type) {
+    try {
+      const {groupName, answerId, userId} = action.payload
+      const response = await axios.put(
+        `http://${HOST}:${SERVER_PORT}/${groupName}/questions/answer/downvote`,
+        {
+          answerId: answerId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        dispatch(
+          answersActions.DOWNVOTE_ANSWER({
+            answerId: answerId,
+            userId: userId,
+          })
+        );
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
     else {

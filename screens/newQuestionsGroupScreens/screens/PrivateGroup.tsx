@@ -28,15 +28,6 @@ const PrivateGroup = (props) => {
     );
   }, []);
 
-  useEffect(() => {
-    if (params?.post) {
-    }
-  }, [params?.post]);
-
-  useEffect(() => {
-    if (params?.question) {
-    }
-  }, [params?.question]);
 
   return (
     <View style={styles.mainContainer}>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, FlatList, Text , Keyboard} from "react-native";
+import { View, StyleSheet, FlatList, Text, Keyboard } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import QuestionItem from "../components/QuestionItem";
 import { toggleFollowingStatus } from "../../../store/middleware/api";
@@ -11,6 +11,10 @@ import { actions as answersActions } from "../../../store/answer";
 import { actions as privateGroupActions } from "../../../store/PrivateGroup";
 import { actions as publicGroupActions } from "../../../store/PublicGroup";
 import CustomActivityIndicator from "../../../components/UI/CustomActivityIndicator";
+import {
+  upvoteAnswer as upvoteAnswerAction,
+  downvoteAnswer as downvoteAnswerAction,
+} from "../../../store/middleware/api";
 
 const FullQuestionScreen = (props) => {
   const params = props.route.params;
@@ -20,6 +24,20 @@ const FullQuestionScreen = (props) => {
   const { answers, isLoaded, isCleared } = useSelector(
     (state) => state.answers
   );
+
+  const question = useSelector((state) => {
+    let question;
+    if (groupName === "publicgroup") {
+      question = state.publicGroup.data.find((item) => {
+        return item.type === "question" && item._id === params.question._id;
+      });
+    } else {
+      question = state.privateGroup.data.find((item) => {
+        return item.type === "question" && item._id === params.question._id;
+      });
+    }
+    return question;
+  });
 
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");
@@ -45,7 +63,6 @@ const FullQuestionScreen = (props) => {
             answers: response.data.answers,
           })
         );
-
       }
     } catch (err) {
       console.log(err);
@@ -53,9 +70,9 @@ const FullQuestionScreen = (props) => {
   };
 
   const submitAnswer = async () => {
-    Keyboard.dismiss()
-    setInputValue('')
-    console.log('the input value is : ',inputValue)
+    Keyboard.dismiss();
+    setInputValue("");
+    console.log("the input value is : ", inputValue);
     try {
       const response = await axios.post(
         `http://${HOST}:${SERVER_PORT}/${groupName}/questions/addanswer`,
@@ -108,54 +125,34 @@ const FullQuestionScreen = (props) => {
   };
 
   const upvoteAnswer = async (answer) => {
-    try {
-      const response = await axios.put(
-        `http://${HOST}:${SERVER_PORT}/${groupName}/questions/answer/upvote`, {
-          answerId : answer._id ,
-        },
-        {
-          headers : {
-            Authorization : `Bearer ${token}`
-          }
-        }
-      )
-
-      if (response.status === 201) {
-        dispatch(answersActions.UPVOTE_ANSWER({
-          answerId : answer._id ,
-          userId : userId 
-        }))
-      }
-    }
-    catch (err) {
-      console.log(err)
-    }
-  }
+    dispatch(upvoteAnswerAction({
+      groupName : groupName,
+      userId : userId ,
+      answerId : answer._id
+    }));
+  };
 
   const downvoteAnswer = async (answer) => {
-    try {
-      const response = await axios.put(
-        `http://${HOST}:${SERVER_PORT}/${groupName}/questions/answer/downvote`, {
-          answerId : answer._id ,
-        },
-        {
-          headers : {
-            Authorization : `Bearer ${token}`
-          }
-        }
-      )
+    dispatch(downvoteAnswerAction({
+      groupName : groupName ,
+      userId: userId,
+      answerId : answer._id 
+    }))
+  };
 
-      if (response.status === 201) {
-        dispatch(answersActions.DOWNVOTE_ANSWER({
-          answerId : answer._id ,
-          userId : userId 
-        }))
-      }
-    }
-    catch (err) {
-      console.log(err)
-    }
-  }
+  const isQuestionFollowed = (followers) => {
+    const isFollowing = followers.some((follower) => {
+      return follower === userId;
+    });
+    console.log(isFollowing);
+    return isFollowing;
+  };
+
+  const checkIfVoted = (voters) => {
+    return voters.some((voter) => {
+      return voter === userId;
+    });
+  };
 
   return (
     <View style={styles.mainContainer}>
@@ -165,28 +162,37 @@ const FullQuestionScreen = (props) => {
         <>
           <FlatList
             contentContainerStyle={{ paddingBottom: 200 }}
-            ListHeaderComponent={
-              <QuestionItem
-                numberOfAnswers={answers.length}
-                question={params.question}
-                isFollowed={params.isFollowed}
-                onFollowPressed={() => {
-                  dispatch(
-                    toggleFollowingStatus({
-                      questionId: params.question._id,
-                      userId: userId,
-                      groupName: !params.question.departmentId
-                        ? "publicgroup"
-                        : "departmentgroup",
-                    })
-                  );
-                }}
-              />
-            }
+            ListHeaderComponent={() => {
+              const isFollowed = isQuestionFollowed(question.followers);
+              return (
+                <QuestionItem
+                  numberOfAnswers={answers.length}
+                  question={question}
+                  isFollowed={isFollowed}
+                  onFollowPressed={() => {
+                    dispatch(
+                      toggleFollowingStatus({
+                        questionId: params.question._id,
+                        userId: userId,
+                        groupName: !params.question.departmentId
+                          ? "publicgroup"
+                          : "departmentgroup",
+                      })
+                    );
+                  }}
+                />
+              );
+            }}
             data={answers}
             renderItem={({ item }) => {
+              let isUpvoted = false;
+              let isDownvoted = false;
+              isUpvoted = checkIfVoted(item.upvoters);
+              !isUpvoted ? (isDownvoted = checkIfVoted(item.downvoters)) : null;
               return (
                 <AnswerItem
+                  isUpvoted={isUpvoted}
+                  isDownvoted={isDownvoted}
                   upvoteAnswer={upvoteAnswer.bind(this, item)}
                   downvoteAnswer={downvoteAnswer.bind(this, item)}
                   answer={item}
@@ -198,7 +204,7 @@ const FullQuestionScreen = (props) => {
           />
           <Input
             value={inputValue}
-            placeholder='Write your answer ...'
+            placeholder="Write your answer ..."
             onChangeText={(value) => setInputValue(value)}
             onPressButton={submitAnswer}
           />

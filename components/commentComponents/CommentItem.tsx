@@ -18,6 +18,7 @@ const CommentItem = (props: any) => {
 
                 <CommentBodyHeader
                     name={props.name}
+                    createdAt={props.createdAt}
                 />
 
                 <CommentBodyContent

@@ -6,6 +6,8 @@ import publicGroupReducer from './PublicGroup'
 import privateGroupReducer from './PrivateGroup'
 import teacherReducer from './teacher'
 import answersReducer from './answer'
+import commentsReducer from './comment'
+import replaysReducer from './replay'
 
 const entites = combineReducers({
     auth: authReducer,
@@ -13,7 +15,9 @@ const entites = combineReducers({
     publicGroup: publicGroupReducer,
     privateGroup : privateGroupReducer,
     teacher:teacherReducer,
-    answers : answersReducer
+    answers : answersReducer,
+    comments : commentsReducer,
+    replays : replaysReducer
 })
 
 export default entites;

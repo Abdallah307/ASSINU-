@@ -20,19 +20,6 @@ const PublicGroup = (props) => {
     dispatch(fetchPublicGroupData({}));
   }, []);
 
-  useEffect(() => {
-    if (params?.post) {
-      // uploadPhotoAsync(params.post, 'post', 'publicgroup')
-      // console.log("it is post : ", params.post);
-    }
-  }, [params?.post]);
-
-  useEffect(() => {
-    if (params?.question) {
-      // uploadPhotoAsync(params.question, 'question', 'publicgroup')
-      // console.log("it is question : ", params.question);
-    }
-  }, [params?.question]);
 
   return (
     <View style={styles.mainContainer}>
