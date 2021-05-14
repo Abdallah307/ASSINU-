@@ -30,9 +30,11 @@ const MessagesList = props => {
             }
         })
             .then(response => {
-               // console.log(response.data.chatUsers)
                 setChats(response.data.chatUsers)
                 setChatUsersLoaded(true)
+            })
+            .catch(err => {
+                console.log(err)
             })
     }, [])
 

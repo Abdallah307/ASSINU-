@@ -26,7 +26,7 @@ const QuestionFooter = (props) => {
         onPress={() => {
           props.onFollowPressed()
         }}
-        title="Follow"
+        title={props.isFollowed ? 'Following' : 'Follow'}
         buttonStyle={styles.button}
         type="clear"
         titleStyle={{...styles.buttonTitle, color : props.isFollowed ? Colors.primary : 'grey'}}

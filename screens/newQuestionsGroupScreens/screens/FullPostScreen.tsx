@@ -8,9 +8,11 @@ import { actions as commentActions } from "../../../store/comment";
 import { FlatList } from "react-native-gesture-handler";
 import Input from "../components/Input";
 import CommentItem from "../../../components/commentComponents/CommentItem";
-import {Button} from 'react-native-elements'
-import {actions as privateGroupActions} from '../../../store/PrivateGroup'
-import {actions as publicGroupActions} from '../../../store/PublicGroup'
+import { Button } from "react-native-elements";
+import { actions as privateGroupActions } from "../../../store/PrivateGroup";
+import { actions as publicGroupActions } from "../../../store/PublicGroup";
+import { togglePostLikeStatus } from "../../../store/middleware/api";
+import {actions as groupActions} from '../../../store/Group'
 
 const FullPostScreen = (props) => {
   const params = props.route.params;
@@ -22,17 +24,9 @@ const FullPostScreen = (props) => {
   const { userId, token } = useSelector((state) => state.auth);
 
   const post = useSelector((state) => {
-    let post;
-    if (params.groupName === "publicgroup") {
-      post = state.publicGroup.data.find((item) => {
-        return item.type === "post" && item._id === params.post._id;
-      });
-    } else {
-      post = state.privateGroup.data.find((item) => {
-        return item.type === "post" && item._id === params.post._id;
-      });
-    }
-    return post;
+    return state.group.timeline.find((item) => {
+      return item.type === "post" && item._id === params.post._id;
+    });
   });
 
   const comments = useSelector((state) => {
@@ -47,7 +41,7 @@ const FullPostScreen = (props) => {
   const fetchComments = async () => {
     try {
       const response = await axios.get(
-        `http://${HOST}:${SERVER_PORT}/${params.groupName}/posts/${post._id}/comments`,
+        `http://${HOST}:${SERVER_PORT}/group/comments/${params.post._id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -69,13 +63,14 @@ const FullPostScreen = (props) => {
 
   const submitComment = async () => {
     try {
-      setInputValue('')
-      Keyboard.dismiss()
+      setInputValue("");
+      Keyboard.dismiss();
       const response = await axios.post(
-        `http://${HOST}:${SERVER_PORT}/${params.groupName}/posts/addcomment`,
+        `http://${HOST}:${SERVER_PORT}/group/addcomment`,
         {
           content: inputValue,
-          post: post._id,
+          referedTo: post._id,
+          type : 'post'
         },
         {
           headers: {
@@ -92,16 +87,9 @@ const FullPostScreen = (props) => {
           })
         );
 
-        if (params.groupName === 'publicgroup') {
-            dispatch(publicGroupActions.INCREMENT_NUMBER_OF_POST_COMMENTS({
-                postId : post._id 
-            }))
-        }
-        else if (params.groupName === 'departmentgroup') {
-            dispatch(privateGroupActions.INCREMENT_NUMBER_OF_POST_COMMENTS({
-                postId : post._id 
-            }))
-        }
+        dispatch(groupActions.INCREMENT_NUMBER_OF_POST_COMMENTS({
+          postId : post._id 
+        }))
       }
     } catch (err) {
       console.log(err);
@@ -109,37 +97,54 @@ const FullPostScreen = (props) => {
   };
 
   const openReplaysScreen = (comment) => {
-      props.navigation.navigate('PostReplaysScreen', {
-          comment : comment,
-          groupName : params.groupName
-      })
-  }
+    props.navigation.navigate("ReplayScreen", {
+      comment: comment,
+    });
+  };
+
+  const isPostLiked = (post) => {
+    const isLiked = post.likes.some((item) => {
+      return item === userId;
+    });
+    return isLiked;
+  };
 
   return (
     <View style={styles.mainContainer}>
-      
       <FlatList
         ListHeaderComponent={() => {
-            return (
-                <PostItem post={post} />
-            )
+          const isLiked = isPostLiked(post);
+          return (
+            <PostItem
+              isLiked={isLiked}
+              onLikePostPressed={() => {
+                dispatch(
+                  togglePostLikeStatus({
+                    postId: post._id,
+                    userId: userId,
+                  })
+                );
+              }}
+              post={post}
+            />
+          );
         }}
-        contentContainerStyle={{paddingBottom : 200}}
+        contentContainerStyle={{ paddingBottom: 200 }}
         data={comments}
         renderItem={({ item }) => {
-         return (
-             <CommentItem
-             imageUrl={item.owner.imageUrl}
-             name={item.owner.name}
-             createdAt={item.createdAt}
-             content={item.content}
-             >
-                 <Button
-                 title='Replay'
-                 onPress={openReplaysScreen.bind(this, item)}
-                 />
-                 </CommentItem>
-         )
+          return (
+            <CommentItem
+              imageUrl={item.owner.imageUrl}
+              name={item.owner.name}
+              createdAt={item.createdAt}
+              content={item.content}
+            >
+              <Button
+                title="Replay"
+                onPress={openReplaysScreen.bind(this, item)}
+              />
+            </CommentItem>
+          );
         }}
         keyExtractor={(item) => item._id}
       />

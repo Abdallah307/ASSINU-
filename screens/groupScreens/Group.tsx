@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, Text, ScrollView } from 'react-native'
-import PostItem from '../../components/postComponents/PostItem'
 import WritePost from '../../components/postComponents/WritePost'
 import { Button } from 'react-native-elements'
 import CustomeActivityIndicator from '../../components/UI/CustomActivityIndicator'
@@ -11,60 +10,35 @@ import axios from 'axios'
 import HOST, { SERVER_PORT } from '../../configs/config'
 import GroupScreen from '../Group/GroupScreen'
 import GroupHeader from '../Group/GroupHeader'
-import { useSelector } from 'react-redux'
-
+import { useDispatch, useSelector } from 'react-redux'
+import {fetchGroupTimeline, togglePostLikeStatus, toggleFollowingStatus} from '../../store/middleware/api'
+import {actions as groupActions} from '../../store/Group'
+import PostItem from '../newQuestionsGroupScreens/components/PostItem'
+import QuestionItem from '../newQuestionsGroupScreens/components/QuestionItem'
+import FloatingButton from '../../components/UI/FloatingButton'
 
 const Group = (props) => {
 
 
-    const [GroupPosts, setGroupPosts] = useState([])
-    const [isLoaded, setIsLoaded] = useState(false)
-
+    const dispatch = useDispatch()
+    const {timeline, isLoaded} = useSelector(state => {
+        return state.group
+    })
     const params = props.route.params
 
-    const token = useSelector(state => state.auth.token)
-
+    const {token, userId, imageUrl ,name} = useSelector(state => state.auth)
+    //remember the bug here (add groups screen)
     useEffect(() => {
-        let isCancelled = false
-        const fetchGroupPosts = async () => {
-            console.log('fetch group posts')
-            try {
-                const groupId = params.id
-                const response = await CourseGroup.fetchPosts(groupId, token)
+        console.log('hala group')
+        dispatch(groupActions.CLEAR_TIMELINE({}))
 
-                if (response.status === 200) {
-                    setIsLoaded(true)
-                    if (!isCancelled)
-                        setGroupPosts(response.data.posts)
-                }
-            }
-            catch (err) {
-                console.log(err)
-            }
-        }
+        dispatch(fetchGroupTimeline({
+            groupId : params.id 
+        }))
+    
+    }, [params.id])
 
-        fetchGroupPosts()
-        return () => {
-            isCancelled = true
-        }
-    }, [])
-
-    useEffect(() => {
-        if (params?.post) {
-            let posts = [...GroupPosts]
-            posts.unshift(params.post)
-            setGroupPosts(posts)
-        }
-    }, [params?.post])
-
-    useEffect(() => {
-        if (params?.poll) {
-            let posts = [...GroupPosts]
-            posts.unshift(params.poll)
-            setGroupPosts(posts)
-        }
-    }, [params?.poll])
-
+   
 
     const openGroupMembers = () => {
         props.navigation.navigate('GroupMembers', {
@@ -72,15 +46,6 @@ const Group = (props) => {
         })
     }
 
-    const openCreatePost = () => {
-        props.navigation.navigate('CreatePost', {
-            groupId: params.id,
-            userImage: params.userImage,
-            userId: params.userId,
-            username: params.username,
-            navScreen: 'Group'
-        })
-    }
 
     const votePoll = (pollId, choiceId) => {
         const voterId = params.userId
@@ -108,33 +73,82 @@ const Group = (props) => {
         })
     }
 
+    const openImage = (imageUrl) => {
+        props.navigation.navigate('FullImageScreen', {
+          imageUrl : imageUrl
+        })
+      }
+  
+      const isPostLiked = (likes) => {
+        const isLiked = likes.some(item => {
+          return item === userId 
+        })
+        return isLiked
+      }
 
-    const renderGroupPostAndPolls = (itemData) => {
-        if (itemData.item.type === 'post') {
-            const post = itemData.item
-            let imageUrl;
-            try { imageUrl = post.imageUrl } catch (err) { imageUrl = null }
+      const onLikePostPressed = (post) => {
+        dispatch(togglePostLikeStatus({
+          postId : post._id,
+          userId : userId ,
+        }))
+      }
 
+      const onFollowQuestionPressed = async (question) => {
+  
+          dispatch(toggleFollowingStatus({
+            questionId : question._id,
+            userId : userId
+          }))
+      }
+
+      const isQuestionFollowed = (followers) => {
+        const isFollowing = followers.some(follower => {
+          return follower === userId
+        })
+        console.log(isFollowing)
+        return isFollowing
+      }
+
+      const openCreatePostQuestion = (navScreen, groupName) => {
+        props.navigation.navigate("CreatePostQuestionScreen", {
+            groupId : params.id
+        });
+      };
+  
+      const openPost = (post) => {
+        props.navigation.navigate('FullPostScreen', {
+          post : post,
+        })
+      }
+  
+      const openQuestion = (question, isFollowed) => {
+        props.navigation.navigate('FullQuestionScreen', {
+          question : question,
+        })
+      }
+
+
+    const renderGroupPostAndPolls = ({item}) => {
+        if (item.type === 'post') {
+            const likes = item.likes
+            let isLiked = isPostLiked(likes)
             return (
-                <PostItem
-                    onPostHeaderPressed={() => {
-                        props.navigation.navigate('StudentProfile', {
-                            student: post.ownerId,
-                        })
-                    }}
-                    navigation={props.navigation}
-                    imageUrl={imageUrl}
-                    post={post}
-                />
-            )
+            <PostItem 
+            onLikePostPressed={onLikePostPressed.bind(this, item)}
+            isLiked={isLiked}
+            post={item}
+            onPress={openPost.bind(this, item)}
+            openImage={openImage.bind(this, item.imageUrl)}
+            />
+            );
         }
-        else if (itemData.item.type === 'poll') {
-            const voters = itemData.item.voters
+        else if (item.type === 'poll') {
+            const voters = item.voters
             let isAlreadyVoted;
             let voter;
             if (voters.length !== 0) {
                 voter = voters.find(voter => {
-                    return voter.voterId._id === params.userId
+                    return voter.voterId._id === userId
                 })
 
                 if (!voter) {
@@ -145,13 +159,28 @@ const Group = (props) => {
             }
             return (
                 <PollItemSingleChoice
-                    openVotersListScreen={(choiceId) => openVotersListScreen(itemData.item.voters, choiceId)}
+                    openVotersListScreen={(choiceId) => openVotersListScreen(item.voters, choiceId)}
                     votePoll={votePoll}
                     isAlreadyVoted={isAlreadyVoted}
                     voter={voter}
-                    poll={itemData.item}
+                    poll={item}
                 />
             )
+        }
+        else if (item.type === 'question') {
+            const followers = item.followers
+            const isFollowed = isQuestionFollowed(followers)
+            
+            return (
+                <QuestionItem 
+                numberOfAnswers={item.numberOfAnswers}
+                question={item}
+                onPress={openQuestion.bind(this, item, isFollowed)}
+                isFollowed={isFollowed}
+                onFollowPressed={() => onFollowQuestionPressed(item)}
+                openImage={openImage.bind(this, item.imageUrl)}
+                />
+            ) 
         }
     }
 
@@ -184,9 +213,9 @@ const Group = (props) => {
                         containerStyle={{ flex: 1, marginHorizontal: 5 }}
                         onPress={() => props.navigation.navigate("Poll", {
                             groupId: params.id,
-                            userImage: params.userImage,
-                            userId: params.userId,
-                            username: params.username,
+                            userImage: imageUrl,
+                            userId: userId,
+                            username: name,
                             navScreen: 'Group'
                         })}
                         buttonStyle={{
@@ -197,8 +226,8 @@ const Group = (props) => {
                 </View>
 
                 <WritePost
-                    imageUrl={params.userImage}
-                    onTouch={openCreatePost}
+                    imageUrl={imageUrl}
+                    //onTouch={openCreatePost}
                 />
             </View>
         )
@@ -213,7 +242,7 @@ const Group = (props) => {
                     <GroupScreen
                         ListHeaderComponent={
                             <GroupHeader
-                                showChattingButton={true}
+                                showChattingButton={params.showChattingButton}
                                 numberOfMembers={params.numberOfMembers}
                                 title={params.title}
                                 openGroupMembers={openGroupMembers}
@@ -225,7 +254,7 @@ const Group = (props) => {
                                 <GroupHeaderChildren />
                             </GroupHeader>
                         }
-                        data={GroupPosts}
+                        data={timeline}
                         renderItem={renderGroupPostAndPolls}
                         keyExtractor={(item, index) => item._id.toString()}
                         onEndReached={() => console.log('End Reached')}
@@ -233,6 +262,12 @@ const Group = (props) => {
                     />
 
             }
+            <FloatingButton
+            size={65}
+            activeOpacity={0.7}
+            backgroundColor='red'
+            onPress={openCreatePostQuestion}
+            />
         </>
     )
 }

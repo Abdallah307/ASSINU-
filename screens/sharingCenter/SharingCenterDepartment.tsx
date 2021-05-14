@@ -22,11 +22,8 @@ const SharingCenterDepartment = props => {
 
     const [isSearching, setIsSearching] = useState(false)
 
-    const studentDepartmentId = useSelector(state=> {
-        return state.student.department._id
-    })
+    const {departmentId, token} = useSelector(state => state.auth)
 
-    const token = useSelector(state => state.auth.token)
 
     const searchForItems = async (value: string) => {
         setIsSearching(true)
@@ -63,7 +60,7 @@ const SharingCenterDepartment = props => {
     const fetchItems = async (isCancelled: boolean) => {
         try {
             const response = await axios.get(
-                `http://${HOST}:${SERVER_PORT}/sharingcenter/department/${studentDepartmentId}`
+                `http://${HOST}:${SERVER_PORT}/sharingcenter/department/${departmentId}`
             ,{
                 headers: {
                     'Authorization':'Bearer ' + token

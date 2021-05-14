@@ -22,18 +22,18 @@ import HOST, { SERVER_PORT } from "../../../configs/config";
 import axios from "axios";
 import { actions as publicGroupActions } from "../../../store/PublicGroup";
 import { actions as privateGroupActions } from "../../../store/PrivateGroup";
+import {actions as groupActions} from '../../../store/Group'
 
 const CreatePostQuestionScreen = (props) => {
   const dispatch = useDispatch();
-
+ 
   const [inputValue, setInputValue] = useState("");
   const [image, setImage] = useState(null);
   const [result, setResult] = useState();
   const [shareType, setShareType] = useState("post");
 
   const params = props.route.params;
-
-  const { name, imageUrl, token, departmentId } = useSelector((state) => {
+  const { name, imageUrl, token } = useSelector((state) => {
     return state.auth;
   });
 
@@ -103,14 +103,10 @@ const CreatePostQuestionScreen = (props) => {
       formData.append("imageUrl", { uri: localUri, name: filename, type });
     }
     formData.append("content", inputValue);
-    console.log("department id is : ", departmentId);
-    console.log("group name is : ", params.groupName);
-    if (params.groupName === "departmentgroup") {
-      formData.append("departmentId", departmentId);
-    }
+    formData.append('groupId', params.groupId)
     try {
       const response = await axios.post(
-        `http://${HOST}:${SERVER_PORT}/${params.groupName}/create${shareType}`,
+        `http://${HOST}:${SERVER_PORT}/group/create${shareType}`,
         formData,
         {
           headers: {
@@ -120,20 +116,17 @@ const CreatePostQuestionScreen = (props) => {
         }
       );
       if (response.status === 201) {
-        console.log(response.data.data);
-        if (params.groupName === "publicgroup") {
-          dispatch(
-            publicGroupActions.CREATE_POST({
-              data: response.data.data,
-            })
-          );
-        } else if (params.groupName === "departmentgroup") {
-          dispatch(
-            privateGroupActions.CREATE_POST({
-              data: response.data.data,
-            })
-          );
-        }
+       if (shareType === 'post') {
+         dispatch(groupActions.CREATE_POST({
+           post : response.data.post 
+         }))
+       }
+       else if (shareType === 'question') {
+         dispatch(groupActions.CREATE_QUESTION({
+           question : response.data.question
+         }))
+       } 
+       
         props.navigation.goBack();
       }
     } catch (err) {

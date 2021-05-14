@@ -16,6 +16,8 @@ import {
   downvoteAnswer as downvoteAnswerAction,
 } from "../../../store/middleware/api";
 
+import {actions as groupActions} from '../../../store/Group'
+
 const FullQuestionScreen = (props) => {
   const params = props.route.params;
   const groupName = !params.question.departmentId
@@ -26,17 +28,9 @@ const FullQuestionScreen = (props) => {
   );
 
   const question = useSelector((state) => {
-    let question;
-    if (groupName === "publicgroup") {
-      question = state.publicGroup.data.find((item) => {
-        return item.type === "question" && item._id === params.question._id;
-      });
-    } else {
-      question = state.privateGroup.data.find((item) => {
-        return item.type === "question" && item._id === params.question._id;
-      });
-    }
-    return question;
+    return state.group.timeline.find((item) => {
+      return item.type === "question" && item._id === params.question._id;
+    });
   });
 
   const dispatch = useDispatch();
@@ -46,9 +40,8 @@ const FullQuestionScreen = (props) => {
 
   const fetchQuestionAnswers = async () => {
     try {
-      !params.question.departmentId ? "publicgroup" : "departmentgroup";
       const response = await axios.get(
-        `http://${HOST}:${SERVER_PORT}/${groupName}/questions/${params.question._id}/answers`,
+        `http://${HOST}:${SERVER_PORT}/group/questions/${params.question._id}/answers`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -57,7 +50,6 @@ const FullQuestionScreen = (props) => {
       );
 
       if (response.status === 200) {
-        console.log(response.data.answers);
         dispatch(
           answersActions.SET_ANSWERS({
             answers: response.data.answers,
@@ -75,7 +67,7 @@ const FullQuestionScreen = (props) => {
     console.log("the input value is : ", inputValue);
     try {
       const response = await axios.post(
-        `http://${HOST}:${SERVER_PORT}/${groupName}/questions/addanswer`,
+        `http://${HOST}:${SERVER_PORT}/group/questions/addanswer`,
         {
           content: inputValue,
           question: params.question._id,
@@ -93,19 +85,11 @@ const FullQuestionScreen = (props) => {
             answer: response.data.answer,
           })
         );
-        if (groupName === "departmentgroup") {
-          dispatch(
-            privateGroupActions.INCREMENT_NUMBER_OF_ANSWERS({
-              questionId: params.question._id,
-            })
-          );
-        } else {
-          dispatch(
-            publicGroupActions.INCREMENT_NUMBER_OF_ANSWERS({
-              questionId: params.question._id,
-            })
-          );
-        }
+       
+        dispatch(groupActions.INCREMENT_NUMBER_OF_ANSWERS({
+          questionId : params.question._id
+        }))
+
       }
     } catch (err) {
       console.log(err);
@@ -125,19 +109,21 @@ const FullQuestionScreen = (props) => {
   };
 
   const upvoteAnswer = async (answer) => {
-    dispatch(upvoteAnswerAction({
-      groupName : groupName,
-      userId : userId ,
-      answerId : answer._id
-    }));
+    dispatch(
+      upvoteAnswerAction({
+        userId: userId,
+        answerId: answer._id,
+      })
+    );
   };
 
   const downvoteAnswer = async (answer) => {
-    dispatch(downvoteAnswerAction({
-      groupName : groupName ,
-      userId: userId,
-      answerId : answer._id 
-    }))
+    dispatch(
+      downvoteAnswerAction({
+        userId: userId,
+        answerId: answer._id,
+      })
+    );
   };
 
   const isQuestionFollowed = (followers) => {
@@ -174,9 +160,6 @@ const FullQuestionScreen = (props) => {
                       toggleFollowingStatus({
                         questionId: params.question._id,
                         userId: userId,
-                        groupName: !params.question.departmentId
-                          ? "publicgroup"
-                          : "departmentgroup",
                       })
                     );
                   }}

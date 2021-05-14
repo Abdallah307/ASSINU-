@@ -34,13 +34,11 @@ const ShareItemScreen = props => {
 
     const [shareLocation, setShareLocation] = useState('public')
 
-    const {userId, token} = useSelector(state => {
+    const {userId, token, departmentId} = useSelector(state => {
         return state.auth
     })
 
-    const studentDepartmentId = useSelector(state => {
-        return state.student.department.departmentId
-    })
+    
 
 
     const takeImageFromCamera = async () => {
@@ -103,7 +101,7 @@ const ShareItemScreen = props => {
         formData.append('details', itemDetails)
         formData.append('ownerId', userId)
 
-        shareLocation === 'department' ? formData.append('departmentId', studentDepartmentId) : null
+        shareLocation === 'department' ? formData.append('departmentId', departmentId) : null
 
         const response = await axios
             .post(`http:${HOST}:${SERVER_PORT}/sharingcenter/${shareLocation}/shareitem`,

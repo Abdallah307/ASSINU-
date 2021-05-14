@@ -4,7 +4,7 @@ import { View, FlatList } from 'react-native'
 const GroupPostList = props => {
     return (
         <FlatList
-            contentContainerStyle={{ paddingBottom: 100 }}
+            contentContainerStyle={{ paddingBottom: 200 }}
             {...props}
         />
     )

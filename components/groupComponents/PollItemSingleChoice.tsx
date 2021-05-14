@@ -12,8 +12,8 @@ const PollItemSingleChoice = props => {
   return (
     <View style={styles.pollItem}>
       <PostHeader
-        imageUrl={props.poll.ownerId.imageUrl}
-        ownerName={props.poll.ownerId.name}
+        imageUrl={props.poll.owner.imageUrl}
+        ownerName={props.poll.owner.name}
         createdAt={props.poll.createdAt}
       />
       <Text style={styles.pollContent}>{props.poll.content}</Text>

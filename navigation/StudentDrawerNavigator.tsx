@@ -10,6 +10,7 @@ import { Colors } from '../constants/Colors'
 import DepartmentGroup from '../screens/teacherScreens/DepartmentGroup'
 import PublicGroupNavigator from './MainGroups/PublicGroupNavigator'
 import PrivateGroupNavigator from './MainGroups/PrivateGroupNavigator'
+import GroupNavigator from './newNavigation/GroupNavigator'
 
 const Drawer = createDrawerNavigator()
 
@@ -28,6 +29,13 @@ const StudentDrawerNavigator = (props: any) => {
                     component={StudentTabNavigator}
                     options={{
                         title: 'Home'
+                    }}
+                />
+                 <Drawer.Screen
+                    name='GroupNavigator'
+                    component={GroupNavigator}
+                    options={{
+                        title: 'Hello Group Navigator'
                     }}
                 />
 

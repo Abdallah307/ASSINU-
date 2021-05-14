@@ -30,6 +30,23 @@ const slice = createSlice({
             state.data[questionIndex].numberOfAnswers += 1
         },
         TOGGLE_LIKE_POST : (state, action) => {
+            const postId = action.payload.postId
+            const userId = action.payload.userId 
+            const postIndex = state.data.findIndex(item => {
+                return item.type === 'post' && item._id === postId 
+            })
+
+            if (state.data[postIndex].likes.some(item => item === userId)) {
+                state.data[postIndex].likes = state.data[postIndex].likes.filter(item => {
+                    return item != userId
+                })
+                state.data[postIndex].numberOfLikes -= 1
+            }
+            else {
+                state.data[postIndex].likes.push(userId)
+                state.data[postIndex].numberOfLikes += 1
+            }
+
             
         },
         TOGGLE_FOLLOW_QUESTION : (state, action) => {

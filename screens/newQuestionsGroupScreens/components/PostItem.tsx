@@ -20,7 +20,10 @@ const PostItem = (props) => {
       imageUrl={post.imageUrl}
       openImage={props.openImage}
       />
-      <PostFooter/>
+      <PostFooter
+      onLikePostPressed={props.onLikePostPressed}
+      isLiked={props.isLiked}
+      />
     </View>
   );
 };

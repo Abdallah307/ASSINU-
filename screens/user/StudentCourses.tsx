@@ -25,13 +25,14 @@ const StudentCourses = props => {
 
     const openCourseGroup = (itemData) => {
         const item = itemData.item
-        props.navigation.navigate('Group', {
+        props.navigation.navigate('GroupNavigator', {
             title: item.courseId.name,
             id: item.courseId._id,
             userImage: userData.imageUrl,
             numberOfMembers: item.courseId.students.length,
             userId: userData.userId,
-            username: userData.name
+            username: userData.name,
+            showChattingButton  : true
         })
 
     }

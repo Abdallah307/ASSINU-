@@ -7,6 +7,7 @@ import FullAnswerScreen from "../../screens/newQuestionsGroupScreens/screens/Ful
 import FullQuestionScreen from "../../screens/newQuestionsGroupScreens/screens/FullQuestionScreen";
 import FullImageScreen from "../../screens/postsScreens/FullImageScreen";
 import AnswersReplayScreen from "../../screens/newQuestionsGroupScreens/screens/AnswerReplaysScreen";
+import PostReplaysScreen from "../../screens/newQuestionsGroupScreens/screens/PostReplaysScreen";
 
 const Stack = createStackNavigator();
 
@@ -26,6 +27,7 @@ const PrivateGroupNavigator = (props) => {
       <Stack.Screen name='FullQuestionScreen' component={FullQuestionScreen} />
       <Stack.Screen name='AnswerReplaysScreen' component={AnswersReplayScreen} />
       <Stack.Screen name="FullImageScreen" component={FullImageScreen}/>
+      <Stack.Screen name="PostReplaysScreen" component={PostReplaysScreen}/>
     </Stack.Navigator>
   );
 };

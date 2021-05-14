@@ -2,17 +2,24 @@ import { AntDesign, EvilIcons } from '@expo/vector-icons'
 import React from 'react'
 import {View, StyleSheet, Text} from 'react-native'
 import {Button} from 'react-native-elements'
+import { Colors } from '../../../constants/Colors'
 
 
 const PostFooter = props => {
     return (
         <View style={styles.postFooter}>
             <Button 
+            onPress={props.onLikePostPressed}
             title='Like'
-            icon={<AntDesign name="like2" size={23} color='grey' />}
-            onPress={props.onLikePressed}
+            icon={
+            <AntDesign 
+            name="like2" 
+            size={23} 
+            color={props.isLiked ? Colors.primary : 'grey'} 
+            />
+        }
             type='clear'
-            titleStyle={styles.buttonTitle}
+            titleStyle={{...styles.buttonTitle, color : props.isLiked ? Colors.primary : 'grey'}}
             />
             <Button 
             title='Comment'

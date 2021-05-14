@@ -8,6 +8,7 @@ import teacherReducer from './teacher'
 import answersReducer from './answer'
 import commentsReducer from './comment'
 import replaysReducer from './replay'
+import groupReducer from './Group'
 
 const entites = combineReducers({
     auth: authReducer,
@@ -17,7 +18,8 @@ const entites = combineReducers({
     teacher:teacherReducer,
     answers : answersReducer,
     comments : commentsReducer,
-    replays : replaysReducer
+    replays : replaysReducer,
+    group : groupReducer,
 })
 
 export default entites;

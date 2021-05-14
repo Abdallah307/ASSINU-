@@ -16,7 +16,6 @@ import {actions as answersActions} from '../../../store/answer'
 const FullAnswerScreen = props => {
     const [inputValue ,setInputValue] = useState('')
 
-    const groupName = props.route.params.groupName
 
     const dispatch = useDispatch()
     const {token , userId} = useSelector(state=> state.auth)
@@ -36,7 +35,7 @@ const FullAnswerScreen = props => {
         try {
             const answerId = answer._id
             const response = await axios.get(
-                `http://${HOST}:${SERVER_PORT}/${groupName}/questions/answer/${answerId}/comments`,{
+                `http://${HOST}:${SERVER_PORT}/group/comments/${answerId}`,{
                     headers : {
                         Authorization : `Bearer ${token}`
                     }
@@ -44,14 +43,13 @@ const FullAnswerScreen = props => {
             )
 
             if (response.status === 200) {
-                console.log(response.data.comments)
                 dispatch(commentActions.SET_COMMENTS({
                     comments : response.data.comments,
                 }))
             }
         }
         catch(err) {
-
+            console.log(err)
         }
     }
 
@@ -65,9 +63,10 @@ const FullAnswerScreen = props => {
             setInputValue('')
             Keyboard.dismiss()
             const response = await axios.post(
-                `http://${HOST}:${SERVER_PORT}/${groupName}/questions/answer/addcomment`,{
-                    answer : answer._id,
-                    content : inputValue
+                `http://${HOST}:${SERVER_PORT}/group/addcomment`,{
+                    referedTo : answer._id,
+                    content : inputValue,
+                    type : 'answer'
                 },
                 {
                     headers : {
@@ -90,7 +89,7 @@ const FullAnswerScreen = props => {
             }
         }
         catch (err) {
-
+            console.log(err)
         }
     }
 
@@ -101,9 +100,8 @@ const FullAnswerScreen = props => {
     }
 
     const openReplaysScreen = (comment) => {
-        props.navigation.navigate('AnswerReplaysScreen', {
+        props.navigation.navigate('ReplayScreen', {
             comment : comment,
-            groupName : groupName
         })
     }
 
@@ -123,14 +121,12 @@ const FullAnswerScreen = props => {
                     answer={answer}
                     upvoteAnswer={() => {
                         dispatch(upvoteAnswer({
-                            groupName : groupName ,
                             userId : userId,
                             answerId : answer._id 
                         }))
                     }}
                     downvoteAnswer={() => {
                         dispatch(downvoteAnswer({
-                            groupName : groupName,
                             userId : userId,
                             answerId : answer._id 
                         }))

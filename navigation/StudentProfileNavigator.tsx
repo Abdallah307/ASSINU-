@@ -16,7 +16,7 @@ import FullQuestionScreen from '../screens/Ask/FullQuestionScreen'
 import AddAnswerScreen from '../screens/Ask/AddAnswerScreen'
 import StudentProfile from '../screens/Student/StudentProfile'
 import VotersListScreen from '../components/groupComponents/VotersListScreen'
-import GroupNavigator from './GroupNavigator'
+import GroupNavigator from './newNavigation/GroupNavigator'
 
 const Stack = createStackNavigator()
 
@@ -54,9 +54,9 @@ const StudentProfileNavigator = (props: any) => {
 
             <Stack.Screen
                 options={{
-                    headerShown:false
+                    headerShown:false 
                 }}
-                name="Group"
+                name="GroupNavigator"
                 component={GroupNavigator}
             />
 
@@ -65,7 +65,7 @@ const StudentProfileNavigator = (props: any) => {
                 component={AskScreen}
             />
 
-            <Stack.Screen
+            {/* <Stack.Screen
                 name="CreatePost"
                 component={CreatePost}
             />
@@ -78,9 +78,9 @@ const StudentProfileNavigator = (props: any) => {
             <Stack.Screen
                 name="GroupMembers"
                 component={GroupMembers}
-            />
+            /> */}
 
-            <Stack.Screen
+            {/* <Stack.Screen
                 name="FullImageScreen"
                 options={{
                     title: 'Image',
@@ -90,24 +90,24 @@ const StudentProfileNavigator = (props: any) => {
                     }
                 }}
                 component={FullImageScreen}
-            />
+            /> */}
 
             <Stack.Screen name="Poll" component={Poll} />
 
-            <Stack.Screen name="FullQuestion" component={FullQuestionScreen} />
+            {/* <Stack.Screen name="FullQuestion" component={FullQuestionScreen} /> */}
 
-            <Stack.Screen
+            {/* <Stack.Screen
                 options={({ route }) => ({
                     title: route.params.title
                 })}
                 name="ChattingScreen"
                 component={GroupChatting}
-            />
+            /> */}
 
-            <Stack.Screen
+            {/* <Stack.Screen
                 name='VotersListScreen'
                 component={VotersListScreen}
-            />
+            /> */}
 
         </Stack.Navigator>
     )

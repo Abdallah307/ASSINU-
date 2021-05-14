@@ -7,7 +7,7 @@ import PostItem from "./components/PostItem";
 import QuestionItem from "./components/QuestionItem";
 import {actions as privateGroupActions} from '../../store/PrivateGroup'
 import {actions as publicGroupActions} from '../../store/PublicGroup'
-import {toggleFollowingStatus} from '../../store/middleware/api'
+import {toggleFollowingStatus, togglePostLikeStatus} from '../../store/middleware/api'
 
 export const withGroup = (WrappedComponent) => {
   const WithGroup = (props) => {
@@ -66,10 +66,30 @@ export const withGroup = (WrappedComponent) => {
       })
     }
 
+    const isPostLiked = (likes) => {
+      const isLiked = likes.some(item => {
+        return item === userId 
+      })
+      return isLiked
+    }
+
+    const onLikePostPressed = (post) => {
+      let groupName = !post.departmentId ? 'publicgroup' : 'departmentgroup'
+      dispatch(togglePostLikeStatus({
+        postId : post._id,
+        userId : userId ,
+        groupName : groupName
+      }))
+    }
+
     const renderData = ({ item }) => {
       if (item.type === "post") {
+        const likes = item.likes
+        let isLiked = isPostLiked(likes)
         return (
         <PostItem 
+        onLikePostPressed={onLikePostPressed.bind(this, item)}
+        isLiked={isLiked}
         post={item}
         onPress={openPost.bind(this, item)}
         openImage={openImage.bind(this, item.imageUrl)}
@@ -78,6 +98,7 @@ export const withGroup = (WrappedComponent) => {
       } else if (item.type === "question") {
         const followers = item.followers
         const isFollowed = isQuestionFollowed(followers)
+        
         return (
             <QuestionItem 
             numberOfAnswers={item.numberOfAnswers}
