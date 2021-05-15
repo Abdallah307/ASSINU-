@@ -1,7 +1,6 @@
 import React from 'react'
 import {View, StyleSheet, Text} from 'react-native'
 
-
 const Feed = (props) => {
     return(
         <View style={styles.mainView}>

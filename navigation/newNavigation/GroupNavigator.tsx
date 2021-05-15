@@ -9,14 +9,27 @@ import AnswersReplayScreen from "../../screens/newQuestionsGroupScreens/screens/
 import FullImageScreen from "../../screens/postsScreens/FullImageScreen";
 import PostReplaysScreen from "../../screens/newQuestionsGroupScreens/screens/PostReplaysScreen";
 import VotersListScreen from "../../components/groupComponents/VotersListScreen";
-import GroupChatting from '../../screens/groupScreens/GroupChatting'
+import GroupChatting from "../../screens/groupScreens/GroupChatting";
 import ReplayScreen from "../../screens/newQuestionsGroupScreens/screens/ReplayScreen";
+import CreatePollScreen from "../../screens/newQuestionsGroupScreens/screens/CreatePollScreen";
+import { Colors } from "../../constants/Colors";
 const Stack = createStackNavigator();
 
 const GroupNavigator = (props) => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+    screenOptions={{
+      headerTintColor : 'white',
+      headerTitleAlign : 'center',
+      headerStyle : {
+        backgroundColor : Colors.primary,
+      }
+    }}
+    >
       <Stack.Screen
+        options={{
+          title : props.route.params.title,
+        }}
         initialParams={props.route.params}
         name="GroupScreen"
         component={Group}
@@ -39,12 +52,13 @@ const GroupNavigator = (props) => {
       <Stack.Screen name="ReplayScreen" component={ReplayScreen} />
       <Stack.Screen name="VotersListScreen" component={VotersListScreen} />
       <Stack.Screen
-                options={({ route }) => ({
-                    title: route.params.title
-                })}
-                name="ChattingScreen"
-                component={GroupChatting}
-            />
+        options={({ route }) => ({
+          title: route.params.title,
+        })}
+        name="ChattingScreen"
+        component={GroupChatting}
+      />
+      <Stack.Screen name="CreatePollScreen" component={CreatePollScreen} />
     </Stack.Navigator>
   );
 };

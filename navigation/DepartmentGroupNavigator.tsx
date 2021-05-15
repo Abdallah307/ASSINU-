@@ -5,9 +5,9 @@ import CreatePost from '../screens/postsScreens/CreatePost'
 import FullPost from '../screens/postsScreens/FullPost'
 import GroupMembers from '../screens/groupScreens/GroupMembers'
 import FullImageScreen from '../screens/postsScreens/FullImageScreen'
-import Poll from '../components/groupComponents/CreatePollScreen'
 import VotersListScreen from '../components/groupComponents/VotersListScreen'
 import { Colors } from '../constants/Colors'
+import CreatePollScreen from '../screens/newQuestionsGroupScreens/screens/CreatePollScreen'
 
 const Stack = createStackNavigator()
 
@@ -55,7 +55,7 @@ const DepartmentGroupNavigator = props => {
                 component={FullImageScreen}
             />
 
-            <Stack.Screen name="Poll" component={Poll} />
+            <Stack.Screen name="CreatePollScreen" component={CreatePollScreen} />
 
             <Stack.Screen
                 name='VotersListScreen'

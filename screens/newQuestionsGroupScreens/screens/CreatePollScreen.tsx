@@ -1,36 +1,39 @@
 import React, { useState } from 'react'
 import { View, ScrollView, StyleSheet, TextInput } from 'react-native'
-import CreatePostHeader from '../postComponents/CreatePostHeader'
-import PollOption from './PollOption'
-import PollQuestionInput from './PollQuestionInput'
+import CreatePostHeader from '../../../components/postComponents/CreatePostHeader'
+import PollOption from '../../../components/groupComponents/PollOption'
 import { Button } from 'react-native-elements'
 import RNPoll, { IChoice } from "react-native-poll";
-import { CourseGroup } from '../../api/api'
-import { Colors } from '../../constants/Colors'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import {actions as groupActions} from '../../../store/Group'
+import { CourseGroup } from '../../../api/api'
+import { Colors } from '../../../constants/Colors'
+import PollQuestionInput from '../../../components/groupComponents/PollQuestionInput'
 
 
-const Poll = props => {
+const CreatePollScreen = props => {
     const [options, setOptions] = useState<Array<string>>([])
     const [choice, setChoice] = useState('')
     const [question, setQuestion] = useState('')
     const params = props.route.params
 
-    const token = useSelector(state => state.auth.token)
+    const dispatch = useDispatch()
+
+    const {token, imageUrl , name} = useSelector(state => state.auth)
 
     const createPoll = async () => {
         try {
             const response = await CourseGroup.createPoll({
                 groupId: params.groupId,
-                ownerId: params.userId,
                 content: question,
                 choices: options
             }, token)
 
             if (response.status === 201) {
-                props.navigation.navigate(params.navScreen, {
-                    poll: response.data.poll
-                })
+               dispatch(groupActions.CREATE_POLL({
+                   poll : response.data.poll
+               }))
+               props.navigation.goBack()
             }
         }
         catch (err) {
@@ -43,8 +46,8 @@ const Poll = props => {
         <ScrollView style={styles.pollContainer}>
             <View style={{flexDirection:'row',justifyContent:'space-between', alignItems:'center'}}>
                 <CreatePostHeader
-                    imageUrl={props.route.params.userImage}
-                    username={props.route.params.username}
+                    imageUrl={imageUrl}
+                    username={name}
                 />
                 <Button
                     containerStyle={{paddingHorizontal:10}}
@@ -131,4 +134,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Poll;
+export default CreatePollScreen;

@@ -92,7 +92,7 @@ const StudentProfileNavigator = (props: any) => {
                 component={FullImageScreen}
             /> */}
 
-            <Stack.Screen name="Poll" component={Poll} />
+            {/* <Stack.Screen name="Poll" component={Poll} /> */}
 
             {/* <Stack.Screen name="FullQuestion" component={FullQuestionScreen} /> */}
 

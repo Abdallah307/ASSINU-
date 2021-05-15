@@ -123,7 +123,7 @@ const ReplayScreen = (props) => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: "magenta",
+    backgroundColor: 'white',
   },
 });
 

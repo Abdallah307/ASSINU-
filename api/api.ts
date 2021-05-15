@@ -42,10 +42,9 @@ export class CourseGroup {
 
     static createPoll = (pollInfo, token) => {
         return axios.post(
-            `http://${HOST}:${SERVER_PORT}/group/polls/createpoll`,
+            `http://${HOST}:${SERVER_PORT}/group/createpoll`,
             {
                 groupId: pollInfo.groupId,
-                ownerId: pollInfo.ownerId,
                 content: pollInfo.content,
                 choices: pollInfo.choices
             },

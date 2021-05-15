@@ -160,7 +160,7 @@ const FullPostScreen = (props) => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: "red",
+    backgroundColor: 'white',
   },
 });
 

@@ -31,6 +31,8 @@ const slice = createSlice({
            state.numberOfMembers = payload.numberOfMembers  
         },
         signout: (state, action) => {
+           state.isSignedIn = false
+           state.token = null 
            state = {
             userId:null,
             token:null,

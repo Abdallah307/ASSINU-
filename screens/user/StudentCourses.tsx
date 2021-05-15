@@ -32,7 +32,8 @@ const StudentCourses = props => {
             numberOfMembers: item.courseId.students.length,
             userId: userData.userId,
             username: userData.name,
-            showChattingButton  : true
+            showChattingButton  : true,
+            students : itemData.item.courseId.students
         })
 
     }

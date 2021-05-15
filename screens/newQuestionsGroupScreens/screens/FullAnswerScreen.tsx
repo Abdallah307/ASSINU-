@@ -164,7 +164,7 @@ const FullAnswerScreen = props => {
 const styles = StyleSheet.create({
     mainContainer : {
         flex : 1,
-        backgroundColor : 'yellow'
+        backgroundColor : 'white'
     }
 })
 

@@ -36,7 +36,6 @@ const CreatePostQuestionScreen = (props) => {
   const { name, imageUrl, token } = useSelector((state) => {
     return state.auth;
   });
-
   React.useEffect(() => {
     console.log("oh shit here we go again");
     props.navigation.setOptions({
@@ -104,6 +103,9 @@ const CreatePostQuestionScreen = (props) => {
     }
     formData.append("content", inputValue);
     formData.append('groupId', params.groupId)
+    const members = params.students.map(student => student.studentId)
+    formData.append('members', JSON.stringify(members))
+    
     try {
       const response = await axios.post(
         `http://${HOST}:${SERVER_PORT}/group/create${shareType}`,

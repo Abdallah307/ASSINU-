@@ -1,12 +1,13 @@
 // @refresh reset
-import React from 'react';
+import React, {useState , useEffect} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import AuthNavigator from './navigation/AuthNavigator'
 import { Provider } from 'react-redux'
 import configureStore from './store/configureStore'
 import * as Font from 'expo-font'
 import AppLoading from 'expo-app-loading'
-
+import {socket} from './socket'
+import * as Notifications from 'expo-notifications'
 
 
 const store = configureStore()
@@ -17,11 +18,23 @@ const loadFonts = () => Font.loadAsync({
   'OpenSans-Light': require('./assets/fonts/OpenSans-Regular.ttf')
 })
 
+Notifications.setNotificationHandler({
+  handleNotification : async () => {
+    return {
+      shouldPlaySound : true,
+      shouldShowAlert : true,
+    }
+  }
+})
+
+
 
 
 
 export default function App() {
   const [isFontsLoaded, setIsFontsLoaded] = React.useState(false)
+
+ 
 
   if (!isFontsLoaded) {
     return (

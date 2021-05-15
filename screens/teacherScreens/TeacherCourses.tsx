@@ -28,7 +28,7 @@ const StudentCourses = props => {
 
     const openCourseGroup = (itemData) => {
         const item = itemData.item
-        props.navigation.navigate('Group', {
+        props.navigation.navigate('GroupNavigator', {
             title: item.courseId.name,
             id: item.courseId._id,
             userImage: userData.imageUrl,
@@ -56,7 +56,7 @@ const StudentCourses = props => {
                     <FlatList
                         numColumns={2}
                         contentContainerStyle={{ padding: 20 }}
-                        data={teacherData.courses}
+                        data={userData.courses}
                         renderItem={renderItems}
                         keyExtractor={(item) => item._id.toString()}
                         refreshing={refreshing}

@@ -61,8 +61,15 @@ const DrawerContent = (props) => {
         icon={() => (
           <FontAwesome name="university" size={20} color={Colors.primary} />
         )}
-        onPress={() => props.navigation.navigate("PublicGroupScreen")}
-        label={() => <Text>طلاب جامعة النجاح Group</Text>}
+        onPress={() =>
+          props.navigation.navigate("GroupNavigator", {
+            showChattingButton: false,
+            numberOfMembers: 22000,
+            id: '609ef8bd145ffdd7a70e0d95',
+            title: "طلاب جامعة النجاح الوطنية",
+          })
+        }
+        label={() => <Text>طلاب جامعة النجاح الوطنية</Text>}
       />
 
       <DrawerItem
@@ -81,7 +88,7 @@ const DrawerContent = (props) => {
             title: "طلاب هندسة الحاسوب",
           })
         }
-        label={() => <Text>طلاب {departmentName} Group</Text>}
+        label={() => <Text>طلاب {departmentName}</Text>}
       />
 
       <DrawerItem

@@ -1,6 +1,5 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import Poll from '../components/groupComponents/CreatePollScreen'
 import VotersListScreen from '../components/groupComponents/VotersListScreen'
 import Group from '../screens/groupScreens/Group'
 import GroupMembers from '../screens/groupScreens/GroupMembers'
