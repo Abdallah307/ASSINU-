@@ -13,6 +13,7 @@ import GroupChatting from "../../screens/groupScreens/GroupChatting";
 import ReplayScreen from "../../screens/newQuestionsGroupScreens/screens/ReplayScreen";
 import CreatePollScreen from "../../screens/newQuestionsGroupScreens/screens/CreatePollScreen";
 import { Colors } from "../../constants/Colors";
+import StudentProfile from "../../screens/Student/UserProfile";
 const Stack = createStackNavigator();
 
 const GroupNavigator = (props) => {
@@ -59,6 +60,7 @@ const GroupNavigator = (props) => {
         component={GroupChatting}
       />
       <Stack.Screen name="CreatePollScreen" component={CreatePollScreen} />
+      <Stack.Screen name="StudentProfile" component={StudentProfile} />
     </Stack.Navigator>
   );
 };

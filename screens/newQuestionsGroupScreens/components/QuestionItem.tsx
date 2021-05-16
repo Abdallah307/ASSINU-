@@ -13,6 +13,7 @@ const QuestionItem = (props) => {
   return (
     <View style={styles.questionItem}>
       <Header
+        onPressHeader={props.onPressHeader}
         name={question.owner.name}
         date={question.createdAt}
         imageUrl={question.owner.imageUrl}

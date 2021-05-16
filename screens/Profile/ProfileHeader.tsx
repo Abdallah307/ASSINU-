@@ -9,7 +9,7 @@ const ProfileHeader = props => {
     return (
         <View style={styles.upperContainer}>
             <View style={styles.infoContainer}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={props.onPressUserImage} onLongPress={props.onLongPressUserImage}>
                     <ProfileAvatarImage
                         imageUrl={props.imageUrl}
                         style={{ width: 80, height: 80, borderRadius: 40 }}

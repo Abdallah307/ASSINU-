@@ -16,6 +16,9 @@ const slice = createSlice({
         numberOfMembers : 0
     },
     reducers:{
+        CHANGE_PROFILE_IMAGE : (state, action) => {
+            state.imageUrl = action.payload.imageUrl 
+        },
         signIn: (state, action) => {
            const payload = action.payload
            state.email = payload.email;

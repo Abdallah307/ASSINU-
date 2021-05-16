@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { RadioButton } from 'react-native-paper';
 import { Colors } from '../../constants/Colors';
+import Header from '../../screens/newQuestionsGroupScreens/components/Header';
 import PostHeader from '../postComponents/PostHeader';
 import CustomRadioButton from './CustomRadioButton'
 
@@ -11,10 +12,11 @@ const PollItemSingleChoice = props => {
 
   return (
     <View style={styles.pollItem}>
-      <PostHeader
+      <Header
+        onPressHeader={props.onPressHeader}
         imageUrl={props.poll.owner.imageUrl}
-        ownerName={props.poll.owner.name}
-        createdAt={props.poll.createdAt}
+        name={props.poll.owner.name}
+        date={props.poll.createdAt}
       />
       <Text style={styles.pollContent}>{props.poll.content}</Text>
       <RadioButton.Group onValueChange={newValue => {

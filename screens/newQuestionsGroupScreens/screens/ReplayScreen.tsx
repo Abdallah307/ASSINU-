@@ -2,11 +2,12 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, FlatList, Keyboard } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import CommentItem from "../../../components/commentComponents/CommentItem";
 import HOST, { SERVER_PORT } from "../../../configs/config";
 import { actions as replayActions } from "../../../store/replay";
 import Input from "../components/Input";
 import { actions as commentActions } from "../../../store/comment";
+import CommentItem from "../components/CommentItem";
+import { sharedStyles } from "../../../SharedSytles";
 
 const ReplayScreen = (props) => {
   const params = props.route.params;
@@ -49,6 +50,12 @@ const ReplayScreen = (props) => {
     }
   };
 
+  const openUserProfile = (user) => {
+    props.navigation.navigate('StudentProfile', {
+      student : user
+    })
+  }
+
   const submitReplay = async () => {
     try {
       setInputValue("");
@@ -85,14 +92,14 @@ const ReplayScreen = (props) => {
   return (
     <View style={styles.mainContainer}>
       <FlatList
+        contentContainerStyle={{paddingBottom : 200}}
         ListHeaderComponent={() => {
           return (
             <>
               <CommentItem
-                imageUrl={params.comment.owner.imageUrl}
-                name={params.comment.owner.name}
-                content={params.comment.content}
-                createdAt={params.comment.createdAt}
+                comment={params.comment}
+                style={sharedStyles.commentItem}
+                onPressHeader={openUserProfile.bind(this, params.comment.owner)}
               />
               <Text style={{ fontSize: 18 }}>Replays</Text>
             </>
@@ -102,10 +109,9 @@ const ReplayScreen = (props) => {
         renderItem={({ item }) => {
           return (
             <CommentItem
-              imageUrl={item.owner.imageUrl}
-              content={item.content}
-              createdAt={item.createdAt}
-              name={item.owner.name}
+              comment={item}
+              onPressHeader={openUserProfile.bind(this, item.owner)}
+              style={sharedStyles.replayItem}
             />
           );
         }}

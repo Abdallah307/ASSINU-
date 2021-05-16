@@ -7,12 +7,14 @@ import PostItem from "../components/PostItem";
 import { actions as commentActions } from "../../../store/comment";
 import { FlatList } from "react-native-gesture-handler";
 import Input from "../components/Input";
-import CommentItem from "../../../components/commentComponents/CommentItem";
+// import CommentItem from "../../../components/commentComponents/CommentItem";
 import { Button } from "react-native-elements";
 import { actions as privateGroupActions } from "../../../store/PrivateGroup";
 import { actions as publicGroupActions } from "../../../store/PublicGroup";
 import { togglePostLikeStatus } from "../../../store/middleware/api";
 import {actions as groupActions} from '../../../store/Group'
+import CommentItem from "../components/CommentItem";
+import {sharedStyles} from '../../../SharedSytles'
 
 const FullPostScreen = (props) => {
   const params = props.route.params;
@@ -102,6 +104,12 @@ const FullPostScreen = (props) => {
     });
   };
 
+  const openUserProfile = (user) => {
+    props.navigation.navigate('StudentProfile', {
+      student : user
+    })
+  }
+
   const isPostLiked = (post) => {
     const isLiked = post.likes.some((item) => {
       return item === userId;
@@ -116,6 +124,7 @@ const FullPostScreen = (props) => {
           const isLiked = isPostLiked(post);
           return (
             <PostItem
+              onPressHeader={openUserProfile.bind(this, post.owner)}
               isLiked={isLiked}
               onLikePostPressed={() => {
                 dispatch(
@@ -134,16 +143,18 @@ const FullPostScreen = (props) => {
         renderItem={({ item }) => {
           return (
             <CommentItem
-              imageUrl={item.owner.imageUrl}
-              name={item.owner.name}
-              createdAt={item.createdAt}
-              content={item.content}
+
+            style={sharedStyles.commentItem}
+            comment={item}
+            onPressHeader={openUserProfile.bind(this, item.owner)}
             >
               <Button
-                title="Replay"
-                onPress={openReplaysScreen.bind(this, item)}
+              onPress={openReplaysScreen.bind(this, item)}
+              title='Replay'
+              type='clear'
               />
-            </CommentItem>
+              </CommentItem>
+            
           );
         }}
         keyExtractor={(item) => item._id}

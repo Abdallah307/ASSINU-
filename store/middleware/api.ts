@@ -6,6 +6,7 @@ import { actions as privateGroupActions } from "../PrivateGroup";
 import {actions as answersActions} from '../answer'
 import { createAction } from "@reduxjs/toolkit";
 import {actions as groupActions} from '../Group'
+import {actions as authActions} from '../auth'
 
 export const fetchUniversityQuestions = createAction(
   "fetchUniversityQuestions"
@@ -19,14 +20,71 @@ export const fetchPrivateGroupData = createAction("fetchPrivateGroupData");
 export const upvoteAnswer = createAction('upvoteAnswer')
 export const downvoteAnswer = createAction('downvoteAnswer')
 export const togglePostLikeStatus = createAction('togglePostLikeStatus')
+export const changeProfileImage = createAction('changeProfileImage')
 
+export const deleteGroupPost = createAction('deleteGroupPost')
 export const fetchGroupTimeline = createAction('fetchGroupTimeline')
 
 
 const api = ({ dispatch, getState }) => (next) => async (action) => {
   const token = getState().auth.token;
 
-  if (action.type === fetchGroupTimeline.type) {
+  if (action.type === deleteGroupPost.type) {
+    try {
+      const postId = action.payload.postId 
+      const response = await axios.delete(
+        `http:${HOST}:${SERVER_PORT}/group/posts/delete/${postId}`,
+        {
+          headers: {
+             Authorization: "Bearer " + token,
+          },
+        }
+      )
+
+      if (response.status === 201) {
+        dispatch(groupActions.DELETE_POST({
+          postId : postId 
+        }))
+      }
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
+  else if (action.type === changeProfileImage.type) {
+
+    try {
+      const formData = new FormData()
+      let localUri = action.payload.image;
+      let filename = localUri.split("/").pop();
+
+      // Infer the type of the image
+      let match = /\.(\w+)$/.exec(filename);
+      let type = match ? `image/${match[1]}` : `image`;
+      formData.append("imageUrl", { uri: localUri, name: filename, type });
+        const response = await axios.post(
+          `http:${HOST}:${SERVER_PORT}/user/changeimage`,
+          formData,
+          {
+            headers: {
+              "content-type": "multipart/form-data",
+               Authorization: "Bearer " + token,
+            },
+          }
+        
+        )
+
+        if (response.status === 201) {
+          dispatch(authActions.CHANGE_PROFILE_IMAGE({
+            imageUrl : response.data.imageUrl 
+          }))
+        }
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
+ else if (action.type === fetchGroupTimeline.type) {
      try {
        const groupId = action.payload.groupId
         const response = await axios.get(

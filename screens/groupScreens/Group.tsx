@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text, ScrollView } from "react-native";
+import { StyleSheet,Button as ReactNativeButton, View, Text, ScrollView } from "react-native";
 import WritePost from "../../components/postComponents/WritePost";
-import { Button } from "react-native-elements";
+import { Button, Overlay } from "react-native-elements";
 import CustomeActivityIndicator from "../../components/UI/CustomActivityIndicator";
 import { CourseGroup } from "../../api/api";
 import { Colors } from "../../constants/Colors";
@@ -15,21 +15,27 @@ import {
   fetchGroupTimeline,
   togglePostLikeStatus,
   toggleFollowingStatus,
+  deleteGroupPost
 } from "../../store/middleware/api";
 import { actions as groupActions } from "../../store/Group";
 import PostItem from "../newQuestionsGroupScreens/components/PostItem";
 import QuestionItem from "../newQuestionsGroupScreens/components/QuestionItem";
 import FloatingButton from "../../components/UI/FloatingButton";
+import { TouchableButton } from "../Profile/TouchableButton";
 
 const Group = (props) => {
   const dispatch = useDispatch();
+
+  const [optionsOverlayVisible , setOptionsOverlayVisible] = useState(false)
+
+  const [currentSelectedPost , setCurrentSelectedPost] = useState(null)
+
   const { timeline, isLoaded } = useSelector((state) => {
     return state.group;
   });
   const params = props.route.params;
   const { token, userId, imageUrl, name } = useSelector((state) => state.auth);
-  //remember the bug here (add groups screen)
-  //console.log(params.students)
+
   useEffect(() => {
     console.log("hala group");
     dispatch(groupActions.CLEAR_TIMELINE({}));
@@ -113,14 +119,13 @@ const Group = (props) => {
     const isFollowing = followers.some((follower) => {
       return follower === userId;
     });
-    console.log(isFollowing);
     return isFollowing;
   };
 
   const openCreatePostQuestion = (navScreen, groupName) => {
     props.navigation.navigate("CreatePostQuestionScreen", {
       groupId: params.id,
-      students : params.students
+      students: params.students,
     });
   };
 
@@ -136,12 +141,25 @@ const Group = (props) => {
     });
   };
 
+  const openUserProfile = (user) => {
+    props.navigation.navigate('StudentProfile', {
+      student : user
+    })
+  };
+
   const renderGroupPostAndPolls = ({ item }) => {
     if (item.type === "post") {
       const likes = item.likes;
       let isLiked = isPostLiked(likes);
+      let showOptions = item.owner._id === userId 
       return (
         <PostItem
+          onPressOptionsButton={() => {
+            setOptionsOverlayVisible(true)
+            setCurrentSelectedPost(item._id)
+          }}
+          showOptions={showOptions}
+          onPressHeader={openUserProfile.bind(this, item.owner)}
           onLikePostPressed={onLikePostPressed.bind(this, item)}
           isLiked={isLiked}
           post={item}
@@ -164,6 +182,7 @@ const Group = (props) => {
       }
       return (
         <PollItemSingleChoice
+          onPressHeader={openUserProfile.bind(this, item.owner)}
           openVotersListScreen={(choiceId) =>
             openVotersListScreen(item.voters, choiceId)
           }
@@ -179,6 +198,7 @@ const Group = (props) => {
 
       return (
         <QuestionItem
+          onPressHeader={openUserProfile.bind(this, item.owner)}
           numberOfAnswers={item.numberOfAnswers}
           question={item}
           onPress={openQuestion.bind(this, item, isFollowed)}
@@ -273,6 +293,35 @@ const Group = (props) => {
         backgroundColor={Colors.primary}
         onPress={openCreatePostQuestion}
       />
+
+      <Overlay 
+      isVisible={optionsOverlayVisible} 
+      fullScreen={true}
+      overlayStyle={{position:'absolute', bottom : 0, height : "30%"}}
+      onBackdropPress={() => {
+        setOptionsOverlayVisible(false)
+        setCurrentSelectedPost(null)
+      }}
+      animationType='slide'
+      >
+        <TouchableButton
+        onPress={() => {
+          dispatch(deleteGroupPost({
+            postId : currentSelectedPost
+          }))
+          setOptionsOverlayVisible(false)
+          setCurrentSelectedPost(null)
+        }}
+        titleStyle={{color :'black'}}
+        title='Delete Post'
+        style={{flexDirection : 'row',backgroundColor:'white', justifyContent : 'flex-start'}}
+        />
+        <TouchableButton
+        titleStyle={{color :'black'}}
+        title='Edit Post'
+        style={{flexDirection : 'row',backgroundColor:'white', justifyContent : 'flex-start'}}
+        />
+      </Overlay>
     </>
   );
 };

@@ -18,7 +18,7 @@ import ChattingScreen from "../screens/groupScreens/GroupChatting";
 import CreatePost from "../screens/postsScreens/CreatePost";
 import FullImageScreen from "../screens/postsScreens/FullImageScreen";
 import FullPost from "../screens/postsScreens/FullPost";
-import StudentProfile from "../screens/Student/StudentProfile";
+import StudentProfile from "../screens/Student/UserProfile";
 import VotersListScreen from "../components/groupComponents/VotersListScreen";
 import GroupNavigator from "./newNavigation/GroupNavigator";
 import CreatePollScreen from "../screens/newQuestionsGroupScreens/screens/CreatePollScreen";

@@ -10,6 +10,9 @@ const PostItem = (props) => {
   return (
     <View style={styles.postItem}>
       <Header
+        onPressOptionsButton={props.onPressOptionsButton}
+        showOptions={props.showOptions}
+        onPressHeader={props.onPressHeader}
         name={post.owner.name}
         date={post.createdAt}
         imageUrl={post.owner.imageUrl}
