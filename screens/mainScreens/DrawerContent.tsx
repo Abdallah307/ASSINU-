@@ -106,7 +106,7 @@ const DrawerContent = (props) => {
         icon={() => (
           <Feather name="settings" size={20} color={Colors.primary} />
         )}
-        onPress={() => {props.navigation.navigate('SettingScreen')}}
+        onPress={() => {props.navigation.navigate('SettingsNavigator')}}
         label="Settings"
       />
 

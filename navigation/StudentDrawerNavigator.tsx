@@ -12,6 +12,7 @@ import PublicGroupNavigator from "./MainGroups/PublicGroupNavigator";
 import PrivateGroupNavigator from "./MainGroups/PrivateGroupNavigator";
 import GroupNavigator from "./newNavigation/GroupNavigator";
 import SettingScreen from "../screens/settings/SettingScreen";
+import SettingsNavigator from "./SettingsNavigator";
 
 const Drawer = createDrawerNavigator();
 
@@ -65,8 +66,8 @@ const StudentDrawerNavigator = (props: any) => {
         />
 
         <Drawer.Screen
-          name="SettingScreen"
-          component={SettingScreen}
+          name="SettingsNavigator"
+          component={SettingsNavigator}
           options={{
             title: "Settings",
           }}

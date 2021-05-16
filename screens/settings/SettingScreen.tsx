@@ -1,5 +1,6 @@
 import React from 'react'
 import {View, Text} from 'react-native'
+import {Switch} from 'react-native-elements'
 
 const SettingScreen = props => {
     return (
