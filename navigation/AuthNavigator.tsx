@@ -7,7 +7,7 @@ import SignUpp from "../screens/authScreens/SignUpp";
 import { Colors } from "../constants/Colors";
 import StudentDrawerNavigator from "./StudentDrawerNavigator";
 import TeacherTabNavigator from "./TeacherTabNavigator";
-import  { socket } from '../socket';
+import { socket } from "../socket";
 import HOST, { SERVER_PORT } from "../configs/config";
 import * as Notifications from "expo-notifications";
 
@@ -16,14 +16,14 @@ const Stack = createStackNavigator();
 Notifications.setNotificationHandler({
   handleNotification: async () => {
     return {
-    //   shouldPlaySound: true,
+      //   shouldPlaySound: true,
       shouldShowAlert: true,
     };
   },
 });
 
 const AuthNavigator = (props: any) => {
-  const {isSignedIn, userId} = useSelector((state) => {
+  const { isSignedIn, userId } = useSelector((state) => {
     return state.auth;
   });
 
@@ -31,29 +31,33 @@ const AuthNavigator = (props: any) => {
     return state.auth.email;
   });
 
-
   useEffect(() => {
     if (isSignedIn) {
-         socket.connect()
-        console.log('yes signed in man')
-      const postCreatedListener = (data) => {
-            Notifications.scheduleNotificationAsync({
-                content: {
-                  title: "ASSINU",
-                  body: `${data.name} created a post in ${data.groupName}`,
-                },
-                trigger: {
-                  seconds: 1,
-                },
-              });
-        
-      };
+      // socket.connect();
+      // console.log("yes signed in man");
+      // const postCreatedListener = (data) => {
+      //   console.log("The members is here : ", data.members);
+      //     if (data.members.some(member => member === userId && member != data.emiter)) {
+      //       Notifications.scheduleNotificationAsync({
+      //         content: {
+      //           title: "ASSINU",
+      //           body: `${data.name} created a post in ${data.groupName}`,
+      //         },
+      //         trigger: {
+      //           seconds: 1,
+      //         },
+      //       });
+      //     }
+          
+      // };
 
-      socket.on("createdpost", postCreatedListener);
+      // socket.on("createdpost", postCreatedListener);
 
-      return () => {
-        socket.off("createdpost", postCreatedListener);
-      };
+      // return () => {
+      //   socket.off("createdpost", postCreatedListener);
+      // };
+    } else {
+      socket.disconnect();
     }
   }, [isSignedIn]);
 
@@ -79,7 +83,7 @@ const AuthNavigator = (props: any) => {
   }
 
   if (email.split("@")[1] === "stu.najah.edu") {
-    return <StudentDrawerNavigator/>;
+    return <StudentDrawerNavigator />;
   } else if (email.split("@")[1] === "najah.edu") {
     return <TeacherTabNavigator />;
   }

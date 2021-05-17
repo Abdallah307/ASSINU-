@@ -7,7 +7,7 @@ const CreatePostInput = props => {
         <TextInput
         value={props.content}
         style={styles.input}
-        placeholder="What are you thinking..."
+        placeholder={props.placeholder ||"What are you thinking..."}
         multiline={true}
         returnKeyType='send'
         onChangeText={(value) => props.onChangeText(value)}

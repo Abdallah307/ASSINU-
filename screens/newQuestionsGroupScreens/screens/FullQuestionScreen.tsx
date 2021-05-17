@@ -36,7 +36,7 @@ const FullQuestionScreen = (props) => {
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");
 
-  const { userId, token } = useSelector((state) => state.auth);
+  const { userId, token, name } = useSelector((state) => state.auth);
 
   const fetchQuestionAnswers = async () => {
     try {
@@ -71,6 +71,7 @@ const FullQuestionScreen = (props) => {
         {
           content: inputValue,
           question: params.question._id,
+          username : name,
         },
         {
           headers: {

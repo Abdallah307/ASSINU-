@@ -34,6 +34,7 @@ const ChattingScreen = props => {
     })
 
     useEffect(() => {
+       // socket.connect()
         console.log('Grop')
         const fetchGroupMessages = async () => {
             try {
@@ -50,7 +51,9 @@ const ChattingScreen = props => {
         }
         fetchGroupMessages()
 
-
+        // return () => {
+        //     socket.disconnect()
+        // }
 
     }, [])
 

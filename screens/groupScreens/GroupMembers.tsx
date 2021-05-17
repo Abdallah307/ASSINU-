@@ -18,9 +18,11 @@ const GroupMembers = (props: any) => {
         let isCancelled = false
         const fetchMembers = async () => {
             try {
+                
                 const result = await CourseGroup.fetchGroupMembers(groupId, token)
                 setIsLoaded(true)
                 if (!isCancelled) {
+                    console.log(result.data.members)
                     setMembers(result.data.members)
                 }
             }
@@ -47,7 +49,7 @@ const GroupMembers = (props: any) => {
                     }
                     else
                         props.navigation.navigate('StudentProfile', {
-                            student: itemData.item
+                            user: itemData.item
                         })
                 }}
                 name={itemData.item.name}

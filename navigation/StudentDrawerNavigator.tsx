@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import DrawerContent from "../screens/mainScreens/DrawerContent";
@@ -13,10 +13,147 @@ import PrivateGroupNavigator from "./MainGroups/PrivateGroupNavigator";
 import GroupNavigator from "./newNavigation/GroupNavigator";
 import SettingScreen from "../screens/settings/SettingScreen";
 import SettingsNavigator from "./SettingsNavigator";
+import * as Notifications from "expo-notifications";
+import { socket } from "../socket";
+import { useSelector } from "react-redux";
+
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return {
+      shouldPlaySound: true,
+      shouldShowAlert: true,
+    };
+  },
+});
+
 
 const Drawer = createDrawerNavigator();
 
 const StudentDrawerNavigator = (props: any) => {
+
+  const {userId} = useSelector(state=> state.auth)
+
+  useEffect(() => {
+      socket.connect();
+      const postCreatedListener = (data) => {
+          if (data.members.some(member => member === userId && member != data.emiter)) {
+            Notifications.scheduleNotificationAsync({
+              content: {
+                title: "ASSINU",
+                body: `${data.username} created a post in ${data.groupName}`,
+              },
+              trigger: {
+                seconds: 1,
+              },
+            });
+          }
+          
+      };
+
+      const questionCreatedListener = (data) => {
+          if (data.members.some(member => member === userId && member != data.emiter)) {
+            Notifications.scheduleNotificationAsync({
+              content: {
+                title: "ASSINU",
+                body: `${data.username} asked a question in ${data.groupName}`,
+              },
+              trigger: {
+                seconds: 1,
+              },
+            });
+          }
+          
+      };
+
+      const answerAddedToQuestionFollowedHandler = (data) => {
+        if (data.followers.some(follower => follower === userId && follower != data.emiter)) {
+          Notifications.scheduleNotificationAsync({
+            content: {
+              title: "ASSINU",
+              body: `${data.username} answered a question you are following`,
+            },
+            trigger: {
+              seconds: 1,
+            },
+          });
+        }
+        
+    };
+
+      const commentOnMyPostHandler = (data) => {
+        if (data.emiter !== userId && data.postOwner === userId)
+        Notifications.scheduleNotificationAsync({
+          content: {
+            title: "ASSINU",
+            body: `${data.username} created a comment in your post`,
+          },
+          trigger: {
+            seconds: 1,
+          },
+        });
+      }
+
+      const commentOnMyAnswerHandler = (data) => {
+        if (data.emiter !== userId && data.answerOwner === userId)
+        Notifications.scheduleNotificationAsync({
+          content: {
+            title: "ASSINU",
+            body: `${data.username} created a comment in your answer`,
+          },
+          trigger: {
+            seconds: 1,
+          },
+        });
+      }
+
+      const replayedToMyCommentHandler = (data) => {
+        if (data.emiter !== userId && data.commentOwner === userId)
+        Notifications.scheduleNotificationAsync({
+          content: {
+            title: "ASSINU",
+            body: `${data.username} replayed to your comment`,
+          },
+          trigger: {
+            seconds: 1,
+          },
+        });
+      }
+
+      const incomingAskQuestionHandler = (data) => {
+        if (data.receiver === userId)
+        Notifications.scheduleNotificationAsync({
+          content: {
+            title: "ASSINU",
+            body: `someone asked you a question`,
+          },
+          trigger: {
+            seconds: 1,
+          },
+        });
+      }
+
+      socket.on("createdpost", postCreatedListener);
+      socket.on("createdQuestion", questionCreatedListener);
+      socket.on('commentOnMyPost', commentOnMyPostHandler)
+      socket.on('commentOnMyAnswer', commentOnMyAnswerHandler)
+      socket.on('replayedToMyComment', replayedToMyCommentHandler)
+      socket.on('answerAddedToQuestionFollowed', answerAddedToQuestionFollowedHandler)
+      socket.on('askQuestion', incomingAskQuestionHandler)
+
+      return () => {
+        socket.off("createdpost", postCreatedListener);
+        socket.off('commentOnMyPost', commentOnMyPostHandler)
+        socket.off('commentOnMyAnswer', commentOnMyAnswerHandler)
+        socket.off('replayedToMyComment', replayedToMyCommentHandler)
+        socket.off("createdQuestion", questionCreatedListener);
+        socket.off('answerAddedToQuestionFollowed', answerAddedToQuestionFollowedHandler)
+        socket.off('askQuestion', incomingAskQuestionHandler)
+      };
+    
+  }, []);
+
+
   return (
     <NavigationContainer>
       <Drawer.Navigator

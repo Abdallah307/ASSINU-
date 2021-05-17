@@ -62,7 +62,7 @@ export class CourseGroup {
 
         try {
             const response = await  axios.get(
-                `http://${HOST}:${API_PORT}/course/members/${groupId}`
+                `http://${HOST}:${API_PORT}/student/course/members/${groupId}`
             )
 
             if (response.status === 200) {

@@ -22,6 +22,7 @@ import PostItem from "../newQuestionsGroupScreens/components/PostItem";
 import QuestionItem from "../newQuestionsGroupScreens/components/QuestionItem";
 import FloatingButton from "../../components/UI/FloatingButton";
 import { TouchableButton } from "../Profile/TouchableButton";
+import { socket } from "../../socket";
 
 const Group = (props) => {
   const dispatch = useDispatch();
@@ -47,6 +48,7 @@ const Group = (props) => {
     );
   }, [params.id]);
 
+ 
   const openGroupMembers = () => {
     props.navigation.navigate("GroupMembers", {
       groupId: params.id,
@@ -126,6 +128,8 @@ const Group = (props) => {
     props.navigation.navigate("CreatePostQuestionScreen", {
       groupId: params.id,
       students: params.students,
+      groupName : params.title,
+      username : name
     });
   };
 
@@ -143,7 +147,7 @@ const Group = (props) => {
 
   const openUserProfile = (user) => {
     props.navigation.navigate('StudentProfile', {
-      student : user
+      user : user
     })
   };
 

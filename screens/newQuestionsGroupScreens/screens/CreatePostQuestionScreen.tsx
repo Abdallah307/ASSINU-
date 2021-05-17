@@ -23,6 +23,8 @@ import axios from "axios";
 import { actions as publicGroupActions } from "../../../store/PublicGroup";
 import { actions as privateGroupActions } from "../../../store/PrivateGroup";
 import {actions as groupActions} from '../../../store/Group'
+import { CourseGroup } from "../../../api/api";
+import { socket } from "../../../socket";
 
 const CreatePostQuestionScreen = (props) => {
   const dispatch = useDispatch();
@@ -36,6 +38,8 @@ const CreatePostQuestionScreen = (props) => {
   const { name, imageUrl, token } = useSelector((state) => {
     return state.auth;
   });
+
+
   React.useEffect(() => {
     console.log("oh shit here we go again");
     props.navigation.setOptions({
@@ -103,8 +107,13 @@ const CreatePostQuestionScreen = (props) => {
     }
     formData.append("content", inputValue);
     formData.append('groupId', params.groupId)
-    const members = params.students.map(student => student.studentId)
+    const result = await CourseGroup.fetchGroupMembers(params.groupId, token)
+    const members = result.data.members.map(member => {
+      return member._id
+    })
     formData.append('members', JSON.stringify(members))
+    formData.append('groupName', params.groupName)
+    formData.append('username', params.username)
     
     try {
       const response = await axios.post(

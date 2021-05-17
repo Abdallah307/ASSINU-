@@ -23,7 +23,7 @@ const FullPostScreen = (props) => {
 
   const dispatch = useDispatch();
 
-  const { userId, token } = useSelector((state) => state.auth);
+  const { userId, token, name } = useSelector((state) => state.auth);
 
   const post = useSelector((state) => {
     return state.group.timeline.find((item) => {
@@ -72,7 +72,8 @@ const FullPostScreen = (props) => {
         {
           content: inputValue,
           referedTo: post._id,
-          type : 'post'
+          type : 'post',
+          username : name
         },
         {
           headers: {
@@ -106,7 +107,7 @@ const FullPostScreen = (props) => {
 
   const openUserProfile = (user) => {
     props.navigation.navigate('StudentProfile', {
-      student : user
+      user : user
     })
   }
 

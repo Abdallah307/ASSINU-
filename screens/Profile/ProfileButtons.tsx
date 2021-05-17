@@ -18,6 +18,7 @@ const ProfileButtons = props => {
                     type="clear"
                 />
                 <Button
+                    onPress={props.openCreateAskQuestionScreen}
                     titleStyle={styles.buttonTitle}
                     buttonStyle={styles.buttonStyle}
                     title='ASK'

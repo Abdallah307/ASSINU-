@@ -16,7 +16,7 @@ const ReplayScreen = (props) => {
 
   const dispatch = useDispatch();
 
-  const { userId, token } = useSelector((state) => state.auth);
+  const { userId, token, name } = useSelector((state) => state.auth);
 
   const replays = useSelector((state) => {
     return state.replays.replays;
@@ -52,7 +52,7 @@ const ReplayScreen = (props) => {
 
   const openUserProfile = (user) => {
     props.navigation.navigate('StudentProfile', {
-      student : user
+      user : user
     })
   }
 
@@ -65,6 +65,7 @@ const ReplayScreen = (props) => {
         {
           referedTo: params.comment._id,
           content: inputValue,
+          username : name 
         },
         {
           headers: {

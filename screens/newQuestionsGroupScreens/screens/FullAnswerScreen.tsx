@@ -18,7 +18,7 @@ const FullAnswerScreen = (props) => {
   const [inputValue, setInputValue] = useState("");
 
   const dispatch = useDispatch();
-  const { token, userId } = useSelector((state) => state.auth);
+  const { token, userId, name } = useSelector((state) => state.auth);
 
   const answer = useSelector((state) => {
     return state.answers.answers.find((answer) => {
@@ -69,6 +69,7 @@ const FullAnswerScreen = (props) => {
           referedTo: answer._id,
           content: inputValue,
           type: "answer",
+          username : name 
         },
         {
           headers: {
