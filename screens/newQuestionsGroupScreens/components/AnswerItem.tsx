@@ -9,6 +9,7 @@ const AnswerItem = props => {
     return(
         <View style={styles.answerItem}>
             <Header
+            onPressHeader={props.onPressHeader}
             name={props.answer.owner.name}
             imageUrl={props.answer.owner.imageUrl}
             date={props.answer.createdAt}

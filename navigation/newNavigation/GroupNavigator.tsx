@@ -13,7 +13,7 @@ import GroupChatting from "../../screens/groupScreens/GroupChatting";
 import ReplayScreen from "../../screens/newQuestionsGroupScreens/screens/ReplayScreen";
 import CreatePollScreen from "../../screens/newQuestionsGroupScreens/screens/CreatePollScreen";
 import { Colors } from "../../constants/Colors";
-import UserProfile from "../../screens/Student/UserProfile";
+import UserProfile from "../../screens/OtherUsersProfile/UserProfile";
 import CreateAskQuestionScreen from "../../screens/Ask/CreateAskQuestionScreen";
 import GroupMembers from "../../screens/groupScreens/GroupMembers";
 

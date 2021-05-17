@@ -9,12 +9,14 @@ import CustomHeaderButton from "../../components/UI/CustomHeaderButton";
 import { Colors } from "../../constants/Colors";
 import axios from "axios";
 import HOST, { SERVER_PORT } from "../../configs/config";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {actions as askActions} from '../../store/Ask'
 
 const CreateAskQuestionScreen = (props) => {
   const [questionInput, setQuestionInput] = useState("");
 
   const {token} = useSelector(state => state.auth)
+  const dispatch = useDispatch()
 
   const submitQuestion = async () => {
       try {
@@ -32,7 +34,9 @@ const CreateAskQuestionScreen = (props) => {
         )
 
         if (response.status  === 201) {
-            console.log(response.data.question)
+            dispatch(askActions.ADD_QUESTION_TO_ASKED_QUESTIONS({
+              question : response.data.question
+            }))
             props.navigation.goBack()
         }
       }

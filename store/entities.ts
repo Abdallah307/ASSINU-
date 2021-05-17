@@ -9,6 +9,7 @@ import answersReducer from './answer'
 import commentsReducer from './comment'
 import replaysReducer from './replay'
 import groupReducer from './Group'
+import askReducer from './Ask'
 
 const entites = combineReducers({
     auth: authReducer,
@@ -20,6 +21,7 @@ const entites = combineReducers({
     comments : commentsReducer,
     replays : replaysReducer,
     group : groupReducer,
+    ask : askReducer
 })
 
 export default entites;

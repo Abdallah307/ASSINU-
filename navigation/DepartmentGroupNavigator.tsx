@@ -1,7 +1,6 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import DepartmentGroup from '../screens/teacherScreens/DepartmentGroup'
-import CreatePost from '../screens/postsScreens/CreatePost'
 import FullPost from '../screens/postsScreens/FullPost'
 import GroupMembers from '../screens/groupScreens/GroupMembers'
 import FullImageScreen from '../screens/postsScreens/FullImageScreen'
@@ -28,10 +27,10 @@ const DepartmentGroupNavigator = props => {
             }}
         >
             <Stack.Screen name='DepartmentGroup' component={DepartmentGroup} />
-            <Stack.Screen
+            {/* <Stack.Screen
                 name="CreatePost"
                 component={CreatePost}
-            />
+            /> */}
 
             <Stack.Screen
                 name="FullPost"

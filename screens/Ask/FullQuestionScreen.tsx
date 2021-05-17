@@ -9,48 +9,45 @@ import axios from 'axios';
 import HOST, { SERVER_PORT } from '../../configs/config';
 import AnswerItem from './components/AnswerItem';
 import NotFound from '../../components/UI/NotFound';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import {answerReceivedQuestion} from '../../store/middleware/api'
 
 const FullQuestionScreen = props => {
     const params = props.route.params
 
     const [answerInput, setAnswerInput] = useState('')
 
+    const dispatch = useDispatch()
+
     const [questionAnswer, setQuestionAnswer] = useState('')
 
     const token = useSelector(state => state.auth.token)
 
     const submitAnswer = () => {
-        axios.post(`http://${HOST}:${SERVER_PORT}/ask/answerquestion`, {
+        dispatch(answerReceivedQuestion({
             questionId: params.question._id,
             answer: answerInput
-        }, {
-            headers: {
-                'Authorization':'Bearer ' + token
-            }
-        })
-            .then(response => {
-                props.navigation.goBack()
-            })
+        }))
         setAnswerInput('')
+        props.navigation.goBack()
     }
 
-    const getQuestionAnswer = () => {
-        axios.get(`http://${HOST}:${SERVER_PORT}/ask/question/answer/${params.question._id}`, {
-            headers: {
-                'Authorization':'Bearer ' + token
-            }
-        })
-            .then(response => {
-                setQuestionAnswer(response.data.answer.answer)
-            })
-    }
+    // const getQuestionAnswer = () => {
+    //     axios.get(`http://${HOST}:${SERVER_PORT}/ask/question/answer/${params.question._id}`, {
+    //         headers: {
+    //             'Authorization':'Bearer ' + token
+    //         }
+    //     })
+    //         .then(response => {
+    //             setQuestionAnswer(response.data.answer.answer)
+    //         })
+    // }
 
-    useEffect(() => {
-        if (params.question.isAnswered) {
-            getQuestionAnswer()
-        }
-    })
+    // useEffect(() => {
+    //     if (params.question.isAnswered) {
+    //         getQuestionAnswer()
+    //     }
+    // })
 
     return (
         <View style={{ flex: 1 }}>
@@ -74,7 +71,7 @@ const FullQuestionScreen = props => {
                         />}
                 </ScrollView>
             </LinearGradient>
-            {!params.question.isAnswered && <View style={styles.answerInputAndButtonContainer}>
+            {params.showAnswerInput && <View style={styles.answerInputAndButtonContainer}>
                 <TextInput
                     placeholder='Write your answer...'
                     placeholderTextColor='white'

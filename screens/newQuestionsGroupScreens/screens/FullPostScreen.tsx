@@ -106,9 +106,14 @@ const FullPostScreen = (props) => {
   };
 
   const openUserProfile = (user) => {
-    props.navigation.navigate('StudentProfile', {
-      user : user
-    })
+    if (user._id !== userId) {
+      props.navigation.navigate('StudentProfile', {
+        user : user
+      })
+    }
+    else {
+      props.navigation.navigate('Profile')
+    }
   }
 
   const isPostLiked = (post) => {

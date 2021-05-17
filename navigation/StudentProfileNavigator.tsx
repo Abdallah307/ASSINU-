@@ -13,7 +13,7 @@ import { Colors } from '../constants/Colors'
 import AskScreen from '../screens/Ask/AskScreen'
 import FullQuestionScreen from '../screens/Ask/FullQuestionScreen'
 import AddAnswerScreen from '../screens/Ask/AddAnswerScreen'
-import StudentProfile from '../screens/Student/UserProfile'
+import StudentProfile from '../screens/OtherUsersProfile/UserProfile'
 import VotersListScreen from '../components/groupComponents/VotersListScreen'
 import GroupNavigator from './newNavigation/GroupNavigator'
 
@@ -59,10 +59,10 @@ const StudentProfileNavigator = (props: any) => {
                 component={GroupNavigator}
             />
 
-            <Stack.Screen
+            {/* <Stack.Screen
                 name="Ask"
                 component={AskScreen}
-            />
+            /> */}
 
         
 

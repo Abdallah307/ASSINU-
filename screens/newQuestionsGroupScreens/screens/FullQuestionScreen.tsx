@@ -8,8 +8,6 @@ import axios from "axios";
 import HOST, { SERVER_PORT } from "../../../configs/config";
 import AnswerItem from "../components/AnswerItem";
 import { actions as answersActions } from "../../../store/answer";
-import { actions as privateGroupActions } from "../../../store/PrivateGroup";
-import { actions as publicGroupActions } from "../../../store/PublicGroup";
 import CustomActivityIndicator from "../../../components/UI/CustomActivityIndicator";
 import {
   upvoteAnswer as upvoteAnswerAction,
@@ -141,6 +139,17 @@ const FullQuestionScreen = (props) => {
     });
   };
 
+  const openUserProfile = (user) => {
+    if (user._id !== userId) {
+      props.navigation.navigate('StudentProfile', {
+        user : user
+      })
+    }
+    else {
+      props.navigation.navigate('Profile')
+    }
+  }
+
   return (
     <View style={styles.mainContainer}>
       {!isLoaded ? (
@@ -153,6 +162,7 @@ const FullQuestionScreen = (props) => {
               const isFollowed = isQuestionFollowed(question.followers);
               return (
                 <QuestionItem
+                  onPressHeader={openUserProfile.bind(this, question.owner)}
                   numberOfAnswers={answers.length}
                   question={question}
                   isFollowed={isFollowed}
@@ -175,6 +185,7 @@ const FullQuestionScreen = (props) => {
               !isUpvoted ? (isDownvoted = checkIfVoted(item.downvoters)) : null;
               return (
                 <AnswerItem
+                  onPressHeader={openUserProfile.bind(this, item.owner)}
                   isUpvoted={isUpvoted}
                   isDownvoted={isDownvoted}
                   upvoteAnswer={upvoteAnswer.bind(this, item)}

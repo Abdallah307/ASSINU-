@@ -45,7 +45,7 @@ const DrawerContent = (props) => {
             color={Colors.primary}
           />
         )}
-        onPress={() => props.navigation.navigate("Ask")}
+        onPress={() => props.navigation.navigate("AskStackNavigator")}
         label="My ASK"
       />
 

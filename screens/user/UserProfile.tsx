@@ -49,6 +49,26 @@ const StudentUserProfile = (props) => {
     }
   };
 
+  const takeImageFromCamera = async () => {
+    try {
+        let value = await ImagePicker.launchCameraAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            //aspect: [4, 3],
+            quality: 1,
+        });
+
+        if (value.cancelled) return
+
+        dispatch(changeProfileImage({
+          image : value.uri 
+      }))
+    }
+    catch(err){
+      console.log("error occured in taking image");
+    }
+}
+
 
   return (
     <>
@@ -72,7 +92,7 @@ const StudentUserProfile = (props) => {
       >
         <AssinuText>Change profile image</AssinuText>
         <TouchableButton onPress={chooseImageFromDevice} title='Choose image'/>
-        <TouchableButton title='Take an image'/>
+        <TouchableButton onPress={takeImageFromCamera} title='Take an image'/>
       </Overlay>
 
       <Overlay

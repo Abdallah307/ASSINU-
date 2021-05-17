@@ -109,6 +109,17 @@ const FullAnswerScreen = (props) => {
     });
   };
 
+  const openUserProfile = (user) => {
+    if (user._id !== userId) {
+      props.navigation.navigate('StudentProfile', {
+        user : user
+      })
+    }
+    else {
+      props.navigation.navigate('Profile')
+    }
+  }
+
   return (
     <View style={styles.mainContainer}>
       <FlatList
@@ -120,6 +131,7 @@ const FullAnswerScreen = (props) => {
           !isUpvoted ? (isDownvoted = checkIfVoted(answer.downvoters)) : null;
           return (
             <AnswerItem
+              onPressHeader={openUserProfile.bind(this,answer.owner)}
               isUpvoted={isUpvoted}
               isDownvoted={isDownvoted}
               answer={answer}

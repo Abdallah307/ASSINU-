@@ -100,7 +100,7 @@ const StudentTabNavigator = (props) => {
             />
 
             <Tab.Screen
-                name="StudentProfile"
+                name="StudentProfileNavigator"
                 component={StudentProfileNavigator}
                 options={{
                     tabBarColor: Colors.primary,
