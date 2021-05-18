@@ -14,6 +14,7 @@ import ChatMessagesList from './ChatMessagesList'
 import ChattingInput from './ChattingInput'
 import StartChatting from './StartChatting'
 import { IsTypingPoints } from './IsTypingPoints'
+import { useSelector } from 'react-redux'
 
 interface Props {
     isTyping?: boolean,
@@ -28,6 +29,7 @@ interface Props {
 const Chat = (props: Props) => {
 
     const [message, setMessage] = useState('')
+    const {userId} = useSelector(state=> state.auth)
 
     return (
         <View style={styles.chattingScreen}>

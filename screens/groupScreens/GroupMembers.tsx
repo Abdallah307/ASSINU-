@@ -31,8 +31,14 @@ const GroupMembers = (props: any) => {
             }
 
         }
-
-        fetchMembers()
+        if (!props.route.params.groupMembers) {
+            fetchMembers()
+        }
+        else {
+            setMembers(props.route.params.groupMembers)
+            setIsLoaded(true)
+        }
+        
 
         return () => {
             isCancelled = true
@@ -45,7 +51,7 @@ const GroupMembers = (props: any) => {
             <MemberItem
                 openStudentProfile={() => {
                     if (itemData.item._id === userId) {
-                        props.navigation.navigate('Profile')
+                        props.navigation.navigate('UserProfileNavigator')
                     }
                     else
                         props.navigation.navigate('StudentProfile', {

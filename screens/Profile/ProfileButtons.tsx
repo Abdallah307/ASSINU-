@@ -7,6 +7,7 @@ import { Button } from 'react-native-elements'
 import { AntDesign, Entypo } from '@expo/vector-icons';
 
 const ProfileButtons = props => {
+    console.log(props.showAskButton)
     return (
         <View style={{ paddingHorizontal: 60, marginTop: -40 }}>
             <View style={styles.buttonsContainer}>
@@ -18,11 +19,12 @@ const ProfileButtons = props => {
                     type="clear"
                 />
                 <Button
+                    disabled={!props.showAskButton}
                     onPress={props.openCreateAskQuestionScreen}
                     titleStyle={styles.buttonTitle}
                     buttonStyle={styles.buttonStyle}
                     title='ASK'
-                    icon={<Entypo name="mask" size={35} color={Colors.prussianBlue} />}
+                    icon={<Entypo name="mask" size={35} color={!props.showAskButton ? 'grey' : Colors.prussianBlue} />}
                     type="clear"
                 />
             </View>

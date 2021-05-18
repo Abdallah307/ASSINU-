@@ -10,6 +10,7 @@ import TeacherTabNavigator from "./TeacherTabNavigator";
 import { socket } from "../socket";
 import HOST, { SERVER_PORT } from "../configs/config";
 import * as Notifications from "expo-notifications";
+import TeacherDrawerNavigator from "./teacherDrawerNavigator";
 
 const Stack = createStackNavigator();
 
@@ -83,9 +84,10 @@ const AuthNavigator = (props: any) => {
   }
 
   if (email.split("@")[1] === "stu.najah.edu") {
+    socket.connect()
     return <StudentDrawerNavigator />;
   } else if (email.split("@")[1] === "najah.edu") {
-    return <TeacherTabNavigator />;
+    return <TeacherDrawerNavigator/>;
   }
 };
 

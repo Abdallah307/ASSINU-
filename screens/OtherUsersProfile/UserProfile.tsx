@@ -4,7 +4,7 @@ import { Colors } from '../../constants/Colors'
 import Profile from '../Profile/Profile'
 import ProfileButtons from '../Profile/ProfileButtons'
 
-const StudentProfile = props => {
+const OtherUserProfile = props => {
     const params = props.route.params
 
     const openCreateAskQuestionScreen = () => {
@@ -17,6 +17,7 @@ const StudentProfile = props => {
         <Profile
             profileButtons={
             <ProfileButtons
+            showAskButton={params.user.myAsk}
             openCreateAskQuestionScreen={openCreateAskQuestionScreen}
             />
         }
@@ -26,4 +27,4 @@ const StudentProfile = props => {
     )
 }
 
-export default StudentProfile;
+export default OtherUserProfile;

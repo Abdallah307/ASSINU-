@@ -13,7 +13,9 @@ const slice = createSlice({
         departmentId:'',
         userType:'',
         courses:[],
-        numberOfMembers : 0
+        numberOfMembers : 0,
+        notifications : null,
+        myAsk : null
     },
     reducers:{
         CHANGE_PROFILE_IMAGE : (state, action) => {
@@ -27,15 +29,19 @@ const slice = createSlice({
            state.isSignedIn = true 
            state.imageUrl = payload.imageUrl
            state.name = payload.name
-           state.departmentName = payload.departmentName,
+           state.departmentName = payload.departmentName
            state.userType = payload.userType
-           state.courses = payload.courses,
-           state.departmentId = payload.departmentId,
-           state.numberOfMembers = payload.numberOfMembers  
+           state.courses = payload.courses
+           state.departmentId = payload.departmentId
+           state.numberOfMembers = payload.numberOfMembers
+           state.notifications = payload.notifications
+           state.myAsk = payload.myAsk
         },
         signout: (state, action) => {
            state.isSignedIn = false
            state.token = null 
+           state.notifications = null
+           state.myAsk = null 
            state = {
             userId:null,
             token:null,
@@ -49,6 +55,12 @@ const slice = createSlice({
             departmentId : '',
             numberOfMembers: 0
            }
+        },
+        switchNotifications : (state, action) => {
+            state.notifications = !state.notifications
+        },
+        switchMyAsk : (state, action) => {
+            state.myAsk = !state.myAsk
         }
     }
 })

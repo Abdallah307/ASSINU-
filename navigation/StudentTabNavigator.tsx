@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { Colors } from '../constants/Colors'
 import Feed from '../screens/mainScreens/Feed'
 import Notifications from '../screens/mainScreens/Notifications'
-import StudentProfileNavigator from './StudentProfileNavigator'
+import UserProfileNavigator from './UserProfileNavigator'
 import { Image } from 'react-native'
 import HOST, { SERVER_PORT } from '../configs/config'
 import ChattingNavigator from "./ChattingNavigator"
@@ -15,6 +15,8 @@ import DepartmentGroup from "../screens/teacherScreens/DepartmentGroup"
 import DepartmentGroupNavigator from "./DepartmentGroupNavigator"
 import QuestionsScreen from "../screens/QuestionsScreens/QuestionsScreen"
 import {createStackNavigator} from '@react-navigation/stack'
+import AvailableGroupsScreen from "../screens/groupScreens/AvailableGroupsScreen"
+import AvailableGroupsNavigator from "./AvailableGroupsNavigator"
 
 
 const Tab = createMaterialBottomTabNavigator()
@@ -54,10 +56,10 @@ const StudentTabNavigator = (props) => {
             />
 
             <Tab.Screen
-                name="DepartmentGroup"
-                component={DepartmentGroupNavigator}
+                name="Groups"
+                component={AvailableGroupsNavigator}
                 options={{
-                    title:'الملتقى',
+                    title:'Groups',
                     tabBarColor: Colors.blueGreen,
                     tabBarIcon: () => (
                         <FontAwesome
@@ -100,8 +102,8 @@ const StudentTabNavigator = (props) => {
             />
 
             <Tab.Screen
-                name="StudentProfileNavigator"
-                component={StudentProfileNavigator}
+                name="UserProfileNavigator"
+                component={UserProfileNavigator}
                 options={{
                     tabBarColor: Colors.primary,
                     title: 'Profile',

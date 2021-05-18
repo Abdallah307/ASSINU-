@@ -7,6 +7,7 @@ import NotFound from '../../components/UI/NotFound'
 import HOST, { SERVER_PORT } from '../../configs/config'
 import QuestionItem from './components/QuestionItem'
 import {fetchAskReceivedQuestions} from '../../store/middleware/api'
+import * as Animatable from 'react-native-animatable';
 
 
 const Questions = props => {
@@ -43,11 +44,13 @@ const Questions = props => {
                         {
                             questions.map(question => {
                                 return (
+                                    <Animatable.View duration={2000} animation='bounceInDown'>
                                     <QuestionItem
                                         key={question._id}
                                         questionText={question.question}
                                         openQuestion={() => openQuestion(question)}
                                     />
+                                    </Animatable.View>
                                 )
                             })
                         }

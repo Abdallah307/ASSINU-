@@ -3,7 +3,6 @@ import { Feather, Ionicons, FontAwesome } from "@expo/vector-icons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { useSelector } from "react-redux";
 import { Colors } from "../constants/Colors";
-import StudentProfileNavigator from "./StudentProfileNavigator";
 import { Image, View, Text } from "react-native";
 import HOST, { SERVER_PORT } from "../configs/config";
 import { NavigationContainer } from "@react-navigation/native";
@@ -22,6 +21,8 @@ import VotersListScreen from "../components/groupComponents/VotersListScreen";
 import GroupNavigator from "./newNavigation/GroupNavigator";
 import CreatePollScreen from "../screens/newQuestionsGroupScreens/screens/CreatePollScreen";
 import ChattingNavigator from "./ChattingNavigator";
+import UserProfileNavigator from './UserProfileNavigator'
+import AvailableGroupsNavigator from "./AvailableGroupsNavigator";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -32,7 +33,7 @@ const TeacherTabNavigator = (props) => {
   });
 
   return (
-    <NavigationContainer>
+    
       <Tab.Navigator
         shifting={true}
         initialRouteName="Feed"
@@ -53,10 +54,10 @@ const TeacherTabNavigator = (props) => {
 
         <Tab.Screen
           initialParams={{ abdo: "abdo" }}
-          name="DepartmentGroup"
-          component={DepartmentGroupNavigator}
+          name="Groups"
+          component={AvailableGroupsNavigator}
           options={{
-            title: "D.Group",
+            title: "Groups",
             tabBarColor: Colors.blueGreen,
             tabBarIcon: () => (
               <FontAwesome name="group" size={24} color="white" />
@@ -88,7 +89,7 @@ const TeacherTabNavigator = (props) => {
 
         <Tab.Screen
           name="UserProfile"
-          component={TeacherProfileNavigator}
+          component={UserProfileNavigator}
           options={{
             tabBarColor: Colors.primary,
             title: "Profile",
@@ -101,7 +102,6 @@ const TeacherTabNavigator = (props) => {
           }}
         />
       </Tab.Navigator>
-    </NavigationContainer>
   );
 };
 

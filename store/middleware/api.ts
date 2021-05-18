@@ -36,6 +36,9 @@ export const fetchAskaskedQuestions = createAction("fetchAskaskedQuestions");
 
 export const answerReceivedQuestion = createAction("answerReceivedQuestion");
 
+export const switchNotificationsStatus = createAction('switchNotificationsStatus')
+export const switchMyAskStatus = createAction('switchMyAskStatus')
+
 const api =
   ({ dispatch, getState }) =>
   (next) =>
@@ -313,7 +316,42 @@ const api =
       } catch (err) {
         console.log(err);
       }
-    } else {
+    }
+    else if (action.type === switchNotificationsStatus.type){
+      try {
+        dispatch(authActions.switchNotifications())
+        const response = await axios.put(
+          `http:${HOST}:${SERVER_PORT}/user/notfications/switch`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+      }
+      catch (err) {
+        console.log(err)
+      }
+    }
+    else if (action.type === switchMyAskStatus.type){
+      try {
+        dispatch(authActions.switchMyAsk())
+        const response = await axios.put(
+          `http:${HOST}:${SERVER_PORT}/user/myask/switch`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+      }
+      catch (err) {
+        console.log(err)
+      }
+    }
+     else {
       next(action);
     }
   };

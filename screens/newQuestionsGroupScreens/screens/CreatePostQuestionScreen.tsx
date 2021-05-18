@@ -107,10 +107,19 @@ const CreatePostQuestionScreen = (props) => {
     }
     formData.append("content", inputValue);
     formData.append('groupId', params.groupId)
-    const result = await CourseGroup.fetchGroupMembers(params.groupId, token)
-    const members = result.data.members.map(member => {
-      return member._id
-    })
+    let members = []
+    if (!params.groupMembers) {
+      const result = await CourseGroup.fetchGroupMembers(params.groupId, token)
+      members = result.data.members.map(member => {
+        return member._id
+      })
+    }
+    else {
+      members = params.groupMembers.map(member => {
+        return member._id 
+      })
+    }
+    
     formData.append('members', JSON.stringify(members))
     formData.append('groupName', params.groupName)
     formData.append('username', params.username)

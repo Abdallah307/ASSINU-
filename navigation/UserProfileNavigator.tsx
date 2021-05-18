@@ -7,13 +7,13 @@ import GroupMembers from '../screens/groupScreens/GroupMembers'
 import CreatePost from '../screens/postsScreens/CreatePost'
 import FullImageScreen from '../screens/postsScreens/FullImageScreen'
 import FullPost from '../screens/postsScreens/FullPost'
-import StudentUserProfile from '../screens/user/UserProfile'
-import { options as studentProfileOptions } from '../screens/user/UserProfile'
+import UserProfile from '../screens/user/UserProfile'
+import { options as userProfileOptions } from '../screens/user/UserProfile'
 import { Colors } from '../constants/Colors'
 import AskScreen from '../screens/Ask/AskScreen'
 import FullQuestionScreen from '../screens/Ask/FullQuestionScreen'
 import AddAnswerScreen from '../screens/Ask/AddAnswerScreen'
-import StudentProfile from '../screens/OtherUsersProfile/UserProfile'
+import OtherUserProfile from '../screens/OtherUsersProfile/UserProfile'
 import VotersListScreen from '../components/groupComponents/VotersListScreen'
 import GroupNavigator from './newNavigation/GroupNavigator'
 
@@ -39,13 +39,13 @@ const StudentProfileNavigator = (props: any) => {
         >
             <Stack.Screen
                 name="Profile"
-                component={StudentUserProfile}
-                options={studentProfileOptions}
+                component={UserProfile}
+                options={userProfileOptions}
             />
 
             <Stack.Screen
-                name="StudentProfile"
-                component={StudentProfile}
+                name="OtherUserProfile"
+                component={OtherUserProfile}
                 options={({ route }) => ({
                     title: route.params.student.name
                 })}
@@ -59,12 +59,6 @@ const StudentProfileNavigator = (props: any) => {
                 component={GroupNavigator}
             />
 
-            {/* <Stack.Screen
-                name="Ask"
-                component={AskScreen}
-            /> */}
-
-        
 
         </Stack.Navigator>
     )

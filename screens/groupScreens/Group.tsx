@@ -52,6 +52,7 @@ const Group = (props) => {
   const openGroupMembers = () => {
     props.navigation.navigate("GroupMembers", {
       groupId: params.id,
+      groupMembers : params.groupMembers 
     });
   };
 
@@ -129,7 +130,8 @@ const Group = (props) => {
       groupId: params.id,
       students: params.students,
       groupName : params.title,
-      username : name
+      username : name,
+      groupMembers : params.groupMembers
     });
   };
 

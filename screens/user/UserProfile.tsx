@@ -17,7 +17,7 @@ import * as ImagePicker from "expo-image-picker";
 import {changeProfileImage} from '../../store/middleware/api'
 import HOST, { SERVER_PORT } from "../../configs/config";
 
-const StudentUserProfile = (props) => {
+const UserProfile = (props) => {
   const userData = useSelector((state) => {
     return state.auth;
   });
@@ -36,7 +36,10 @@ const StudentUserProfile = (props) => {
         quality: 1,
       });
 
-      if (value.cancelled) return;
+      if (value.cancelled) {
+        setOverlayVisible(false)
+        return
+      } 
 
       
 
@@ -58,13 +61,17 @@ const StudentUserProfile = (props) => {
             quality: 1,
         });
 
-        if (value.cancelled) return
+        if (value.cancelled) {
+          setOverlayVisible(false)
+          return
+        } 
 
         dispatch(changeProfileImage({
           image : value.uri 
       }))
     }
     catch(err){
+      setOverlayVisible(false)
       console.log("error occured in taking image");
     }
 }
@@ -143,4 +150,4 @@ export const options = ({ route, navigation }) => ({
   ),
 });
 
-export default StudentUserProfile;
+export default UserProfile;

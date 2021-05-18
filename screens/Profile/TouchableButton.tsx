@@ -6,6 +6,7 @@ import { Colors } from "../../constants/Colors";
 export const TouchableButton = (props) => {
   return (
     <TouchableOpacity
+      activeOpacity={0.6}
       onPress={props.onPress}
       style={{ ...styles.touchableButton, ...props.style }}
     >

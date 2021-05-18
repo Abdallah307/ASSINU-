@@ -29,7 +29,7 @@ const ListItem = (props) => {
 
 const styles = StyleSheet.create({
     listItem: {
-        flex: 1,
+        //flex: 1,
         margin: 15,
         height: 145,
         borderRadius: 15,

@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AskScreen from "../screens/Ask/AskScreen";
 import AskStackNavigator from "./AskStackNavigator";
 import {actions as askActions} from '../store/Ask'
+import {Notification as Notification} from '../Notifications/Notifications'
 
 
 Notifications.setNotificationHandler({
@@ -28,6 +29,8 @@ Notifications.setNotificationHandler({
   },
 });
 
+
+
 const Drawer = createDrawerNavigator();
 
 const StudentDrawerNavigator = (props: any) => {
@@ -35,7 +38,6 @@ const StudentDrawerNavigator = (props: any) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    socket.connect();
     const postCreatedListener = async (data) => {
       if (
         data.members.some(
@@ -51,7 +53,6 @@ const StudentDrawerNavigator = (props: any) => {
             seconds: 1,
           },
         });
-        console.log("DDD is : ", ddd);
       }
     };
 

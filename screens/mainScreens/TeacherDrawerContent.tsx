@@ -17,7 +17,7 @@ import { actions as authActions } from "../../store/auth";
 const DrawerContent = (props) => {
   const dispatch = useDispatch();
 
-  const { imageUrl, name, departmentName, myAsk, departmentId } = useSelector(
+  const { imageUrl, name, departmentName, departmentId, myAsk } = useSelector(
     (state) => state.auth
   );
 
@@ -50,23 +50,6 @@ const DrawerContent = (props) => {
           label="My ASK"
         />
       )}
-      <DrawerItem
-        icon={() => (
-          <FontAwesome name="user-o" size={20} color={Colors.primary} />
-        )}
-        onPress={() => props.navigation.navigate("StudentProfile")}
-        label="Profile"
-      />
-
-      <DrawerItem
-        icon={() => (
-          <FontAwesome name="exchange" size={20} color={Colors.primary} />
-        )}
-        onPress={() => {
-          props.navigation.navigate("SharingCenter");
-        }}
-        label="Sharing Center"
-      />
 
       <DrawerItem
         style={{ borderBottomWidth: 0.6 }}
@@ -78,6 +61,15 @@ const DrawerContent = (props) => {
         }}
         label="Settings"
       />
+
+      {/* <DrawerItem
+        style={{ borderBottomWidth: 0.6 }}
+        icon={() => (
+          <Feather name="settings" size={20} color={Colors.primary} />
+        )}
+        onPress={() => {props.navigation.navigate('SettingsNavigator')}}
+        label="Settings"
+      /> */}
 
       <DrawerItem
         icon={() => (
