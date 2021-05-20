@@ -9,7 +9,7 @@ const PostFooter = (props) => {
     return(
         <View style={styles.postFooter}>
             <Button
-            icon={<AntDesign name="like2" size={23} color='grey' />}
+            icon={<AntDesign name="like2" size={20} color={Colors.bluee2} />}
             type='clear'
             />
 
@@ -17,7 +17,7 @@ const PostFooter = (props) => {
             onPress={props.onOpenPost}
             titleStyle={{color:'grey'}}
             title={props.numberOfComments}
-            icon={<EvilIcons name="comment" size={23} color='grey' />}
+            icon={<EvilIcons name="comment" size={20} color={Colors.bluee2} />}
             type='clear'
             />
         </View>

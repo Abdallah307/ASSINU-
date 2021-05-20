@@ -47,7 +47,7 @@ const TeacherTabNavigator = (props) => {
           name="Feed"
           component={Feed}
           options={{
-            tabBarColor: Colors.blueGreen,
+            //tabBarColor: Colors.prussianBlue,
             tabBarIcon: () => <Feather name="home" size={24} color="white" />,
           }}
         />
@@ -58,7 +58,7 @@ const TeacherTabNavigator = (props) => {
           component={AvailableGroupsNavigator}
           options={{
             title: "Groups",
-            tabBarColor: Colors.blueGreen,
+            //tabBarColor: Colors.prussianBlue,
             tabBarIcon: () => (
               <FontAwesome name="group" size={24} color="white" />
             ),
@@ -69,7 +69,7 @@ const TeacherTabNavigator = (props) => {
           name="Notifications"
           component={Notifications}
           options={{
-            tabBarColor: Colors.prussianBlue,
+            //tabBarColor: Colors.prussianBlue,
             tabBarIcon: () => (
               <Ionicons name="notifications" size={24} color="white" />
             ),
@@ -80,7 +80,7 @@ const TeacherTabNavigator = (props) => {
           name="Chatting"
           component={ChattingNavigator}
           options={{
-            tabBarColor: Colors.prussianBlue,
+           // tabBarColor: Colors.prussianBlue,
             tabBarIcon: () => (
               <Ionicons name="ios-chatbubbles-sharp" size={24} color="white" />
             ),
@@ -91,7 +91,7 @@ const TeacherTabNavigator = (props) => {
           name="UserProfile"
           component={UserProfileNavigator}
           options={{
-            tabBarColor: Colors.primary,
+           // tabBarColor: Colors.prussianBlue,
             title: "Profile",
             tabBarIcon: () => (
               <Image

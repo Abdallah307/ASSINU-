@@ -29,7 +29,7 @@ const GroupHeader = (props: any) => {
                         <Button
                         onPress={props.openChatting}
                         type="clear"
-                        icon={<AntDesign name="message1" size={30} color={Colors.primary}/>}
+                        icon={<AntDesign name="message1" size={20} color={Colors.primary}/>}
                         />
                     </View>
 

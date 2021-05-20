@@ -30,7 +30,7 @@ const CreatePostHeader = (props: any) => {
             <Button
                 onPress={props.chooseImageFromDevice}
                 type='clear'
-                icon={<Feather name="image" size={27} color={Colors.blueGreen} />}
+                icon={<Feather name="image" size={20} color={Colors.blueGreen} />}
             />
         </View>
     )

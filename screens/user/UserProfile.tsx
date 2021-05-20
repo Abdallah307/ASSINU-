@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
 })
 
 export const options = ({ route, navigation }) => ({
-  title: "الحساب",
+  title: "User Profile",
   headerLeft: () => (
     <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
       <Item

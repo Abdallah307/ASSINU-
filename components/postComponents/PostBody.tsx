@@ -41,13 +41,15 @@ const styles = StyleSheet.create({
     postBody: {
         backgroundColor: 'white',
         paddingVertical: 12,
+        paddingLeft:15,
 
     },
     postContent: {
         fontSize: 15,
         paddingVertical: 5,
         paddingHorizontal: 15,
-        fontFamily: 'OpenSans-Regular'
+        fontFamily: 'OpenSans-Regular',
+        paddingLeft:15,
     }
 })
 

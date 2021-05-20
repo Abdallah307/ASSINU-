@@ -1,6 +1,7 @@
 import React from 'react'
 import {View , Text , StyleSheet , Image} from 'react-native'
 import HOST from '../../configs/config'
+import {Colors} from '../../constants/Colors';
 
 const ProfileAvatarImage = (props: any)  => {
     let uri;
@@ -23,7 +24,9 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 10,
-        marginRight: 5
+        marginRight: 5,
+        borderWidth:15,
+        borderColor:Colors.primary,
     },
     
 })

@@ -6,7 +6,7 @@ const CreatePollButton = props => {
     return (
             <Button
                 onPress={props.onPress}
-                containerStyle={{justifyContent:'center', alignItems:'flex-start'}}
+                containerStyle={{justifyContent:'center', alignItems:'flex-start', }}
                 title="Create poll"
             />
 
