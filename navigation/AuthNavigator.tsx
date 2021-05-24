@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import SignInn from "../screens/authScreens/SignInn";
 import SignUpp from "../screens/authScreens/SignUpp";
 import { Colors } from "../constants/Colors";
@@ -11,6 +11,7 @@ import { socket } from "../socket";
 import HOST, { SERVER_PORT } from "../configs/config";
 import * as Notifications from "expo-notifications";
 import TeacherDrawerNavigator from "./teacherDrawerNavigator";
+import {actions as chattingActions} from '../store/chatting'
 
 const Stack = createStackNavigator();
 
@@ -24,6 +25,7 @@ Notifications.setNotificationHandler({
 });
 
 const AuthNavigator = (props: any) => {
+  const dispatch = useDispatch()
   const { isSignedIn, userId } = useSelector((state) => {
     return state.auth;
   });
@@ -34,29 +36,28 @@ const AuthNavigator = (props: any) => {
 
   useEffect(() => {
     if (isSignedIn) {
-      // socket.connect();
-      // console.log("yes signed in man");
-      // const postCreatedListener = (data) => {
-      //   console.log("The members is here : ", data.members);
-      //     if (data.members.some(member => member === userId && member != data.emiter)) {
-      //       Notifications.scheduleNotificationAsync({
-      //         content: {
-      //           title: "ASSINU",
-      //           body: `${data.name} created a post in ${data.groupName}`,
-      //         },
-      //         trigger: {
-      //           seconds: 1,
-      //         },
-      //       });
-      //     }
+      socket.connect()
+      const newChatHandler = (data) => {
+        
+        if (data.chat.user._id !== userId) {
+          dispatch(chattingActions.ADD_NEW_CHAT({
+            chat : data.chat,
+          }))
+
           
-      // };
+        }
+        // else {
+        //   dispatch(chattingActions.SET_LAST_MESSAGE({
+        //     chatId : data.chat.user._id ,
+        //     lastMessage : data.chat.lastMessage
+        //   }))
+        // }
+        
+        
+      }
 
-      // socket.on("createdpost", postCreatedListener);
-
-      // return () => {
-      //   socket.off("createdpost", postCreatedListener);
-      // };
+      socket.on('newChat', newChatHandler)
+      
     } else {
       socket.disconnect();
     }
@@ -84,7 +85,6 @@ const AuthNavigator = (props: any) => {
   }
 
   if (email.split("@")[1] === "stu.najah.edu") {
-    socket.connect()
     return <StudentDrawerNavigator />;
   } else if (email.split("@")[1] === "najah.edu") {
     return <TeacherDrawerNavigator/>;

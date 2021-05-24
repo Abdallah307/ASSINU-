@@ -11,6 +11,7 @@ import replaysReducer from './replay'
 import groupReducer from './Group'
 import askReducer from './Ask'
 import sharingCenterReducer from './sharingcenter'
+import chattingReducer from './chatting'
 
 const entites = combineReducers({
     auth: authReducer,
@@ -23,7 +24,8 @@ const entites = combineReducers({
     replays : replaysReducer,
     group : groupReducer,
     ask : askReducer,
-    sharingCenter : sharingCenterReducer
+    sharingCenter : sharingCenterReducer,
+    chatting : chattingReducer
 })
 
 export default entites;

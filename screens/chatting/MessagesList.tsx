@@ -1,16 +1,20 @@
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { View, ScrollView, Text, StyleSheet } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import CustomActivityIndicator from '../../components/UI/CustomActivityIndicator'
 import HOST, { SERVER_PORT } from '../../configs/config'
 import { Colors } from '../../constants/Colors'
 import MessagesListItem from './MessageListItem'
+import {fetchUserChatsList} from '../../store/middleware/api'
+import {actions as chattingActions} from '../../store/chatting'
 
 const MessagesList = props => {
 
-    const [chats, setChats] = useState([])
-    const [isChatUsersLoaded, setChatUsersLoaded] = useState(false)
+    //const [chats, setChats] = useState([])
+    //const [isChatUsersLoaded, setChatUsersLoaded] = useState(false)
+    const dispatch = useDispatch() 
+    const {chats, isChatsLoaded} = useSelector(state=> state.chatting)
 
     const {userId, token} = useSelector(state => {
         return state.auth
@@ -24,23 +28,13 @@ const MessagesList = props => {
 
 
     useEffect(() => {
-        axios.get(`http://${HOST}:${SERVER_PORT}/user/messages/chats/${userId}`, {
-            headers: {
-                'Authorization':'Bearer ' + token
-            }
-        })
-            .then(response => {
-                setChats(response.data.chatUsers)
-                setChatUsersLoaded(true)
-            })
-            .catch(err => {
-                console.log(err)
-            })
+        dispatch(chattingActions.CLEAR_CHATS())
+        dispatch(fetchUserChatsList())
     }, [])
 
     return (
         <View style={styles.container}>
-            {!isChatUsersLoaded ? <CustomActivityIndicator />
+            {!isChatsLoaded ? <CustomActivityIndicator />
                 : <ScrollView>
                     {
                         chats.map(chat => {
@@ -50,7 +44,7 @@ const MessagesList = props => {
                                     openChat={() => openChat(chat.user._id)}
                                     imageUrl={chat.user.imageUrl}
                                     name={chat.user.name}
-                                    lastMessage={chat.lastMessage}
+                                    lastMessage={chat.lastMessage.content}
                                 />
                             )
                         })

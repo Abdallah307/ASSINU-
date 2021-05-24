@@ -20,7 +20,7 @@ const ChattingNavigator = props => {
             }
         }}
         >
-            <Stack.Screen name='ChattingTabNavigator' component={ChattingTabNavigator}/>
+            <Stack.Screen name='MessagesList' component={MessagesList}/>
             <Stack.Screen name='ChattingScreen' component={ChattingScreen}/>
         </Stack.Navigator>
     )

@@ -12,7 +12,7 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
-import { actions as authActions } from "../../store/auth";
+import {signOut} from '../../store/middleware/auth'
 
 const DrawerContent = (props) => {
   const dispatch = useDispatch();
@@ -84,7 +84,7 @@ const DrawerContent = (props) => {
           <MaterialIcons name="logout" size={20} color={Colors.primary} />
         )}
         onPress={() => {
-          dispatch(authActions.signout({}));
+          dispatch(signOut());
         }}
         label="Logout"
       />
