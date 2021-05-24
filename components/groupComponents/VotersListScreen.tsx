@@ -11,6 +11,11 @@ const VotersListScreen = props => {
                         if (voter.choiceId === props.route.params.choiceId)
                             return (
                                 <MemberItem
+                                    openStudentProfile={() => {
+                                        props.navigation.navigate('StudentProfile', {
+                                            user : voter.voterId
+                                        })
+                                    }}
                                     key={voter.voterId._id}
                                     imageUrl={voter.voterId.imageUrl}
                                     name={voter.voterId.name}

@@ -15,7 +15,8 @@ import {
   fetchGroupTimeline,
   togglePostLikeStatus,
   toggleFollowingStatus,
-  deleteGroupPost
+  deleteGroupPost,
+  votePoll
 } from "../../store/middleware/api";
 import { actions as groupActions } from "../../store/Group";
 import PostItem from "../newQuestionsGroupScreens/components/PostItem";
@@ -56,28 +57,31 @@ const Group = (props) => {
     });
   };
 
-  const votePoll = (pollId, choiceId) => {
-    const voterId = params.userId;
-    axios
-      .post(
-        `http://${HOST}:${SERVER_PORT}/group/polls/vote`,
-        {
-          pollId: pollId,
-          voterId: voterId,
-          choiceId: choiceId,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      )
-      .then((response) => {
-        response.status === 201 ? console.log("Voted Successfully") : null;
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+  const AddVoteToPoll = (pollId, choiceId) => {
+    dispatch(votePoll({
+      pollId : pollId,
+      choiceId : choiceId 
+    }))
+    // axios
+    //   .post(
+    //     `http://${HOST}:${SERVER_PORT}/group/polls/vote`,
+    //     {
+    //       pollId: pollId,
+    //       voterId: voterId,
+    //       choiceId: choiceId,
+    //     },
+    //     {
+    //       headers: {
+    //         Authorization: "Bearer " + token,
+    //       },
+    //     }
+    //   )
+    //   .then((response) => {
+    //     response.status === 201 ? console.log("Voted Successfully") : null;
+    //   })
+    //   .catch((err) => {
+    //     console.log(err.message);
+    //   });
   };
 
   const openVotersListScreen = (voters, choiceId) => {
@@ -198,7 +202,7 @@ const Group = (props) => {
           openVotersListScreen={(choiceId) =>
             openVotersListScreen(item.voters, choiceId)
           }
-          votePoll={votePoll}
+          AddVoteToPoll={AddVoteToPoll}
           isAlreadyVoted={isAlreadyVoted}
           voter={voter}
           poll={item}

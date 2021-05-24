@@ -96,6 +96,16 @@ const slice = createSlice({
       });
       state.timeline.splice(postIndex, 1);
     },
+    VOTE_POLL : (state, action) => {
+      const {pollId,voters, choices, choiceId, userId} = action.payload
+      const pollIndex = state.timeline.findIndex(item => {
+        return item.type == 'poll' && item._id == pollId 
+      })
+
+      state.timeline[pollIndex].voters = [...voters]
+      state.timeline[pollIndex].choices = [...choices]
+
+    }
   },
 });
 

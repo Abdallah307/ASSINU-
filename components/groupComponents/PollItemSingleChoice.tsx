@@ -8,7 +8,6 @@ import CustomRadioButton from './CustomRadioButton'
 
 const PollItemSingleChoice = props => {
   const [value, setValue] = useState(props.isAlreadyVoted ? props.voter.choiceId : '');
-  const [disabled, setDisabled] = useState(props.isAlreadyVoted)
 
   return (
     <View style={styles.pollItem}>
@@ -20,9 +19,9 @@ const PollItemSingleChoice = props => {
       />
       <Text style={styles.pollContent}>{props.poll.content}</Text>
       <RadioButton.Group onValueChange={newValue => {
-        props.votePoll(props.poll._id, newValue)
+        props.AddVoteToPoll(props.poll._id, newValue)
         setValue(newValue)
-        setDisabled(true)
+        //setDisabled(true)
       }} value={value}>
         {
           props.poll.choices.map(choice => {
@@ -30,7 +29,6 @@ const PollItemSingleChoice = props => {
               <CustomRadioButton
                 openVotersListScreen={() => props.openVotersListScreen(choice._id)}
                 choice={choice}
-                disabled={disabled}
                 key={choice._id}
               />
             )

@@ -8,6 +8,7 @@ import { createAction } from "@reduxjs/toolkit";
 import { actions as groupActions } from "../Group";
 import { actions as authActions } from "../auth";
 import { actions as askActions } from "../Ask";
+import { actions as sharingCenterActions } from "../sharingcenter";
 
 export const fetchUniversityQuestions = createAction(
   "fetchUniversityQuestions"
@@ -36,14 +37,38 @@ export const fetchAskaskedQuestions = createAction("fetchAskaskedQuestions");
 
 export const answerReceivedQuestion = createAction("answerReceivedQuestion");
 
-export const switchNotificationsStatus = createAction('switchNotificationsStatus')
-export const switchMyAskStatus = createAction('switchMyAskStatus')
+export const switchNotificationsStatus = createAction(
+  "switchNotificationsStatus"
+);
+export const switchMyAskStatus = createAction("switchMyAskStatus");
+
+export const fetchDepartmentSharedItems = createAction(
+  "fetchDepartmentSharedItems"
+);
+export const fetchPublicSharedItems = createAction("fetchPublicSharedItems");
+export const fetchUserSharedItems = createAction("fetchUserSharedItems");
+export const fetchSharingCenterOtherRequests = createAction(
+  "fetchSharingCenterOtherRequests"
+);
+export const fetchSharingCenterMyRequests = createAction(
+  "fetchSharingCenterMyRequests"
+);
+export const shareItemInSharingCenter = createAction(
+  "shareItemInSharingCenter"
+);
+export const requestItemFromOwner = createAction("requestItemFromOwner");
+export const replayToItemRequest = createAction("replayToItemRequest");
+export const markItemAsReserved = createAction("markItemAsReserved");
+export const markItemAsUnReserved = createAction("markItemAsUnReserved");
+
+export const votePoll = createAction('votePoll')
+
 
 const api =
   ({ dispatch, getState }) =>
   (next) =>
   async (action) => {
-    const { token, userId, name } = getState().auth;
+    const { token, userId, name, departmentId } = getState().auth;
 
     if (action.type === deleteGroupPost.type) {
       try {
@@ -96,7 +121,7 @@ const api =
           {
             questionId: questionId,
             answer: answer,
-            username : name 
+            username: name,
           },
           {
             headers: {
@@ -106,12 +131,13 @@ const api =
         );
 
         if (response.status === 201) {
-          dispatch(askActions.ADD_ANSWER_TO_RECEIVED_QUESTION({
-            questionId : questionId,
-            answer : answer,
-          }))
+          dispatch(
+            askActions.ADD_ANSWER_TO_RECEIVED_QUESTION({
+              questionId: questionId,
+              answer: answer,
+            })
+          );
         }
-
       } catch (err) {
         console.log(err);
       }
@@ -316,10 +342,9 @@ const api =
       } catch (err) {
         console.log(err);
       }
-    }
-    else if (action.type === switchNotificationsStatus.type){
+    } else if (action.type === switchNotificationsStatus.type) {
       try {
-        dispatch(authActions.switchNotifications())
+        dispatch(authActions.switchNotifications());
         const response = await axios.put(
           `http:${HOST}:${SERVER_PORT}/user/notfications/switch`,
           {},
@@ -328,15 +353,13 @@ const api =
               Authorization: `Bearer ${token}`,
             },
           }
-        )
+        );
+      } catch (err) {
+        console.log(err);
       }
-      catch (err) {
-        console.log(err)
-      }
-    }
-    else if (action.type === switchMyAskStatus.type){
+    } else if (action.type === switchMyAskStatus.type) {
       try {
-        dispatch(authActions.switchMyAsk())
+        dispatch(authActions.switchMyAsk());
         const response = await axios.put(
           `http:${HOST}:${SERVER_PORT}/user/myask/switch`,
           {},
@@ -345,13 +368,221 @@ const api =
               Authorization: `Bearer ${token}`,
             },
           }
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    } else if (action.type === fetchDepartmentSharedItems.type) {
+      try {
+        const response = await axios.get(
+          `http://${HOST}:${SERVER_PORT}/sharingcenter//department/${departmentId}/shareditems`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          dispatch(
+            sharingCenterActions.SET_DEPARTMENT_ITEMS({
+              departmentItems: response.data.items,
+            })
+          );
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    } else if (action.type === fetchPublicSharedItems.type) {
+      try {
+        const response = await axios.get(
+          `http://${HOST}:${SERVER_PORT}/sharingcenter/public/sharedItems`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          dispatch(
+            sharingCenterActions.SET_PUBLIC_ITEMS({
+              publicItems: response.data.items,
+            })
+          );
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    } else if (action.type === fetchUserSharedItems.type) {
+      try {
+        const response = await axios.get(
+          `http://${HOST}:${SERVER_PORT}/sharingcenter/user/shareditems`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          dispatch(
+            sharingCenterActions.SET_MY_ITEMS({
+              myItems: response.data.items,
+            })
+          );
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    } else if (action.type === fetchSharingCenterMyRequests.type) {
+      try {
+        const response = await axios.get(
+          `http://${HOST}:${SERVER_PORT}/sharingcenter/myrequests`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          dispatch(
+            sharingCenterActions.SET_MY_REQUESTS({
+              requests: response.data.requests,
+            })
+          );
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    } else if (action.type === fetchSharingCenterOtherRequests.type) {
+      try {
+        const response = await axios.get(
+          `http://${HOST}:${SERVER_PORT}/sharingcenter/othersrequests`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          dispatch(
+            sharingCenterActions.SET_Other_REQUESTS({
+              requests: response.data.requests,
+            })
+          );
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    } else if (action.type === shareItemInSharingCenter.type) {
+      try {
+        const { title, details, price, imageData, shareLocation } = action.payload;
+        const formData = new FormData();
+        formData.append("title", title);
+        formData.append("details", details);
+        formData.append("price", price);
+
+        shareLocation === "department"
+      ? formData.append("departmentId", departmentId)
+      : null;
+
+        formData.append("imageUrl", imageData);
+
+        const response = await axios.post(
+          `http://${HOST}:${SERVER_PORT}/sharingcenter/shareitem`,
+          formData,
+          {
+            headers: {
+              "content-type": "multipart/form-data",
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
+
+        if (response.status === 201) {
+          console.log(response.data.item)
+            if (shareLocation === 'department') {
+              dispatch(sharingCenterActions.SHARE_ITEM_TO_DEPARTMENT({
+                item : response.data.item 
+              }))
+            }
+            else if (shareLocation === 'public') {
+              dispatch(sharingCenterActions.SHARE_ITEM_TO_PUBLIC({
+                item : response.data.item 
+              }))
+            }
+
+            dispatch(sharingCenterActions.ADD_ITEM_TO_MY_ITEMS({
+              item : response.data.item 
+            }))
+
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    else if (action.type === requestItemFromOwner.type) {
+      try {
+        const response = await axios.post(
+          `http://${HOST}:${SERVER_PORT}/sharingcenter/requestitem`,
+          {
+            itemId : action.payload.itemId,
+            receiver : action.payload.receiver,
+            message : action.payload.message 
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         )
+
+        if (response.status === 201) {
+          console.log(response.data.request)
+          dispatch(sharingCenterActions.ADD_REQUEST_TO_MY_REQUESTS({
+            request : response.data.request 
+          }))
+        }
       }
       catch (err) {
         console.log(err)
       }
+    } 
+    else if (action.type === votePoll.type) {
+      try {
+        const {pollId, choiceId} = action.payload
+
+        const response = await axios.post(
+          `http://${HOST}:${SERVER_PORT}/group/polls/vote`,
+          {
+            pollId : pollId,
+            choiceId : choiceId 
+          },
+          {
+            headers : {
+              Authorization : `Bearer ${token}`
+            }
+          }
+        )
+
+        if (response.status === 201) {
+          dispatch(groupActions.VOTE_POLL({
+            pollId : pollId,
+            choiceId : choiceId,
+            userId : userId,
+            voters : response.data.voters ,
+            choices : response.data.choices  
+          }))
+        }
+      }
+      catch(err) {
+        console.log(err)
+      }
     }
-     else {
+    else {
       next(action);
     }
   };

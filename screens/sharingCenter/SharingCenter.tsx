@@ -1,16 +1,19 @@
 import React, { useLayoutEffect } from "react";
 import { View, StyleSheet,Text } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import SharingCenterDepartment from "./SharingCenterDepartment";
-import SharingCenterPublic from "./SharingCenterPublic";
+
 import { StackNavigationOptions } from "@react-navigation/stack";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import CustomHeaderButton from "../../components/UI/CustomHeaderButton";
 import { Colors } from "../../constants/Colors";
 import { Octicons } from "@expo/vector-icons";
-import MyItemsScreen from "./MyItemsScreen";
+
 import { MaterialIcons } from "@expo/vector-icons";
-import SharingCenterRequests from "./SharingCenterChat";
+
+import DepartmentSharingCenter from "../newSharingCenter/Screens/DepartmentSharingCenter";
+import PublicSharingCenter from "../newSharingCenter/Screens/PublicSharingCenter";
+import MySharedItemsScreen from "../newSharingCenter/Screens/MySharedItemsScreen";
+import RequestsScreen from "../newSharingCenter/Screens/RequestsScreen";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -23,7 +26,7 @@ const SharingCenter = (props) => {
           title: "Department",
         }}
         name="SharingDepartment"
-        component={SharingCenterDepartment}
+        component={DepartmentSharingCenter}
       />
       <Tab.Screen
         name="Public"
@@ -32,7 +35,7 @@ const SharingCenter = (props) => {
             <MaterialIcons name="public" size={24} color="black" />
           ),
         }}
-        component={SharingCenterPublic}
+        component={PublicSharingCenter}
       />
 
       <Tab.Screen
@@ -40,7 +43,7 @@ const SharingCenter = (props) => {
         options={{
           title: "My items",
         }}
-        component={MyItemsScreen}
+        component={MySharedItemsScreen}
       />
 
       <Tab.Screen
@@ -48,7 +51,7 @@ const SharingCenter = (props) => {
         options={{
           title: "Requests",
         }}
-        component={SharingCenterRequests}
+        component={RequestsScreen}
       />
     </Tab.Navigator>
   );
