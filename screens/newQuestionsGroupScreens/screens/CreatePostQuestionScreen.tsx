@@ -123,6 +123,7 @@ const CreatePostQuestionScreen = (props) => {
     formData.append('members', JSON.stringify(members))
     formData.append('groupName', params.groupName)
     formData.append('username', params.username)
+    formData.append('groupType', params.groupType)
     
     try {
       const response = await axios.post(

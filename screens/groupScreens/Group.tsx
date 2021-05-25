@@ -45,6 +45,7 @@ const Group = (props) => {
     dispatch(
       fetchGroupTimeline({
         groupId: params.id,
+        groupType : params.groupType 
       })
     );
   }, [params.id]);
@@ -135,7 +136,8 @@ const Group = (props) => {
       students: params.students,
       groupName : params.title,
       username : name,
-      groupMembers : params.groupMembers
+      groupMembers : params.groupMembers,
+      groupType : params.groupType
     });
   };
 
@@ -257,6 +259,7 @@ const Group = (props) => {
             onPress={() =>
               props.navigation.navigate("CreatePollScreen", {
                 groupId: params.id,
+                groupType : params.groupType
               })
             }
             buttonStyle={{

@@ -1,11 +1,28 @@
-import React from 'react'
-import {View, StyleSheet, Text} from 'react-native'
-
+import React, { useEffect } from 'react'
+import {View,FlatList, StyleSheet, Text} from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
+import { NotificationItem } from '../../components/NotificationComponents/NotificationItem'
+import {fetchNotifications} from '../../store/middleware/api'
 
 const Notifications = (props) => {
+    const dispatch = useDispatch()
+    const notifications = useSelector(state => state.notifications.notifications)
+
     return(
         <View style={styles.mainView}>
-            <Text>Notifications</Text>
+            <FlatList
+            showsVerticalScrollIndicator={false}
+            data={notifications}
+            renderItem={({item}) => {
+                return (
+                    <NotificationItem
+                    //onPress={openNotification.bind(this, item)}
+                    content={item.content}
+                    />
+                )
+            }}
+            keyExtractor={(item) => item._id}
+            />
         </View>
     )
 }
@@ -13,8 +30,8 @@ const Notifications = (props) => {
 const styles = StyleSheet.create({
     mainView: {
         flex: 1,
-        alignItems:'center',
-        justifyContent:'center'
+        padding : 5,
+        backgroundColor : '#eeeeee'
     }
 })
 

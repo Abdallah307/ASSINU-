@@ -33,7 +33,8 @@ const StudentCourses = props => {
             userId: userData.userId,
             username: userData.name,
             showChattingButton  : true,
-            students : itemData.item.courseId.students
+            students : itemData.item.courseId.students,
+            groupType : 'normal'
         })
 
     }

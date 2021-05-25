@@ -96,6 +96,7 @@ const AvailableGroupsScreen = (props) => {
                 id: departmentId,
                 title:`طلاب ${departmentName}`,
                 groupMembers: departmentStudentsGroupMembers,
+                groupType : 'normal'
               });
             }}
           />
@@ -108,6 +109,7 @@ const AvailableGroupsScreen = (props) => {
                 id: "609ef8bd145ffdd7a70e0d95",
                 title: "طلاب جامعة النجاح الوطنية",
                 groupMembers: universityGroupMembers,
+                groupType : 'normal'
               });
             }}
           />
@@ -122,6 +124,7 @@ const AvailableGroupsScreen = (props) => {
           id: departmentId,
           title: `ملتقى ${departmentName}`,
           groupMembers: departmentTeachersGroupMembers,
+          groupType : 'admin'
         });
       }}
       />

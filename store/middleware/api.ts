@@ -10,6 +10,7 @@ import { actions as authActions } from "../auth";
 import { actions as askActions } from "../Ask";
 import { actions as sharingCenterActions } from "../sharingcenter";
 import {actions as chattingActions } from '../chatting'
+import {actions as notificationActions} from '../Notification'
 
 export const fetchUniversityQuestions = createAction(
   "fetchUniversityQuestions"
@@ -66,6 +67,7 @@ export const votePoll = createAction("votePoll");
 
 export const fetchUserChatsList = createAction("fetchUserChatsList");
 export const fetchChatMessages = createAction("fetchChatMessages");
+
 
 const api =
   ({ dispatch, getState }) =>
@@ -220,8 +222,10 @@ const api =
     } else if (action.type === fetchGroupTimeline.type) {
       try {
         const groupId = action.payload.groupId;
+        const groupType = action.payload.groupType
+        
         const response = await axios.get(
-          `http://${HOST}:${SERVER_PORT}/group/timeline/${groupId}`,
+          `http://${HOST}:${SERVER_PORT}/group/timeline/${groupId}/${groupType}`,
           {
             headers: {
               Authorization: "Bearer " + token,

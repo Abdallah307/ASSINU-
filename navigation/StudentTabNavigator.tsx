@@ -17,6 +17,8 @@ import QuestionsScreen from "../screens/QuestionsScreens/QuestionsScreen"
 import {createStackNavigator} from '@react-navigation/stack'
 import AvailableGroupsScreen from "../screens/groupScreens/AvailableGroupsScreen"
 import AvailableGroupsNavigator from "./AvailableGroupsNavigator"
+import FeedNavigator from "./FeedNavigator"
+import NotificationNavigator from "./NotificationNavigator"
 
 
 const Tab = createMaterialBottomTabNavigator()
@@ -32,7 +34,7 @@ const StudentTabNavigator = (props) => {
 
         <Tab.Navigator
             shifting={true}
-            initialRouteName="Feed"
+            initialRouteName="FeedNavigator"
             sceneAnimationEnabled={true}
             barStyle={{
                 backgroundColor: Colors.primary,
@@ -41,8 +43,8 @@ const StudentTabNavigator = (props) => {
         >
 
             <Tab.Screen
-                name="Feed"
-                component={Feed}
+                name="FeedNavigator"
+                component={FeedNavigator}
                 options={{
                     tabBarColor: Colors.blueGreen,
                     tabBarIcon: () => (
@@ -72,8 +74,8 @@ const StudentTabNavigator = (props) => {
             />
 
             <Tab.Screen
-                name="Notifications"
-                component={Notifications}
+                name="NotificationsNavigator"
+                component={NotificationNavigator}
                 options={{
                     tabBarColor: Colors.prussianBlue,
                     tabBarIcon: () => (

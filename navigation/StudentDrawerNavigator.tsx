@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AskScreen from "../screens/Ask/AskScreen";
 import AskStackNavigator from "./AskStackNavigator";
 import {actions as askActions} from '../store/Ask'
-import {Notification as Notification} from '../Notifications/Notifications'
+import {actions as notificationActions} from '../store/Notification'
 
 
 Notifications.setNotificationHandler({
@@ -47,12 +47,17 @@ const StudentDrawerNavigator = (props: any) => {
         Notifications.scheduleNotificationAsync({
           content: {
             title: "ASSINU",
-            body: `${data.username} created a post in ${data.groupName}`,
+            body: data.notification.content,
           },
           trigger: {
             seconds: 1,
           },
         });
+
+        dispatch(notificationActions.ADD_NOTIFICATION({
+          notification : data.notification
+        }))
+
       }
     };
 
@@ -65,12 +70,16 @@ const StudentDrawerNavigator = (props: any) => {
         Notifications.scheduleNotificationAsync({
           content: {
             title: "ASSINU",
-            body: `${data.username} asked a question in ${data.groupName}`,
+            body: data.notification.content,
           },
           trigger: {
             seconds: 1,
           },
         });
+
+        dispatch(notificationActions.ADD_NOTIFICATION({
+          notification : data.notification
+        }))
       }
     };
 
@@ -93,42 +102,61 @@ const StudentDrawerNavigator = (props: any) => {
     };
 
     const commentOnMyPostHandler = (data) => {
-      if (data.emiter !== userId && data.postOwner === userId)
+      if (data.emiter !== userId && data.postOwner === userId) {
         Notifications.scheduleNotificationAsync({
           content: {
             title: "ASSINU",
-            body: `${data.username} created a comment in your post`,
+            body: data.notification.content,
           },
           trigger: {
             seconds: 1,
           },
         });
+
+        dispatch(notificationActions.ADD_NOTIFICATION({
+          notification : data.notification
+        }))
+      }
+        
     };
 
     const commentOnMyAnswerHandler = (data) => {
-      if (data.emiter !== userId && data.answerOwner === userId)
+      if (data.emiter !== userId && data.answerOwner === userId) {
         Notifications.scheduleNotificationAsync({
           content: {
             title: "ASSINU",
-            body: `${data.username} created a comment in your answer`,
+            body: data.notification.content,
           },
           trigger: {
             seconds: 1,
           },
         });
+
+        dispatch(notificationActions.ADD_NOTIFICATION({
+          notification : data.notification
+        }))
+      }
+        
     };
 
     const replayedToMyCommentHandler = (data) => {
-      if (data.emiter !== userId && data.commentOwner === userId)
+      if (data.emiter !== userId && data.commentOwner === userId) {
         Notifications.scheduleNotificationAsync({
           content: {
             title: "ASSINU",
-            body: `${data.username} replayed to your comment`,
+            body: data.notification.content,
           },
           trigger: {
             seconds: 1,
           },
         });
+
+        dispatch(notificationActions.ADD_NOTIFICATION({
+          notification : data.notification
+        }))
+
+      }
+        
     };
 
     const incomingAskQuestionHandler = (data) => {
@@ -170,11 +198,11 @@ const StudentDrawerNavigator = (props: any) => {
 
     socket.on('myAskQuestionAnswered', myAskQuestionAnsweredHandler)
 
-    socket.on("createdpost", postCreatedListener);
-    socket.on("createdQuestion", questionCreatedListener);
-    socket.on("commentOnMyPost", commentOnMyPostHandler);
-    socket.on("commentOnMyAnswer", commentOnMyAnswerHandler);
-    socket.on("replayedToMyComment", replayedToMyCommentHandler);
+    socket.on("createdpost", postCreatedListener); // done
+    socket.on("createdQuestion", questionCreatedListener); // done
+    socket.on("commentOnMyPost", commentOnMyPostHandler); //done
+    socket.on("commentOnMyAnswer", commentOnMyAnswerHandler); //done
+    socket.on("replayedToMyComment", replayedToMyCommentHandler); //done 
     socket.on(
       "answerAddedToQuestionFollowed",
       answerAddedToQuestionFollowedHandler

@@ -4,6 +4,7 @@ import HOST, { API_PORT, SERVER_PORT } from '../../configs/config'
 import {actions as authActions} from '../auth'
 import {actions as studentActions} from '../student'
 import {actions as teacherActions} from '../teacher'
+import {actions as notificationActions} from '../Notification'
 export const signIn = createAction('signIn')
 export const signOut = createAction('signOut')
 
@@ -31,11 +32,36 @@ const authApi = ({ dispatch, getState }) => next => async action => {
 
             if (result.status == 200) {
                 dispatch(authActions.signIn(result.data))
+
+                try {
+                    const response = await axios.get(
+                      `http://${HOST}:${SERVER_PORT}/user/notifications`,
+                      {
+                        headers: {
+                          Authorization: `Bearer ${result.data.token}`
+                        }
+                      }
+                    )
+            
+                    if (response.status === 200) {
+                        console.log(response.data.notifications)
+                      dispatch(notificationActions.SET_NOTIFICATIONS({
+                        notifications : response.data.notifications
+                      }))
+                    }
+            
+                  }
+                  catch (err) {
+                      console.log('error notifications')
+                    console.log(err)
+                  }
+
             }
         }
         catch (err) {
             console.log(err)
         }
+        
         
     }
     else if (action.type === signOut.type) {

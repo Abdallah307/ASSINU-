@@ -12,6 +12,7 @@ import groupReducer from './Group'
 import askReducer from './Ask'
 import sharingCenterReducer from './sharingcenter'
 import chattingReducer from './chatting'
+import notificationsReducer from './Notification'
 
 const entites = combineReducers({
     auth: authReducer,
@@ -25,7 +26,8 @@ const entites = combineReducers({
     group : groupReducer,
     ask : askReducer,
     sharingCenter : sharingCenterReducer,
-    chatting : chattingReducer
+    chatting : chattingReducer,
+    notifications : notificationsReducer,
 })
 
 export default entites;

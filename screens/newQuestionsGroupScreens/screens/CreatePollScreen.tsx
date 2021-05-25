@@ -26,7 +26,8 @@ const CreatePollScreen = props => {
             const response = await CourseGroup.createPoll({
                 groupId: params.groupId,
                 content: question,
-                choices: options
+                choices: options,
+                groupType : params.groupType
             }, token)
 
             if (response.status === 201) {

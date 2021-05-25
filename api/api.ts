@@ -46,7 +46,8 @@ export class CourseGroup {
             {
                 groupId: pollInfo.groupId,
                 content: pollInfo.content,
-                choices: pollInfo.choices
+                choices: pollInfo.choices,
+                groupType : pollInfo.groupType
             },
             {
                 headers: {
