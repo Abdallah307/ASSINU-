@@ -10,11 +10,12 @@ const PostFooter = props => {
         <View style={styles.postFooter}>
             <Button 
             onPress={props.onLikePostPressed}
-            title='Like'
+            buttonStyle={{paddingRight:40}}
+            title='  Like '
             icon={
             <AntDesign 
             name="like2" 
-            size={23} 
+            size={20} 
             color={props.isLiked ? Colors.primary : 'grey'} 
             />
         }
@@ -22,8 +23,8 @@ const PostFooter = props => {
             titleStyle={{...styles.buttonTitle, color : props.isLiked ? Colors.primary : 'grey'}}
             />
             <Button 
-            title='Comment'
-            icon={<EvilIcons name="comment" size={23} color='grey' />}
+            title='  Comment'
+            icon={<EvilIcons name="comment" size={20} color='grey' />}
             onPress={props.onCommentPressed}
             type='clear'
             titleStyle={styles.buttonTitle}
@@ -35,7 +36,8 @@ const PostFooter = props => {
 const styles = StyleSheet.create({
     postFooter : {
         flexDirection : 'row',
-        backgroundColor : 'white'
+        backgroundColor : 'white',
+       // paddingRight:40,
     },
     buttonTitle : {
         color : 'grey'

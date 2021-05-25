@@ -38,68 +38,71 @@ const TeacherTabNavigator = (props) => {
         shifting={true}
         initialRouteName="Feed"
         sceneAnimationEnabled={true}
-        barStyle={{
-          backgroundColor: Colors.primary,
-        }}
-        activeColor="white"
+      barStyle={{
+        // backgroundColor: Colors.primary,
+        backgroundColor: Colors.white,
+        borderTopWidth: 1.5,
+        borderTopColor: Colors.greyb,
+      }}
+      activeColor={Colors.prussianBlue}
       >
         <Tab.Screen
           name="Feed"
           component={Feed}
-          options={{
-            tabBarColor: Colors.blueGreen,
-            tabBarIcon: () => <Feather name="home" size={24} color="white" />,
-          }}
+        options={{
+          tabBarColor: Colors.white,
+          tabBarIcon: () => <Feather name="home" size={24} color={Colors.greyb} />,
+        }}
         />
 
         <Tab.Screen
           initialParams={{ abdo: "abdo" }}
           name="Groups"
           component={AvailableGroupsNavigator}
-          options={{
-            title: "Groups",
-            tabBarColor: Colors.blueGreen,
-            tabBarIcon: () => (
-              <FontAwesome name="group" size={24} color="white" />
-            ),
-          }}
+        options={{
+          title: "Groups",
+          tabBarColor: Colors.white,
+          tabBarIcon: () => (
+            <FontAwesome name="group" size={24} color={Colors.greyb} />
+          ),
+        }}
         />
 
         <Tab.Screen
           name="Notifications"
           component={Notifications}
-          options={{
-            tabBarColor: Colors.prussianBlue,
-            tabBarIcon: () => (
-              <Ionicons name="notifications" size={24} color="white" />
-            ),
-          }}
+        options={{
+          tabBarColor: Colors.white,
+          tabBarIcon: () => (
+            <Ionicons name="notifications" size={24} color={Colors.greyb} />
+          ),
+        }}
         />
 
         <Tab.Screen
           name="Chatting"
           component={ChattingNavigator}
-          options={{
-            tabBarColor: Colors.prussianBlue,
-            tabBarIcon: () => (
-              <Ionicons name="ios-chatbubbles-sharp" size={24} color="white" />
-            ),
-          }}
+        options={{
+          tabBarColor: Colors.white,
+          tabBarIcon: () => (
+            <Ionicons name="ios-chatbubbles-sharp" size={24} color={Colors.greyb} />
+          ),
+        }}
         />
 
         <Tab.Screen
           name="UserProfile"
           component={UserProfileNavigator}
-          options={{
-            tabBarColor: Colors.primary,
-            title: "Profile",
-            tabBarIcon: () => (
-              <Image
-                style={{ width: 24, height: 24, borderRadius: 12 }}
-                source={{ uri: `http://${HOST}:${SERVER_PORT}/${userImage}` }}
-              />
-            ),
-          }}
+        options={{
+          tabBarColor: Colors.white,
+          title: "Profile",
+          tabBarIcon: () => (
+            <Image
+              style={{ width: 24, height: 24, borderRadius: 12 }}
+              source={{ uri: `http://${HOST}:${SERVER_PORT}/${userImage}` }}
+            />
+          ),
+        }}
         />
       </Tab.Navigator>
   );

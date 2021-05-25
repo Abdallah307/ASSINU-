@@ -9,13 +9,13 @@ import { AntDesign, Entypo } from '@expo/vector-icons';
 const ProfileButtons = props => {
     console.log(props.showAskButton)
     return (
-        <View style={{ paddingHorizontal: 60, marginTop: -40 }}>
+        <View style={{ paddingHorizontal: 60, marginTop: -80 }}>
             <View style={styles.buttonsContainer}>
                 <Button
                     titleStyle={styles.buttonTitle}
                     buttonStyle={styles.buttonStyle}
                     title='Message'
-                    icon={<AntDesign name="message1" size={30} color={Colors.primary} />}
+                    icon={<AntDesign name="message1" size={30} color={Colors.pur3} />}
                     type="clear"
                 />
                 <Button
@@ -24,7 +24,7 @@ const ProfileButtons = props => {
                     titleStyle={styles.buttonTitle}
                     buttonStyle={styles.buttonStyle}
                     title='ASK'
-                    icon={<Entypo name="mask" size={35} color={!props.showAskButton ? 'grey' : Colors.prussianBlue} />}
+                    icon={<Entypo name="mask" size={30} color={!props.showAskButton ? 'grey' : Colors.pur3} />}
                     type="clear"
                 />
             </View>
@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
         height: 80,
     },
     buttonTitle: {
-        fontFamily: 'OpenSans-Bold',
+       // fontFamily: 'OpenSans',
+        
     },
     buttonStyle: {
         flexDirection: 'column'

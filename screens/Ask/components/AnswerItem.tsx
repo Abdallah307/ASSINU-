@@ -26,7 +26,9 @@ const styles = StyleSheet.create({
         width: '100%',
         padding: 20,
         marginVertical: 10,
-        borderRadius: 10
+        borderRadius: 10,
+    
+
     },
     questionText: {
         color:'white',

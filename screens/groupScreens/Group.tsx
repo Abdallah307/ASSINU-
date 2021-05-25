@@ -234,12 +234,12 @@ const Group = (props) => {
 
   const GroupHeaderChildren = () => {
     return (
-      <View>
+      <View style={{ borderBottomWidth: 0.5, borderColor: Colors.greybb, marginBottom: 20, borderTopWidth: 0.5 }}>
         <View
-          style={{ flexDirection: "row", flex: 1, backgroundColor: "white" }}
+          style={{ flexDirection: "row", flex: 1, backgroundColor: "white", marginBottom: 5, marginTop: 5}}
         >
           <Button
-            containerStyle={{ flex: 1, marginHorizontal: 5 }}
+            containerStyle={{ flex: 1, marginHorizontal: 2, backgroundColor: 'transparent' }}
             title="Participants"
             onPress={openGroupMembers}
             titleStyle={{
@@ -247,15 +247,23 @@ const Group = (props) => {
             }}
             buttonStyle={{
               backgroundColor: "transparent",
-              borderWidth: 1,
+              //borderWidth: 1,
             }}
           />
+
+          <View style={{ alignSelf: 'center', alignContent: 'center', alignItems: 'center', marginBottom: 10 }}>
+            <Text style={{ fontSize: 25, color: Colors.primary }}>
+              |
+            </Text>
+          </View>
+
+
           <Button
             title="Create poll"
             titleStyle={{
               color: Colors.primary,
             }}
-            containerStyle={{ flex: 1, marginHorizontal: 5 }}
+            containerStyle={{ flex: 1, marginHorizontal: 2, backgroundColor: 'transparent' }}
             onPress={() =>
               props.navigation.navigate("CreatePollScreen", {
                 groupId: params.id,
@@ -264,15 +272,12 @@ const Group = (props) => {
             }
             buttonStyle={{
               backgroundColor: "transparent",
-              borderWidth: 1,
+             // borderWidth: 1,
             }}
           />
         </View>
 
-        <WritePost
-          imageUrl={imageUrl}
-          //onTouch={openCreatePost}
-        />
+       
       </View>
     );
   };

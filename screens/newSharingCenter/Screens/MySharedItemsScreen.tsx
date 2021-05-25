@@ -5,6 +5,7 @@ import { OptionsOverlay } from "../../../components/UI/OptionsOverlay";
 import { fetchUserSharedItems } from "../../../store/middleware/api";
 import { TouchableButton } from "../../Profile/TouchableButton";
 import ShopItem from "../components/ShopItem";
+import {Colors} from '../../../constants/Colors';
 
 const MySharedItemsScreen = (props) => {
   const dispatch = useDispatch();
@@ -38,8 +39,20 @@ const MySharedItemsScreen = (props) => {
        overlayStyle={styles.overlay}
        isVisible={overlayVisible}
        >
-        <TouchableButton onPress={() => {}} title="Edit" />
-        <TouchableButton onPress={() => {}} title="Delete" />
+        <TouchableButton onPress={() => {}} title="Edit" 
+          //buttonStyle={{backgroundColor: 'transparent',}}
+          style={styles.EDButton}
+          buttonStyle={styles.EDButton}
+          containerStyle={styles.buttonContainer}
+          titleStyle={{color:Colors.prussianBlue}}
+        />
+        <TouchableButton onPress={() => {}} title="Delete" 
+          style={styles.EDButton}
+          titleStyle={{ color: Colors.prussianBlue}}
+
+
+        
+        />
       </OptionsOverlay>
     </View>
   );
@@ -55,6 +68,21 @@ const styles = StyleSheet.create({
     position : 'absolute',
     bottom : 0
   },
+  EDButton:{
+    backgroundColor:'transparent',
+    borderBottomColor:Colors.pur3,
+    borderBottomWidth:0.5,
+    alignContent:'center',
+    alignItems:'center',
+    alignSelf:'center',
+    textAlign:'center',
+    
+
+
+  },
+  buttonContainer:{
+    backgroundColor:'transparent',
+  }
 });
 
 export default MySharedItemsScreen;

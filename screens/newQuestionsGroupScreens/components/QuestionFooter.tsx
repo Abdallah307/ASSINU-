@@ -10,8 +10,9 @@ const QuestionFooter = (props) => {
     <View style={styles.questionFooter}>
       <Button
         onPress={props.onAnswerPressed}
-        title="Answer"
-        buttonStyle={styles.button}
+        
+        title="  Answer"
+        buttonStyle={{paddingRight:40}}
         type="clear"
         titleStyle={styles.buttonTitle}
         icon={
@@ -26,7 +27,7 @@ const QuestionFooter = (props) => {
         onPress={() => {
           props.onFollowPressed()
         }}
-        title={props.isFollowed ? 'Following' : 'Follow'}
+        title={props.isFollowed ? '  Following' : '  Follow'}
         buttonStyle={styles.button}
         type="clear"
         titleStyle={{...styles.buttonTitle, color : props.isFollowed ? Colors.primary : 'grey'}}

@@ -19,17 +19,19 @@ const Tab = createMaterialTopTabNavigator();
 
 const SharingCenter = (props) => {
   return (
+    
     <Tab.Navigator
     >
+    
       <Tab.Screen
         options={{
-          title: "Department",
+          title: "Items shared by departement students",
         }}
         name="SharingDepartment"
         component={DepartmentSharingCenter}
       />
       <Tab.Screen
-        name="Public"
+        name="Items shared by NNU students"
         options={{
           tabBarIcon: () => (
             <MaterialIcons name="public" size={24} color="black" />
@@ -41,7 +43,7 @@ const SharingCenter = (props) => {
       <Tab.Screen
         name="MyItemsScreen"
         options={{
-          title: "My items",
+          title: "Items shared by me",
         }}
         component={MySharedItemsScreen}
       />
@@ -49,7 +51,7 @@ const SharingCenter = (props) => {
       <Tab.Screen
         name="SharingCenterChat"
         options={{
-          title: "Requests",
+          title: "Sharing Center messages",
         }}
         component={RequestsScreen}
       />

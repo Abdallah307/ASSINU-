@@ -35,10 +35,12 @@ const RequestItemScreen = (props) => {
                     disabled={message.length === 0 ? true : false}
                     buttonStyle={{
                         color : Colors.primary,
-                        padding : 10,
-                        backgroundColor : message.length === 0 ? 'lightgrey':'white',
-                        borderRadius : 10
+                        padding : 5,
+                      backgroundColor: message.length === 0 ? Colors.greybb : 'white',
+                        borderRadius : 10,
+                        //TextDecorationLine:'underline'
                     }}
+                   // titleStyle={{TextDecorationLine:'underline'}}
                     />
                 </HeaderButtons>
             )
@@ -60,7 +62,7 @@ const RequestItemScreen = (props) => {
       <CreatePostInput
        content={message} 
        onChangeText={setMessage} 
-       placeholder='Request message ...'
+       placeholder='Write your request message here..'
        />
     </View>
   );

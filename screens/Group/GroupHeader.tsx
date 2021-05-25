@@ -47,8 +47,8 @@ const styles = StyleSheet.create({
     },
     groupTitle: {
         fontSize: 22,
-        color: Colors.primary,
-        fontFamily: 'OpenSans-Bold'
+        color: 'black',
+        fontFamily: 'OpenSans-Regular'
     },
     membersCount: {
         fontSize: 12,

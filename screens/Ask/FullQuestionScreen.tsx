@@ -54,7 +54,7 @@ const FullQuestionScreen = props => {
             <LinearGradient
                 style={{ flex: 1, padding: 10 }}
                 // Background Linear Gradient
-                colors={['#219EBC', '#3b5998', '#192f6a']}
+                colors={['#485563', '#29323c', '#485563']}
             >
                 <ScrollView style={styles.container}>
                     <QuestionItem
@@ -88,7 +88,7 @@ const FullQuestionScreen = props => {
                         icon={
                             <Ionicons
                                 name="send"
-                                size={30}
+                                size={25}
                                 color={Colors.primary}
                             />
                         }

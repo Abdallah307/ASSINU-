@@ -65,7 +65,7 @@ const StudentCourses = props => {
 const styles = StyleSheet.create({
     titleContainer: {
         marginVertical: 10,
-        marginHorizontal: 20,
+        marginHorizontal: 10,
         justifyContent: 'center',
         alignItems: 'center'
     },

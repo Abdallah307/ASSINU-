@@ -190,7 +190,7 @@ const screenOptions = (createPost, contentLength, isPosting) => ({
                             backgroundColor: 'lightgrey',
                             padding: 10,
                             color: Colors.primary,
-                            borderRadius: 10,
+                            //borderRadius: 10,
 
                         }}
                         onPress={createPost}

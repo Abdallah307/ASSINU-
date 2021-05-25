@@ -121,24 +121,24 @@ const UserProfile = (props) => {
 };
 
 const styles = StyleSheet.create({
-    overlay: {
-        width: "70%",
-        padding: 20,
-      },
-      fullProfileImage : {
-        width : '100%',
-        aspectRatio : 1 / 1
-      },
-      fullImageOverlay : {
-        width : '100%',
-        height : '100%',
-        alignItems : 'center',
-        justifyContent : 'center',
-      }
+  overlay: {
+    width: "70%",
+    padding: 20,
+  },
+  fullProfileImage: {
+    width: '100%',
+    aspectRatio: 1 / 1
+  },
+  fullImageOverlay: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 })
 
 export const options = ({ route, navigation }) => ({
-  title: "الحساب",
+  title: "User Profile",
   headerLeft: () => (
     <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
       <Item

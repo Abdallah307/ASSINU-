@@ -1,4 +1,4 @@
-import { AntDesign } from '@expo/vector-icons'
+import { AntDesign , Entypo} from '@expo/vector-icons'
 import React, { useState } from 'react'
 import { View, StyleSheet, Text, ImageBackground } from 'react-native'
 import { Button } from 'react-native-elements'
@@ -18,7 +18,7 @@ const GroupInfo = props => {
                     <Button
                         onPress={props.openChatting}
                         type="clear"
-                        icon={<AntDesign name="message1" size={30} color={Colors.primary} />}
+                    icon={<Entypo name="new-message" size={30} color={Colors.primary} />}
                     />
 
                 }
@@ -37,16 +37,19 @@ const GroupInfo = props => {
 const styles = StyleSheet.create({
     groupInfo: {
         backgroundColor: 'white',
-        height: 100,
-        padding: 10
+        height: 80,
+        paddingLeft: 20,
+        marginBottom:5,
+        
     },
     groupTitle: {
         fontSize: 22,
-        color: Colors.primary,
-        fontFamily: 'OpenSans-Bold'
+        color: 'black',
+        fontFamily: 'OpenSans-Bold',
+    
     },
     membersCount: {
-        fontSize: 12,
+        fontSize: 13,
         color: 'black',
         fontFamily: 'OpenSans-Regular'
     }

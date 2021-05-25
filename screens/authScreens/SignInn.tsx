@@ -30,14 +30,14 @@ const SignInn = (props: any) => {
             return (
                 <Feather name='eye-off'
                     onPress={props.setShowPassword}
-                    size={20} color="black"
+                    size={15} color={Colors.greyb}
                 />
             )
 
         return (
             <Feather name='eye'
                 onPress={props.setShowPassword}
-                size={20} color={Colors.blueGreen}
+                size={15} color={Colors.greyb}
             />
         )
 
@@ -62,8 +62,11 @@ const SignInn = (props: any) => {
                 >
                     <Input
                         inputContainerStyle={{ borderColor: 'lightgrey' }}
-                        leftIcon={<MaterialIcons name="email" size={18} color={Colors.blueGreen} />}
-                        placeholder='Email'
+                        // leftIcon={<MaterialIcons name="email" size={18} color={Colors.blueGreen} />}
+                        placeholder='E-mail address'
+                        keyboardType="email-address"
+                        autoCapitalize="none"
+                        autoCorrect={false}
                         style={styles.input}
                         value={email}
                         onChangeText={(email) => setEmail(email)}
@@ -71,7 +74,7 @@ const SignInn = (props: any) => {
 
                     <Input
                         inputContainerStyle={{ borderColor: 'lightgrey' }}
-                        leftIcon={<FontAwesome name="lock" size={20} color={Colors.blueGreen} />}
+                        //leftIcon={<FontAwesome name="lock" size={20} color={Colors.blueGreen} />}
                         placeholder='Password'
                         style={styles.input}
                         secureTextEntry={showPassword}
@@ -86,11 +89,17 @@ const SignInn = (props: any) => {
                         buttonStyle={styles.signInButton}
                         onPress={() => dispatch(signIn({ email: email, password: password }))}
                     />
+                    <View style={{ flexDirection: 'row', alignSelf: 'center', alignContent: 'center', alignItems: 'center' }}>
+                        <Text style={{ marginTop: 20 }} >______</Text>
+                        <Text style={{ marginTop: 20, fontSize: 18, color: Colors.pur3 }}> or </Text>
+                        <Text style={{ marginTop: 20 }}>______</Text>
+                    </View>
+
                     <Button
-                        title='Sign Up'
+                        title='Create new account?'
                         containerStyle={{ marginBottom: 10 }}
                         buttonStyle={styles.signUpButton}
-                        titleStyle={{ color: Colors.blueGreen }}
+                        titleStyle={{ color: Colors.bluee2, textDecorationLine: 'underline' }}
                         onPress={() => props.navigation.navigate('SignUp')}
                     />
                 </Animatable.View>
@@ -101,10 +110,10 @@ const SignInn = (props: any) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1, backgroundColor: Colors.blueGreen
+        flex: 1, backgroundColor: Colors.primary
     },
     header: {
-        flex: 1, backgroundColor: Colors.blueGreen,
+        flex: 1, backgroundColor: Colors.primary,
         justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: 10
@@ -123,18 +132,44 @@ const styles = StyleSheet.create({
     },
     input: {
         fontSize: 15,
-        padding: 0
+        padding: 0,
+
+        //fontSize: 15,
+        //padding: 0,
+        //marginVertical:0
+        marginBottom: 0,
+        paddingLeft: 20
     },
     signInButton: {
-        backgroundColor: Colors.blueGreen,
-        borderRadius: 5,
+        backgroundColor: Colors.pur3,
+        borderRadius: 20,
         padding: 12,
-        borderWidth: 1,
+        // borderWidth: 1,
+        width: 240,
+        height: 40,
+        alignSelf: 'center'
+
+        //backgroundColor: Colors.blueGreen,
+        //borderRadius: 5,
+        //padding: 12,
+        //borderWidth: 1,
+
     },
     signUpButton: {
         backgroundColor: 'transparent',
-        borderWidth: 1,
+        borderWidth: 0,
         padding: 12,
+        width: 180,
+        alignSelf: 'center',
+        alignContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center',
+
+
+
+        // backgroundColor: 'transparent',
+        //borderWidth: 1,
+        //padding: 12,
     }
 })
 

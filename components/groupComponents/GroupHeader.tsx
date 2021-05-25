@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, ImageBackground } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Colors } from '../../constants/Colors'
 import {Button} from 'react-native-elements'
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Entypo } from '@expo/vector-icons';
 import { useSelector } from 'react-redux'
 
 
@@ -29,7 +29,7 @@ const GroupHeader = (props: any) => {
                         <Button
                         onPress={props.openChatting}
                         type="clear"
-                        icon={<AntDesign name="message1" size={30} color={Colors.primary}/>}
+                        icon={<Entypo name="new-message" size={20} color={Colors.greybb}/>}
                         />
                     </View>
 

@@ -32,7 +32,7 @@ const DrawerContent = (props) => {
         </View>
       </View>
       <DrawerItem
-        icon={() => <AntDesign name="home" size={20} color={Colors.primary} />}
+        icon={() => <AntDesign name="home" size={20} color={Colors.deep1} />}
         onPress={() => props.navigation.navigate("Feed")}
         label="Home"
       />
@@ -43,7 +43,7 @@ const DrawerContent = (props) => {
             <MaterialCommunityIcons
               name="head-question"
               size={20}
-              color={Colors.primary}
+              color={Colors.deep1}
             />
           )}
           onPress={() => props.navigation.navigate("AskStackNavigator")}
@@ -54,7 +54,7 @@ const DrawerContent = (props) => {
       <DrawerItem
         style={{ borderBottomWidth: 0.6 }}
         icon={() => (
-          <Feather name="settings" size={20} color={Colors.primary} />
+          <Feather name="settings" size={20} color={Colors.deep1} />
         )}
         onPress={() => {
           props.navigation.navigate("SettingsNavigator");
@@ -73,7 +73,7 @@ const DrawerContent = (props) => {
 
       <DrawerItem
         icon={() => (
-          <MaterialIcons name="logout" size={20} color={Colors.primary} />
+          <MaterialIcons name="logout" size={20} color={Colors.deep1} />
         )}
         onPress={() => {
           dispatch(authActions.signout({}));

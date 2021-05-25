@@ -1,5 +1,5 @@
 import React from "react"
-import { Feather, FontAwesome, Ionicons } from '@expo/vector-icons'
+import { Feather, FontAwesome, Ionicons, Entypo } from '@expo/vector-icons'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import { useSelector } from 'react-redux'
 import { Colors } from '../constants/Colors'
@@ -37,21 +37,25 @@ const StudentTabNavigator = (props) => {
             initialRouteName="FeedNavigator"
             sceneAnimationEnabled={true}
             barStyle={{
-                backgroundColor: Colors.primary,
+                backgroundColor: Colors.white,
+                borderTopWidth: 1.5,
+                borderTopColor: Colors.greyb,
             }}
-            activeColor='white'
+            activeColor={Colors.prussianBlue}
+         
         >
 
             <Tab.Screen
                 name="FeedNavigator"
                 component={FeedNavigator}
                 options={{
-                    tabBarColor: Colors.blueGreen,
+                   title:'Feed',
+                    tabBarColor: Colors.white,
                     tabBarIcon: () => (
-                        <Feather
+                        <Entypo
                             name="home"
                             size={24}
-                            color='white'
+                            color={Colors.greyb}
                         />
                     )
                 }}
@@ -61,13 +65,13 @@ const StudentTabNavigator = (props) => {
                 name="Groups"
                 component={AvailableGroupsNavigator}
                 options={{
-                    title:'Groups',
-                    tabBarColor: Colors.blueGreen,
+                    title: 'Groups',
+                    tabBarColor: Colors.white,
                     tabBarIcon: () => (
                         <FontAwesome
                             name="group"
-                            size={20}
-                            color='white'
+                            size={24}
+                            color={Colors.greyb}
                         />
                     )
                 }}
@@ -77,12 +81,13 @@ const StudentTabNavigator = (props) => {
                 name="NotificationsNavigator"
                 component={NotificationNavigator}
                 options={{
-                    tabBarColor: Colors.prussianBlue,
+                    title:'Notifications',
+                    tabBarColor: Colors.white,
                     tabBarIcon: () => (
                         <Ionicons
                             name="notifications"
                             size={24}
-                            color='white'
+                            color={Colors.greyb}
                         />
                     )
                 }}
@@ -92,12 +97,12 @@ const StudentTabNavigator = (props) => {
                 name="Chatting"
                 component={ChattingNavigator}
                 options={{
-                    tabBarColor: Colors.prussianBlue,
+                    tabBarColor: Colors.white,
                     tabBarIcon: () => (
                         <Ionicons
                             name="ios-chatbubbles-sharp"
                             size={24}
-                            color="white"
+                            color={Colors.greyb}
                         />
                     )
                 }}
@@ -107,7 +112,7 @@ const StudentTabNavigator = (props) => {
                 name="UserProfileNavigator"
                 component={UserProfileNavigator}
                 options={{
-                    tabBarColor: Colors.primary,
+                    tabBarColor: Colors.white,
                     title: 'Profile',
                     tabBarIcon: () => (
                         <Image

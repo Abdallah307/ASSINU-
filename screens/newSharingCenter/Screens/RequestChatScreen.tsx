@@ -93,7 +93,7 @@ const RequestChatScreen = (props) => {
     <View style={{ flex: 1 }}>
       <LinearGradient
         style={{ flex: 1, padding: 10 }}
-        colors={["#219EBC", "#3b5998", "#192f6a"]}
+        colors={["#0F2027", "#203A43", "#2C5364"]}
       >
         <FlatList
           showsVerticalScrollIndicator={false}
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
   input: {
     width: "85%",
     borderTopWidth: 1,
-    borderColor: "white",
+    borderColor: "#eeee",
     padding: 10,
     backgroundColor: Colors.prussianBlue,
     color: "white",
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.prussianBlue,
     color: "white",
-    fontFamily: "OpenSans-Regular",
+    //fontFamily: "OpenSans-Regular",
   },
   userMessageItem: {
     backgroundColor: Colors.primary,

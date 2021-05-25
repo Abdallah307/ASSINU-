@@ -46,8 +46,8 @@ const styles = StyleSheet.create({
   },
   pollContent: {
     fontSize: 15,
-    paddingVertical: 5,
-    paddingHorizontal: 15,
+    paddingVertical: 1,
+    paddingHorizontal: 12,
     fontFamily: 'OpenSans-Regular'
   }
 })

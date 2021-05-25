@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { View, ScrollView, StyleSheet, TextInput } from 'react-native'
 import CreatePostHeader from '../../../components/postComponents/CreatePostHeader'
+import CreatePostHeader2 from '../../../components/postComponents/CreatePostHeader2'
 import PollOption from '../../../components/groupComponents/PollOption'
 import { Button } from 'react-native-elements'
 import RNPoll, { IChoice } from "react-native-poll";
@@ -46,7 +47,7 @@ const CreatePollScreen = props => {
     return (
         <ScrollView style={styles.pollContainer}>
             <View style={{flexDirection:'row',justifyContent:'space-between', alignItems:'center'}}>
-                <CreatePostHeader
+                <CreatePostHeader2
                     imageUrl={imageUrl}
                     username={name}
                 />
@@ -54,9 +55,10 @@ const CreatePollScreen = props => {
                     containerStyle={{paddingHorizontal:10}}
                     buttonStyle={{
                         borderRadius:10,
-                        backgroundColor:Colors.blueGreen
+                        backgroundColor:'transparent'
                     }}
                     title='Post'
+                    titleStyle={{color:Colors.prussianBlue, textDecorationLine:'underline'}}
                     onPress={() => {
                         createPoll()
                     }}
@@ -71,7 +73,7 @@ const CreatePollScreen = props => {
                     onChangeText={(value) => setQuestion(value)}
                 />
 
-                <View style={{ padding: 20 }}>
+                <View style={{ padding: 20, marginTop:15 }}>
                     <View style={styles.addOptionContainer}>
                         <TextInput
                             style={styles.addOptionInput}
@@ -79,15 +81,18 @@ const CreatePollScreen = props => {
                             onChangeText={(value) => setChoice(value)}
                             placeholder="Option"
                         />
-
+                       
                         <Button
                             containerStyle={styles.addOptionButton}
                             title='Add'
+                            buttonStyle={{backgroundColor:Colors.pur3, borderRadius:5, width:80, marginLeft:10, alignContent:'center', alignItems:'center', alignSelf:'center'}}
+                            titleStyle={{color:Colors.white}}
                             onPress={() => {
                                 setOptions([...options, choice])
                                 setChoice('')
                             }}
                         />
+                        
                     </View>
 
                     {
@@ -114,23 +119,30 @@ const styles = StyleSheet.create({
     pollQuestionInput: {
         borderBottomWidth: 1,
         borderColor:'lightgrey',
-        padding: 15
+        padding: 15,
+        height:80,
+        maxHeight:'100%'
     },
     addOptionContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between'
+      //  justifyContent: 'space-between'
     },
     addOptionInput: {
         borderColor:'grey',
-        flex: 2.8,
-        borderWidth: 1,
-        paddingHorizontal: 10,
-        borderRadius: 10
+        flex: 2,
+        //borderWidth: 0.8,
+        borderBottomWidth: 0.8,
+        paddingLeft: 10,
+        paddingRight:25,
+       // borderRadius: 10
     },
     addOptionButton: {
         flex: 1,
-        marginLeft: 5,
-        borderRadius: 10
+        //marginTop:40,
+       // marginLeft: 5,
+       // borderRadius: 10
+       backgroundColor:'transparent',
+      // paddingLeft:10
         //width:'40%'
     }
 })

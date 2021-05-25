@@ -72,7 +72,7 @@ const AuthNavigator = (props: any) => {
             headerTintColor: "white",
             headerStyle: {
               elevation: 0,
-              backgroundColor: Colors.blueGreen,
+              backgroundColor: Colors.primary,
             },
             headerTitleAlign: "center",
           }}

@@ -17,12 +17,12 @@ const ItemImage = props => {
 
 const styles = StyleSheet.create({
     itemImageContainer: {
-        width: "100%",
+        width: "50%",
         aspectRatio: 4 / 3,
       },
       itemImage: {
-        width: "100%",
-        height: "100%",
+        width: "50%",
+        height: "50%",
       },
 })
 

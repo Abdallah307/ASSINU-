@@ -147,11 +147,12 @@ const ShareItemScreen = (props) => {
           <View
             style={{
               flexDirection: "row",
-              justifyContent: "space-between",
+             justifyContent: "space-between",
               alignItems: "center",
+              //paddingHorizontal:40,
             }}
           >
-            <Text style={styles.title}>Create item</Text>
+            <Text style={styles.title}>Add a new item</Text>
             <DropDownPicker
               placeholder="Share to..."
               items={[
@@ -168,28 +169,43 @@ const ShareItemScreen = (props) => {
             takeImage={takeImageFromCamera}
             chooseImage={chooseImageFromDevice}
             image={image}
+            style={{marginBottom:10}}
           >
+     
+          </ImageHeader>
+          <View style={styles.buttonsunderimage}>
             <Button
+              containerStyle={{ flex: 1, marginHorizontal: 2, backgroundColor: 'transparent' }}
               title="Take an image"
               onPress={takeImageFromCamera}
               buttonStyle={styles.imageButton}
+              titleStyle={{ color: Colors.primary }}
             />
+            <View style={{ alignSelf: 'center', alignContent: 'center', alignItems: 'center', marginBottom: 10 }}>
+              <Text style={{ fontSize: 25, color: Colors.primary }}>
+                |
+            </Text>
+            </View>
             <Button
-              title="Choose..."
+              title="Select an image "
+              containerStyle={{ flex: 1, marginHorizontal: 2, backgroundColor: 'transparent' }}
+
               onPress={chooseImageFromDevice}
               buttonStyle={styles.imageButton}
+              titleStyle={{ color: Colors.primary }}
             />
-          </ImageHeader>
+          </View>
           <View
             style={{
               flex: 1,
               paddingBottom: 40,
               justifyContent: "center",
               alignItems: "center",
+              marginTop:5,
             }}
           >
             <Input
-              label="Item name"
+              //label="Item name"
               labelStyle={styles.inputLabel}
               placeholder="Item name"
               inputContainerStyle={styles.input}
@@ -198,15 +214,15 @@ const ShareItemScreen = (props) => {
             />
             <Input
               keyboardType="numeric"
-              label="Price (do not fill it if free)"
+             // label="Price (do not fill it if free)"
               labelStyle={styles.inputLabel}
-              placeholder="Price"
+              placeholder="Price (do not fill it if free)"
               inputContainerStyle={styles.input}
               value={price}
               onChangeText={(value) => setPrice(value)}
             />
             <Input
-              label="Details"
+             // label="Details"
               labelStyle={styles.inputLabel}
               placeholder="Details"
               inputContainerStyle={styles.input}
@@ -215,6 +231,7 @@ const ShareItemScreen = (props) => {
               onChangeText={(value) => setItemDetails(value)}
             />
             <Button
+            
               disabled={
                 itemName.length === 0 || itemDetails.length === 0 || !image
               }
@@ -232,28 +249,55 @@ const ShareItemScreen = (props) => {
 
 const styles = StyleSheet.create({
   input: {
-    borderWidth: 1,
-    padding: 5,
+    fontSize: 8,
+    padding: 0,
+    //fontSize: 15,
+    //padding: 0,
+    //marginVertical:0
+    marginBottom: 0,
+    paddingLeft: 10,
+    borderBottomWidth: 0.5,
+    //padding: 5,
     marginVertical: 5,
-    borderRadius: 15,
+    //borderRadius: 15,
+  },
+  buttonsunderimage:{
+    flexDirection:'row',
+    margin:10,
+    //paddingHorizntal:4,
+    //alignitems:'center',
+    
+
   },
   title: {
-    fontFamily: "OpenSans-Bold",
-    fontSize: 25,
+    //fontFamily: "OpenSans-Regular",
+    fontSize: 20,
     flex: 2,
-    marginBottom: 5,
-    padding: 5,
+    marginVertical: 20,
+    paddingLeft:10,
+    color:'black',
+
   },
   submitButton: {
-    backgroundColor: Colors.primary,
-    padding: 15,
-    borderRadius: 15,
+
+
+    backgroundColor: Colors.pur3,
+    borderRadius: 20,
+    padding: 12,
+    // borderWidth: 1,
+    width: 240,
+    height: 40,
+    alignSelf: 'center'
+  
   },
   inputLabel: {
-    color: Colors.primary,
+    //PaddingTop:10,
+  
+    color: Colors.greybb,
+    paddingLeft:10,
   },
   imageButton: {
-    backgroundColor: Colors.primary,
+    backgroundColor: 'white',
     borderRadius: 15,
     padding: 15,
   },

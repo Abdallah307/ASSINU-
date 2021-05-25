@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 15,
     fontFamily: "OpenSans-Regular",
+    //marginTop:40,
   },
 });
 

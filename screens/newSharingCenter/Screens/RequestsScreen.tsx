@@ -11,8 +11,8 @@ const Tab = createMaterialTopTabNavigator();
 const RequestsScreen = (props) => {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="MyRequestsScreen" component={MyRequestsScreen} />
-      <Tab.Screen name="OtherRequestsScreen" component={OtherRequestsScreen} />
+      <Tab.Screen name="Sent Request messages" component={MyRequestsScreen} />
+      <Tab.Screen name="Derived Request messages" component={OtherRequestsScreen} />
     </Tab.Navigator>
   );
 };

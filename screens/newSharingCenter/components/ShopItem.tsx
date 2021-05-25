@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { AssinuText } from "../../../components/UI/AssinuText";
 import HOST, { SERVER_PORT } from "../../../configs/config";
+import { Colors } from "../../../constants/Colors";
 import ItemImage from "./ItemImage";
 
 const ShopItem = (props) => {
@@ -31,28 +32,36 @@ const styles = StyleSheet.create({
     elevation: 5,
     margin: 10,
     overflow: "hidden",
-    borderRadius: 10,
+    borderRadius: 5,
+    borderBottomColor:Colors.primary,
+    borderBottomWidth:1,
+    borderLeftWidth:1,
+    borderLeftColor:Colors.primary,
+  
   },
   itemImageContainer: {
-    width: "100%",
+    width: "80%",
     aspectRatio: 4 / 3,
+    
+    
   },
   itemInfoContainer: {
     padding: 10,
   },
   itemImage: {
-    width: "100%",
-    height: "100%",
+    width: "80%",
+    height: "80%",
   },
   title: {
     fontFamily: "OpenSans-Bold",
     fontSize: 16,
     width: "80%",
+    color:Colors.greybb
   },
   price: {
     fontFamily: "OpenSans-Bold",
     fontSize: 13,
-    color: "red",
+    color: Colors.pur3,
   },
 });
 

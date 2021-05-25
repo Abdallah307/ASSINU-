@@ -58,8 +58,11 @@ const SignUpp = (props: any) => {
                 >
                     <Input
                         inputContainerStyle={{ borderColor: 'lightgrey' }}
-                        leftIcon={<MaterialIcons name="email" size={18} color={Colors.blueGreen} />}
-                        placeholder='Email'
+                        //leftIcon={<MaterialIcons name="email" size={18} color={Colors.blueGreen} />}
+                        placeholder='E-mail address'
+                        keyboardType="email-address"
+                        autoCapitalize="none"
+                        autoCorrect={false}
                         style={styles.input}
                         value={email}
                         onChangeText={(email) => setEmail(email)}
@@ -67,7 +70,7 @@ const SignUpp = (props: any) => {
 
                     <Input
                         inputContainerStyle={{ borderColor: 'lightgrey' }}
-                        leftIcon={<FontAwesome name="lock" size={20} color={Colors.blueGreen} />}
+                        // leftIcon={<FontAwesome name="lock" size={20} color={Colors.blueGreen} />}
                         placeholder='Password'
                         style={styles.input}
                         secureTextEntry={showPassword}
@@ -78,7 +81,7 @@ const SignUpp = (props: any) => {
 
                     <Input
                         inputContainerStyle={{ borderColor: 'lightgrey' }}
-                        leftIcon={<FontAwesome name="lock" size={20} color={Colors.blueGreen} />}
+                        // leftIcon={<FontAwesome name="lock" size={20} color={Colors.blueGreen} />}
                         placeholder='Confirm password'
                         style={styles.input}
                         secureTextEntry={showConfirmPassword}
@@ -89,30 +92,32 @@ const SignUpp = (props: any) => {
 
                     <Button
                         title='Sign Up'
-                        containerStyle={{ marginBottom: 10 }}
+                        containerStyle={{ marginTop: 35 }}
                         buttonStyle={styles.signUpButton}
                         onPress={() => props.navigation.navigate('SignUp')}
                     />
+                    <View style={{ flexDirection: 'row', marginVertical: 0, alignSelf: 'center', alignItems: 'center' }}>
+                        <Text style={{ fontSize: 14, color: Colors.greybb }}>Already have an account?</Text>
 
                     <Button
                         title='Sign In'
-                        titleStyle={{ color: Colors.blueGreen }}
-                        containerStyle={{ marginBottom: 10 }}
+                        titleStyle={{ color: Colors.pur3 }}
+                        containerStyle={{}}
                         buttonStyle={styles.signInButton}
                         onPress={() => props.navigation.navigate('SignIn')}
                     />
+                    </View>
                 </Animatable.View>
             </View>
         </TouchableWithoutFeedback>
     )
 }
-
 const styles = StyleSheet.create({
     container: {
-        flex: 1, backgroundColor: Colors.blueGreen
+        flex: 1, backgroundColor: Colors.primary
     },
     header: {
-        flex: 1, backgroundColor: Colors.blueGreen,
+        flex: 1, backgroundColor: Colors.primary,
         justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: 10
@@ -131,19 +136,40 @@ const styles = StyleSheet.create({
     },
     input: {
         fontSize: 15,
-        padding: 0
+        paddingLeft: 10,
+        //padding: 0,
     },
     signUpButton: {
-        backgroundColor: Colors.blueGreen,
-        borderRadius: 5,
+        backgroundColor: Colors.primary,
+        borderRadius: 20,
         padding: 12,
         borderWidth: 1,
+        marginVertical: 5,
+        width: 240,
+        height: 40,
+        alignContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+        textAlign: 'center',
+
+
     },
     signInButton: {
         backgroundColor: 'transparent',
-        borderWidth: 1,
-        padding: 12,
-    }
+        // borderWidth: 1,
+        // padding: 12,
+    },
+    textsstyle: {
+        fontSize: 15,
+        //fontFamily:'OpenSans',
+        color: Colors.bluee1,
+        // padding:10,
+        //margin:10,
+        paddingLeft: 10
+
+    },
+
 })
+
 
 export default SignUpp

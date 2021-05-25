@@ -24,7 +24,7 @@ const UserTypeScreen = props => {
 
 const styles = StyleSheet.create({
     userTypeScreen: {
-        backgroundColor:Colors.blueGreen,
+        backgroundColor:Colors.primary,
         flex: 1,
         padding: 30,
         justifyContent:'space-around',
