@@ -328,6 +328,7 @@ const Group = (props) => {
               props.navigation.navigate("CreatePollScreen", {
                 groupId: params.id,
                 groupType: params.groupType,
+                groupName: params.title,
               })
             }
             buttonStyle={{

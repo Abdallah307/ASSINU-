@@ -10,6 +10,11 @@ import FullImageScreen from "../screens/postsScreens/FullImageScreen";
 import ReplayScreen from "../screens/newQuestionsGroupScreens/screens/ReplayScreen";
 import VotersListScreen from "../components/groupComponents/VotersListScreen";
 import UserProfile from "../screens/OtherUsersProfile/UserProfile";
+import { FontAwesome } from "@expo/vector-icons";
+import { Button } from "react-native-elements";
+import { UserSearchScreen } from "../screens/mainScreens/UserSearchScreen";
+import CreateAskQuestionScreen from "../screens/Ask/CreateAskQuestionScreen";
+
 const Stack = createStackNavigator();
 
 const FeedNavigator = (props) => {
@@ -25,7 +30,24 @@ const FeedNavigator = (props) => {
         },
       }}
     >
-      <Stack.Screen name="Feed" component={Feed} />
+      <Stack.Screen
+        name="Feed"
+        component={Feed}
+        options={({route, navigation}) => ({
+          headerRight: () => {
+            return (
+              <Button
+                type="clear"
+                onPress={() => navigation.navigate('UserSearchScreen')}
+                containerStyle={{
+                  marginRight: 15,
+                }}
+                icon={<FontAwesome name="search" size={28} color="white" />}
+              />
+            );
+          },
+        })}
+      />
       <Stack.Screen name="FullPostScreen" component={FullPostScreen} />
       <Stack.Screen name="FullAnswerScreen" component={FullAnswerScreen} />
       <Stack.Screen name="FullQuestionScreen" component={FullQuestionScreen} />
@@ -37,6 +59,8 @@ const FeedNavigator = (props) => {
       <Stack.Screen name="ReplayScreen" component={ReplayScreen} />
       <Stack.Screen name="VotersListScreen" component={VotersListScreen} />
       <Stack.Screen name="StudentProfile" component={UserProfile} />
+      <Stack.Screen name='UserSearchScreen' component={UserSearchScreen} />
+      <Stack.Screen name="CreateAskQuestionScreen" component={CreateAskQuestionScreen} />
     </Stack.Navigator>
   );
 };

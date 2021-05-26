@@ -2,8 +2,31 @@ import { Entypo } from "@expo/vector-icons";
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import ProfileAvatarImage from "../../../components/profileComponents/ProfileAvatarImage";
+import moment from 'moment'
 
 const FeedPostHeader = (props) => {
+
+  const checkDate = (date) => {
+    let hours = moment().diff(moment(date), "hours");
+    let days = moment().diff(moment(date), "days");
+
+    // console.log(`hours : ${hours}`);
+    // console.log(`days : ${days} `);
+
+
+
+    if (hours <= 23) {
+      return `${hours - moment().diff(moment(date), "hours") +1} hours ago`;
+    }
+
+    if (days <= 7) {
+      return `${days+1} days ago`
+    }
+
+    return date 
+  };
+
+
   return (
     <View style={styles.header}>
       <TouchableOpacity onPress={props.onPressHeader}>
@@ -15,9 +38,9 @@ const FeedPostHeader = (props) => {
 
           <View style={styles.dataInfo}>
             <Text style={styles.username}>{props.groupName}</Text>
-            <Text style={styles.timestamp}>{props.username}</Text>
+            <Text style={styles.timestamp}>{props.name}</Text>
             <Text style={styles.timestamp}>
-              {new Date(props.date).toDateString()}
+            {checkDate(new Date(props.date).toDateString())}
             </Text>
           </View>
         </View>

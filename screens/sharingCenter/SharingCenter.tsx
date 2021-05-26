@@ -21,11 +21,14 @@ const SharingCenter = (props) => {
   return (
     
     <Tab.Navigator
+    tabBarOptions={{
+      
+    }}
     >
     
       <Tab.Screen
         options={{
-          title: "Items shared by departement students",
+          title: "Department",
         }}
         name="SharingDepartment"
         component={DepartmentSharingCenter}

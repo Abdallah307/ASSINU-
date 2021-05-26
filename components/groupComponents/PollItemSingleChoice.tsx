@@ -14,6 +14,8 @@ const PollItemSingleChoice = (props) => {
   return (
     <View style={styles.pollItem}>
       <Header
+        showGroupName={props.showGroupName}
+        groupName={props.groupName}
         onPressOptionsButton={props.onPressOptionsButton}
         showOptions={props.showOptions}
         onPressHeader={props.onPressHeader}

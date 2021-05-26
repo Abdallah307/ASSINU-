@@ -3,6 +3,8 @@ import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import ProfileAvatarImage from "../../../components/profileComponents/ProfileAvatarImage";
 import moment from "moment";
+import { AssinuText } from "../../../components/UI/AssinuText";
+import { Colors } from "../../../constants/Colors";
 
 const Header = (props) => {
   const checkDate = (date) => {
@@ -12,17 +14,15 @@ const Header = (props) => {
     // console.log(`hours : ${hours}`);
     // console.log(`days : ${days} `);
 
-
-
     if (hours <= 23) {
-      return `${hours - moment().diff(moment(date), "hours") +1} hours ago`;
+      return `${hours - moment().diff(moment(date), "hours") + 1} hours ago`;
     }
 
     if (days <= 7) {
-      return `${days+1} days ago`
+      return `${days + 1} days ago`;
     }
 
-    return date 
+    return date;
   };
 
   return (
@@ -35,6 +35,7 @@ const Header = (props) => {
           />
 
           <View style={styles.dataInfo}>
+            {props.showGroupName &&<AssinuText style={{fontFamily: 'OpenSans-Bold', color : Colors.primary}}>{props.groupName}</AssinuText>}
             <Text style={styles.username}>{props.name}</Text>
             <Text style={styles.timestamp}>
               {checkDate(new Date(props.date).toDateString())}

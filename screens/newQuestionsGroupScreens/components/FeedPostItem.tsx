@@ -2,16 +2,15 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Button } from "react-native-elements";
 import Body from "./Body";
+import FeedPostHeader from "./FeedPostHeader";
 import Header from "./Header";
 import PostFooter from "./PostFooter";
 
-const PostItem = (props) => {
+const FeedPostItem = (props) => {
   const post = props.post;
   return (
     <View style={styles.postItem}>
-      <Header
-        showGroupName={props.showGroupName}
-        groupName={props.groupName}
+      <FeedPostHeader
         onPressOptionsButton={props.onPressOptionsButton}
         showOptions={props.showOptions}
         onPressHeader={props.onPressHeader}
@@ -39,4 +38,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default PostItem;
+export default FeedPostItem;

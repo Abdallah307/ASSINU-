@@ -13,15 +13,18 @@ const QuestionItem = (props) => {
   return (
     <View style={styles.questionItem}>
       <Header
+        showGroupName={props.showGroupName}
+        groupName={props.groupName}
         onPressHeader={props.onPressHeader}
         name={question.owner.name}
         date={question.createdAt}
         imageUrl={question.owner.imageUrl}
       />
-      <Body onPress={props.onPress} 
-      content={question.content} 
-      openImage={props.openImage}
-      imageUrl={question.imageUrl}
+      <Body
+        onPress={props.onPress}
+        content={question.content}
+        openImage={props.openImage}
+        imageUrl={question.imageUrl}
       />
       <View style={styles.questionInfo}>
         <AssinuText style={{ paddingHorizontal: 7 }}>
@@ -41,9 +44,7 @@ const styles = StyleSheet.create({
     marginBottom: 7,
     backgroundColor: "white",
   },
-  questionInfo : {
-    
-  }
+  questionInfo: {},
 });
 
 export default QuestionItem;

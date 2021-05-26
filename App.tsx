@@ -9,7 +9,7 @@ import AppLoading from 'expo-app-loading'
 import {socket} from './socket'
 import * as Notifications from 'expo-notifications'
 
-//LogBox.ignoreAllLogs();
+LogBox.ignoreAllLogs();
 
 const store = configureStore()
 

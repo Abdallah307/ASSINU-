@@ -145,6 +145,8 @@ const Feed = (props) => {
             setCurrentSelectedPost(item._id);
             setSelectedItemType("post");
           }}
+          showGroupName={true}
+          groupName={item.groupName}
           showOptions={showOptions}
           onPressHeader={openUserProfile.bind(this, item.owner)}
           onLikePostPressed={onLikePostPressed.bind(this, item)}
@@ -175,6 +177,8 @@ const Feed = (props) => {
             setCurrentSelectedPost(item._id);
             setSelectedItemType("poll");
           }}
+          showGroupName={true}
+          groupName={item.groupName}
           showOptions={showOptions}
           onPressHeader={openUserProfile.bind(this, item.owner)}
           openVotersListScreen={(choiceId) =>
@@ -192,6 +196,8 @@ const Feed = (props) => {
 
       return (
         <QuestionItem
+          showGroupName={true}
+          groupName={item.groupName}
           onPressHeader={openUserProfile.bind(this, item.owner)}
           numberOfAnswers={item.numberOfAnswers}
           question={item}
@@ -250,10 +256,10 @@ const Feed = (props) => {
         fullScreen={true}
         overlayStyle={{ position: "absolute", bottom: 0, height: "30%" }}
         onBackdropPress={() => {
-            setOptionsOverlayVisible(false);
-            setCurrentSelectedPost(null);
-            setSelectedItemType(null);
-          }}
+          setOptionsOverlayVisible(false);
+          setCurrentSelectedPost(null);
+          setSelectedItemType(null);
+        }}
         animationType="slide"
       >
         <TouchableButton

@@ -28,7 +28,8 @@ const CreatePollScreen = props => {
                 groupId: params.groupId,
                 content: question,
                 choices: options,
-                groupType : params.groupType
+                groupType : params.groupType,
+                groupName : params.groupName
             }, token)
 
             if (response.status === 201) {
