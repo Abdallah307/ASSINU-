@@ -8,13 +8,15 @@ import {
     TouchableWithoutFeedback,
     Keyboard,
     Text,
-    TextInput
+    TextInput,
+    ActivityIndicator
 } from 'react-native'
 import { Colors } from '../../constants/Colors'
 import { Button, Input } from 'react-native-elements'
 import { MaterialIcons, Feather, MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { signIn } from '../../store/middleware/auth'
+import {actions as authActions} from '../../store/auth'
 
 
 const SignInn = (props: any) => {
@@ -24,6 +26,8 @@ const SignInn = (props: any) => {
     const [password, setPassword] = useState('12345')
 
     const dispatch = useDispatch()
+
+    const {emailErrorMessage, passwordErrorMessage, isLoggingIn} = useSelector(state => state.auth)
 
     const PasswordStateIcon = (props) => {
         if (props.state)
@@ -70,6 +74,11 @@ const SignInn = (props: any) => {
                         style={styles.input}
                         value={email}
                         onChangeText={(email) => setEmail(email)}
+                        errorMessage={emailErrorMessage}
+                        errorStyle={{
+                            fontSize : 13,
+                            fontWeight : 'bold'
+                        }}
                     />
 
                     <Input
@@ -81,13 +90,31 @@ const SignInn = (props: any) => {
                         value={password}
                         onChangeText={(password) => setPassword(password)}
                         rightIcon={<PasswordStateIcon setShowPassword={() => setShowPassword(!showPassword)} state={showPassword} />}
+                        keyboardType='default'
+                        errorMessage={passwordErrorMessage}
+                        errorStyle={{
+                            fontSize : 13,
+                            fontWeight : 'bold'
+                        }}
                     />
 
                     <Button
-                        title='Sign In'
+                        title='Sign in'
+                        loading={isLoggingIn}
                         containerStyle={{ marginBottom: 10 }}
                         buttonStyle={styles.signInButton}
-                        onPress={() => dispatch(signIn({ email: email, password: password }))}
+                        onPress={() => {
+                            dispatch(authActions.SET_IS_LOGGING_IN({
+                                isLoggingIn : true
+                            }))
+                            dispatch(authActions.SET_EMAIL_ERROR({
+                                errorMessage : ''
+                            }))
+                            dispatch(authActions.SET_PASSWORD_ERROR({
+                                errorMessage : ''
+                            }))
+                            dispatch(signIn({ email: email, password: password }))}
+                        } 
                     />
                     <View style={{ flexDirection: 'row', alignSelf: 'center', alignContent: 'center', alignItems: 'center' }}>
                         <Text style={{ marginTop: 20 }} >______</Text>
@@ -102,6 +129,9 @@ const SignInn = (props: any) => {
                         titleStyle={{ color: Colors.bluee2, textDecorationLine: 'underline' }}
                         onPress={() => props.navigation.navigate('SignUp')}
                     />
+                    {/* <View style={{justifyContent : 'center', alignItems : 'center'}}>
+                        <Text style={{color : 'red'}}>{validationErrorMessage}</Text>
+                    </View> */}
                 </Animatable.View>
             </View>
         </TouchableWithoutFeedback>

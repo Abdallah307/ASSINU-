@@ -51,13 +51,6 @@ const DrawerContent = (props) => {
           label="My ASK"
         />
       )}
-      <DrawerItem
-        icon={() => (
-          <FontAwesome name="user-o" size={20} color={Colors.deep1} />
-        )}
-        onPress={() => props.navigation.navigate("StudentProfile")}
-        label="Profile"
-      />
 
       <DrawerItem
         icon={() => (

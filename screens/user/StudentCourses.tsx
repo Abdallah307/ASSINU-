@@ -26,14 +26,14 @@ const StudentCourses = props => {
     const openCourseGroup = (itemData) => {
         const item = itemData.item
         props.navigation.navigate('GroupNavigator', {
-            title: item.courseId.name,
-            id: item.courseId._id,
+            title: item.name,
+            id: item._id,
             userImage: userData.imageUrl,
-            numberOfMembers: item.courseId.students.length,
+            numberOfMembers: item.students.length,
             userId: userData.userId,
             username: userData.name,
             showChattingButton  : true,
-            students : itemData.item.courseId.students,
+            students : itemData.item.students,
             groupType : 'normal'
         })
 
@@ -45,7 +45,7 @@ const StudentCourses = props => {
     const renderItems = (itemData) => {
         return <ListItem
             onSelect={() => openCourseGroup(itemData)}
-            title={itemData.item.courseId.name}
+            title={itemData.item.name}
         />
     }
 

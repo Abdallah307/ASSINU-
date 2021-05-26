@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet,Button as ReactNativeButton, View, Text, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Button as ReactNativeButton,
+  View,
+  Text,
+  ScrollView,
+} from "react-native";
 import WritePost from "../../components/postComponents/WritePost";
 import { Button, Overlay } from "react-native-elements";
 import CustomeActivityIndicator from "../../components/UI/CustomActivityIndicator";
@@ -16,7 +22,8 @@ import {
   togglePostLikeStatus,
   toggleFollowingStatus,
   deleteGroupPost,
-  votePoll
+  votePoll,
+  deleteGroupPoll,
 } from "../../store/middleware/api";
 import { actions as groupActions } from "../../store/Group";
 import PostItem from "../newQuestionsGroupScreens/components/PostItem";
@@ -28,9 +35,11 @@ import { socket } from "../../socket";
 const Group = (props) => {
   const dispatch = useDispatch();
 
-  const [optionsOverlayVisible , setOptionsOverlayVisible] = useState(false)
+  const [optionsOverlayVisible, setOptionsOverlayVisible] = useState(false);
 
-  const [currentSelectedPost , setCurrentSelectedPost] = useState(null)
+  const [currentSelectedPost, setCurrentSelectedPost] = useState(null);
+
+  const [selectedItemType, setSelectedItemType] = useState(null);
 
   const { timeline, isLoaded } = useSelector((state) => {
     return state.group;
@@ -45,24 +54,25 @@ const Group = (props) => {
     dispatch(
       fetchGroupTimeline({
         groupId: params.id,
-        groupType : params.groupType 
+        groupType: params.groupType,
       })
     );
   }, [params.id]);
 
- 
   const openGroupMembers = () => {
     props.navigation.navigate("GroupMembers", {
       groupId: params.id,
-      groupMembers : params.groupMembers 
+      groupMembers: params.groupMembers,
     });
   };
 
   const AddVoteToPoll = (pollId, choiceId) => {
-    dispatch(votePoll({
-      pollId : pollId,
-      choiceId : choiceId 
-    }))
+    dispatch(
+      votePoll({
+        pollId: pollId,
+        choiceId: choiceId,
+      })
+    );
     // axios
     //   .post(
     //     `http://${HOST}:${SERVER_PORT}/group/polls/vote`,
@@ -134,10 +144,10 @@ const Group = (props) => {
     props.navigation.navigate("CreatePostQuestionScreen", {
       groupId: params.id,
       students: params.students,
-      groupName : params.title,
-      username : name,
-      groupMembers : params.groupMembers,
-      groupType : params.groupType
+      groupName: params.title,
+      username: name,
+      groupMembers: params.groupMembers,
+      groupType: params.groupType,
     });
   };
 
@@ -153,28 +163,46 @@ const Group = (props) => {
     });
   };
 
+  const deleteGroupItem = () => {
+    if (selectedItemType === "post") {
+      dispatch(
+        deleteGroupPost({
+          postId: currentSelectedPost,
+        })
+      );
+    } else if (selectedItemType === "poll") {
+      dispatch(
+        deleteGroupPoll({
+          pollId: currentSelectedPost,
+        })
+      );
+    }
+    setOptionsOverlayVisible(false);
+    setCurrentSelectedPost(null);
+    setSelectedItemType(null);
+  };
+
   const openUserProfile = (user) => {
     if (user._id !== userId) {
-      props.navigation.navigate('StudentProfile', {
-        user : user
-      })
+      props.navigation.navigate("StudentProfile", {
+        user: user,
+      });
+    } else {
+      props.navigation.navigate("Profile");
     }
-    else {
-      props.navigation.navigate('Profile')
-    }
-    
   };
 
   const renderGroupPostAndPolls = ({ item }) => {
     if (item.type === "post") {
       const likes = item.likes;
       let isLiked = isPostLiked(likes);
-      let showOptions = item.owner._id === userId 
+      let showOptions = item.owner._id === userId;
       return (
         <PostItem
           onPressOptionsButton={() => {
-            setOptionsOverlayVisible(true)
-            setCurrentSelectedPost(item._id)
+            setOptionsOverlayVisible(true);
+            setCurrentSelectedPost(item._id);
+            setSelectedItemType("post");
           }}
           showOptions={showOptions}
           onPressHeader={openUserProfile.bind(this, item.owner)}
@@ -189,6 +217,7 @@ const Group = (props) => {
       const voters = item.voters;
       let isAlreadyVoted;
       let voter;
+      let showOptions = item.owner._id === userId;
       if (voters.length !== 0) {
         voter = voters.find((voter) => {
           return voter.voterId._id === userId;
@@ -200,6 +229,12 @@ const Group = (props) => {
       }
       return (
         <PollItemSingleChoice
+          onPressOptionsButton={() => {
+            setOptionsOverlayVisible(true);
+            setCurrentSelectedPost(item._id);
+            setSelectedItemType("poll");
+          }}
+          showOptions={showOptions}
           onPressHeader={openUserProfile.bind(this, item.owner)}
           openVotersListScreen={(choiceId) =>
             openVotersListScreen(item.voters, choiceId)
@@ -234,12 +269,29 @@ const Group = (props) => {
 
   const GroupHeaderChildren = () => {
     return (
-      <View style={{ borderBottomWidth: 0.5, borderColor: Colors.greybb, marginBottom: 20, borderTopWidth: 0.5 }}>
+      <View
+        style={{
+          borderBottomWidth: 0.5,
+          borderColor: Colors.greybb,
+          marginBottom: 20,
+          borderTopWidth: 0.5,
+        }}
+      >
         <View
-          style={{ flexDirection: "row", flex: 1, backgroundColor: "white", marginBottom: 5, marginTop: 5}}
+          style={{
+            flexDirection: "row",
+            flex: 1,
+            backgroundColor: "white",
+            marginBottom: 5,
+            marginTop: 5,
+          }}
         >
           <Button
-            containerStyle={{ flex: 1, marginHorizontal: 2, backgroundColor: 'transparent' }}
+            containerStyle={{
+              flex: 1,
+              marginHorizontal: 2,
+              backgroundColor: "transparent",
+            }}
             title="Participants"
             onPress={openGroupMembers}
             titleStyle={{
@@ -251,33 +303,39 @@ const Group = (props) => {
             }}
           />
 
-          <View style={{ alignSelf: 'center', alignContent: 'center', alignItems: 'center', marginBottom: 10 }}>
-            <Text style={{ fontSize: 25, color: Colors.primary }}>
-              |
-            </Text>
+          <View
+            style={{
+              alignSelf: "center",
+              alignContent: "center",
+              alignItems: "center",
+              marginBottom: 10,
+            }}
+          >
+            <Text style={{ fontSize: 25, color: Colors.primary }}>|</Text>
           </View>
-
 
           <Button
             title="Create poll"
             titleStyle={{
               color: Colors.primary,
             }}
-            containerStyle={{ flex: 1, marginHorizontal: 2, backgroundColor: 'transparent' }}
+            containerStyle={{
+              flex: 1,
+              marginHorizontal: 2,
+              backgroundColor: "transparent",
+            }}
             onPress={() =>
               props.navigation.navigate("CreatePollScreen", {
                 groupId: params.id,
-                groupType : params.groupType
+                groupType: params.groupType,
               })
             }
             buttonStyle={{
               backgroundColor: "transparent",
-             // borderWidth: 1,
+              // borderWidth: 1,
             }}
           />
         </View>
-
-       
       </View>
     );
   };
@@ -304,6 +362,15 @@ const Group = (props) => {
               <GroupHeaderChildren />
             </GroupHeader>
           }
+          refreshing={!isLoaded}
+          onRefresh={() => {
+            dispatch(
+              fetchGroupTimeline({
+                groupId: params.id,
+                groupType: params.groupType,
+              })
+            );
+          }}
           data={timeline}
           renderItem={renderGroupPostAndPolls}
           keyExtractor={(item, index) => item._id.toString()}
@@ -318,32 +385,35 @@ const Group = (props) => {
         onPress={openCreatePostQuestion}
       />
 
-      <Overlay 
-      isVisible={optionsOverlayVisible} 
-      fullScreen={true}
-      overlayStyle={{position:'absolute', bottom : 0, height : "30%"}}
-      onBackdropPress={() => {
-        setOptionsOverlayVisible(false)
-        setCurrentSelectedPost(null)
-      }}
-      animationType='slide'
+      <Overlay
+        isVisible={optionsOverlayVisible}
+        fullScreen={true}
+        overlayStyle={{ position: "absolute", bottom: 0, height: "30%" }}
+        onBackdropPress={() => {
+          setOptionsOverlayVisible(false);
+          setCurrentSelectedPost(null);
+          setSelectedItemType(null);
+        }}
+        animationType="slide"
       >
         <TouchableButton
-        onPress={() => {
-          dispatch(deleteGroupPost({
-            postId : currentSelectedPost
-          }))
-          setOptionsOverlayVisible(false)
-          setCurrentSelectedPost(null)
-        }}
-        titleStyle={{color :'black'}}
-        title='Delete Post'
-        style={{flexDirection : 'row',backgroundColor:'white', justifyContent : 'flex-start'}}
+          onPress={deleteGroupItem}
+          titleStyle={{ color: "black" }}
+          title="Delete Post"
+          style={{
+            flexDirection: "row",
+            backgroundColor: "white",
+            justifyContent: "flex-start",
+          }}
         />
         <TouchableButton
-        titleStyle={{color :'black'}}
-        title='Edit Post'
-        style={{flexDirection : 'row',backgroundColor:'white', justifyContent : 'flex-start'}}
+          titleStyle={{ color: "black" }}
+          title="Edit Post"
+          style={{
+            flexDirection: "row",
+            backgroundColor: "white",
+            justifyContent: "flex-start",
+          }}
         />
       </Overlay>
     </>

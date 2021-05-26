@@ -219,6 +219,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 13,
     fontFamily: "OpenSans-Bold",
+    marginRight : 10
   },
   input: {
     paddingHorizontal: 10,

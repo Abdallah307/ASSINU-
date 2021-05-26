@@ -22,7 +22,7 @@ const DepartmentSharingCenter = props => {
     return (
         <View style={styles.mainContainer}>
            <FlatList
-            numColumns={1}
+            numColumns={2}
             data={items}
             renderItem={({item}) => {
                 return (

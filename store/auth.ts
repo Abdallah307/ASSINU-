@@ -15,7 +15,16 @@ const slice = createSlice({
         courses:[],
         numberOfMembers : 0,
         notifications : null,
-        myAsk : null
+        myAsk : null,
+        emailErrorMessage : '',
+        passwordErrorMessage : '',
+        isLoggingIn : false,
+        emailRegisterError : '',
+        passwordRegisterError : '',
+        passwordConfirmError : '',
+        isSigningUp : false,
+        signedUpSuccessfully : false
+
     },
     reducers:{
         CHANGE_PROFILE_IMAGE : (state, action) => {
@@ -23,6 +32,7 @@ const slice = createSlice({
         },
         signIn: (state, action) => {
            const payload = action.payload
+           state.isLoggingIn = false 
            state.email = payload.email;
            state.userId = payload._id  
            state.token = payload.token
@@ -36,6 +46,30 @@ const slice = createSlice({
            state.numberOfMembers = payload.numberOfMembers
            state.notifications = payload.notifications
            state.myAsk = payload.myAsk
+        },
+        SET_EMAIL_ERROR : (state, action) => {
+            state.emailErrorMessage = action.payload.errorMessage 
+        },
+        SET_PASSWORD_ERROR : (state, action) => {
+            state.passwordErrorMessage = action.payload.errorMessage 
+        },
+        SET_EMAIL_REGISTER_ERROR : (state, action) => {
+            state.emailRegisterError = action.payload.errorMessage 
+        },
+        SET_PASSWORD_REGISTER_ERROR : (state, action) => {
+            state.passwordRegisterError = action.payload.errorMessage 
+        },
+        SET_PASSWORD_CONFIRM_ERROR : (state, action) => {
+            state.passwordConfirmError = action.payload.errorMessage 
+        },
+        SET_IS_LOGGING_IN : (state, action) => {
+            state.isLoggingIn = action.payload.isLoggingIn 
+        },
+        SET_IS_SIGNING_UP : (state, action) => {
+            state.isSigningUp = action.payload.isSigningUp 
+        },
+        SET_SIGNED_UP_SUCCESSFULLY : (state, action) => {
+            state.signedUpSuccessfully = action.payload.signedUpSuccessfully
         },
         signout: (state, action) => {
            state.isSignedIn = false

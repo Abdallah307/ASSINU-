@@ -11,6 +11,7 @@ import { actions as askActions } from "../Ask";
 import { actions as sharingCenterActions } from "../sharingcenter";
 import {actions as chattingActions } from '../chatting'
 import {actions as notificationActions} from '../Notification'
+import {actions as feedActions} from '../Feed'
 
 export const fetchUniversityQuestions = createAction(
   "fetchUniversityQuestions"
@@ -27,6 +28,8 @@ export const togglePostLikeStatus = createAction("togglePostLikeStatus");
 export const changeProfileImage = createAction("changeProfileImage");
 
 export const deleteGroupPost = createAction("deleteGroupPost");
+export const deleteGroupPoll = createAction("deleteGroupPoll");
+
 export const fetchGroupTimeline = createAction("fetchGroupTimeline");
 
 export const fetchAskReceivedQuestions = createAction(
@@ -68,14 +71,45 @@ export const votePoll = createAction("votePoll");
 export const fetchUserChatsList = createAction("fetchUserChatsList");
 export const fetchChatMessages = createAction("fetchChatMessages");
 
+export const fetchFeedTimeline = createAction('fetchFeedTimeline')
+
 
 const api =
   ({ dispatch, getState }) =>
   (next) =>
   async (action) => {
-    const { token, userId, name, departmentId } = getState().auth;
-
-    if (action.type === deleteGroupPost.type) {
+    const { token, userId, name, departmentId, courses, userType} = getState().auth;
+    if (action.type === fetchFeedTimeline.type ) {
+      dispatch(groupActions.SET_IS_LOADED({
+        isLoaded : false 
+      }))
+      try {
+        const response = await axios.post(
+          `http:${HOST}:${SERVER_PORT}/user/feed`,
+          {
+            courses : JSON.stringify(courses),
+            departmentId : departmentId ,
+            publicGroupId : "609ef8bd145ffdd7a70e0d95",
+            userType : userType
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        )
+          if (response.status === 200) {
+            dispatch(groupActions.SET_TIMELINE({
+              timeline: response.data.timeline,
+            }))
+          }
+        
+      }
+      catch(err) {
+        console.log(err)
+      }
+    }
+   else if (action.type === deleteGroupPost.type) {
       try {
         const postId = action.payload.postId;
         const response = await axios.delete(
@@ -97,7 +131,31 @@ const api =
       } catch (err) {
         console.log(err);
       }
-    } else if (action.type === fetchAskReceivedQuestions.type) {
+    }
+    else if (action.type === deleteGroupPoll.type) {
+      try {
+        const pollId = action.payload.pollId;
+        const response = await axios.delete(
+          `http:${HOST}:${SERVER_PORT}/group/polls/delete/${pollId}`,
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
+
+        if (response.status === 201) {
+          dispatch(
+            groupActions.DELETE_POLL({
+              pollId: pollId,
+            })
+          );
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+     else if (action.type === fetchAskReceivedQuestions.type) {
       try {
         const response = await axios.get(
           `http://${HOST}:${SERVER_PORT}/ask/receivedquestions/${userId}`,
@@ -382,7 +440,7 @@ const api =
     } else if (action.type === fetchDepartmentSharedItems.type) {
       try {
         const response = await axios.get(
-          `http://${HOST}:${SERVER_PORT}/sharingcenter//department/${departmentId}/shareditems`,
+          `http://${HOST}:${SERVER_PORT}/sharingcenter/department/${departmentId}/shareditems`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

@@ -23,6 +23,7 @@ import CreatePollScreen from "../screens/newQuestionsGroupScreens/screens/Create
 import ChattingNavigator from "./ChattingNavigator";
 import UserProfileNavigator from './UserProfileNavigator'
 import AvailableGroupsNavigator from "./AvailableGroupsNavigator";
+import FeedNavigator from "./FeedNavigator";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -47,8 +48,8 @@ const TeacherTabNavigator = (props) => {
       activeColor={Colors.prussianBlue}
       >
         <Tab.Screen
-          name="Feed"
-          component={Feed}
+          name="FeedNavigator"
+          component={FeedNavigator}
         options={{
           tabBarColor: Colors.white,
           tabBarIcon: () => <Feather name="home" size={24} color={Colors.greyb} />,

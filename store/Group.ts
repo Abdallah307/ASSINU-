@@ -11,6 +11,9 @@ const slice = createSlice({
       state.timeline = [...action.payload.timeline];
       state.isLoaded = true;
     },
+    SET_IS_LOADED : (state ,action) => {
+      state.isLoaded = action.payload.isLoaded 
+    },
     CLEAR_TIMELINE: (state, action) => {
       state.isLoaded = false;
       state.timeline = [];
@@ -95,6 +98,13 @@ const slice = createSlice({
         return item.type == "post" && item._id == postId;
       });
       state.timeline.splice(postIndex, 1);
+    },
+    DELETE_POLL: (state, action) => {
+      const pollId = action.payload.pollId;
+      const pollIndex = state.timeline.findIndex((item) => {
+        return item.type == "poll" && item._id == pollId;
+      });
+      state.timeline.splice(pollIndex, 1);
     },
     VOTE_POLL : (state, action) => {
       const {pollId,voters, choices, choiceId, userId} = action.payload

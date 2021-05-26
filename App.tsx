@@ -1,6 +1,6 @@
 // @refresh reset
 import React, {useState , useEffect} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text,LogBox, View } from 'react-native';
 import AuthNavigator from './navigation/AuthNavigator'
 import { Provider } from 'react-redux'
 import configureStore from './store/configureStore'
@@ -9,6 +9,7 @@ import AppLoading from 'expo-app-loading'
 import {socket} from './socket'
 import * as Notifications from 'expo-notifications'
 
+//LogBox.ignoreAllLogs();
 
 const store = configureStore()
 

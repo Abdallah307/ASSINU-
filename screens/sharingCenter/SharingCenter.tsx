@@ -31,7 +31,7 @@ const SharingCenter = (props) => {
         component={DepartmentSharingCenter}
       />
       <Tab.Screen
-        name="Items shared by NNU students"
+        name="Public"
         options={{
           tabBarIcon: () => (
             <MaterialIcons name="public" size={24} color="black" />
