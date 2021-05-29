@@ -12,6 +12,7 @@ const ProfileButtons = props => {
         <View style={{ paddingHorizontal: 60, marginTop: -80 }}>
             <View style={styles.buttonsContainer}>
                 <Button
+                    onPress={props.createNewMessage}
                     titleStyle={styles.buttonTitle}
                     buttonStyle={styles.buttonStyle}
                     title='Message'

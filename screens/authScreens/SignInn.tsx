@@ -27,7 +27,17 @@ const SignInn = (props: any) => {
 
     const dispatch = useDispatch()
 
-    const {emailErrorMessage, passwordErrorMessage, isLoggingIn} = useSelector(state => state.auth)
+    const {emailErrorMessage, passwordErrorMessage, isLoggingIn, isNotVerified} = useSelector(state => state.auth)
+
+
+    useEffect(() => {
+        if (isNotVerified) {
+            props.navigation.navigate('VerificationCodeScreen', {
+                email : email 
+            })
+        }
+    }, [isNotVerified])
+
 
     const PasswordStateIcon = (props) => {
         if (props.state)

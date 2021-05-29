@@ -36,10 +36,19 @@ const OtherUserProfile = props => {
         getCommonCourses()
     }, [params.user._id])
 
+    
+
+    const openCreateMessage = () => {
+        props.navigation.navigate('CreateMessageScreen', {
+            user : params.user
+        })
+    }
+
     return (
         <Profile
             profileButtons={
             <ProfileButtons
+            createNewMessage={openCreateMessage}
             showAskButton={params.user.myAsk}
             openCreateAskQuestionScreen={openCreateAskQuestionScreen}
             />
@@ -47,7 +56,7 @@ const OtherUserProfile = props => {
             name={params.user.name}
             imageUrl={params.user.imageUrl}
         >
-            <CommonCourses courses={commonCourses} navigation={props.navigation} />
+            <CommonCourses user={params.user} courses={commonCourses} navigation={props.navigation} />
             </Profile>
     )
 }

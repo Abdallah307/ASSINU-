@@ -14,6 +14,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Button } from "react-native-elements";
 import { UserSearchScreen } from "../screens/mainScreens/UserSearchScreen";
 import CreateAskQuestionScreen from "../screens/Ask/CreateAskQuestionScreen";
+import CreateMessageScreen from "../screens/OtherUsersProfile/CreateMessageScreen";
 
 const Stack = createStackNavigator();
 
@@ -34,6 +35,8 @@ const FeedNavigator = (props) => {
         name="Feed"
         component={Feed}
         options={({route, navigation}) => ({
+          headerTitleAlign : 'left',
+          title: 'ASSINU',
           headerRight: () => {
             return (
               <Button
@@ -59,8 +62,9 @@ const FeedNavigator = (props) => {
       <Stack.Screen name="ReplayScreen" component={ReplayScreen} />
       <Stack.Screen name="VotersListScreen" component={VotersListScreen} />
       <Stack.Screen name="StudentProfile" component={UserProfile} />
-      <Stack.Screen name='UserSearchScreen' component={UserSearchScreen} />
+      <Stack.Screen options={{title : 'Search'}} name='UserSearchScreen' component={UserSearchScreen} />
       <Stack.Screen name="CreateAskQuestionScreen" component={CreateAskQuestionScreen} />
+      <Stack.Screen name='CreateMessageScreen' component={CreateMessageScreen} />
     </Stack.Navigator>
   );
 };

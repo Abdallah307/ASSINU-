@@ -6,6 +6,8 @@ import CustomActivityIndicator from "../../components/UI/CustomActivityIndicator
 import { fetchStudentData } from "../../store/middleware/NajahApi";
 import { useSelector, useDispatch } from "react-redux";
 import { AssinuText } from "../../components/UI/AssinuText";
+import NotFound from "../../components/UI/NotFound";
+import { no_common_courses } from "../../constants/compiledImages";
 
 const CommonCourses = (props) => {
   const [refreshing, setRefresh] = useState(false);
@@ -39,6 +41,23 @@ const CommonCourses = (props) => {
       />
     );
   };
+
+  if (props.courses.length === 0) {
+    return (
+      <NotFound
+      title={`No common courses between you and ${props.user.name}`}
+      titleStyle={{
+          fontFamily : 'OpenSans-Bold',
+          fontSize : 18
+      }}
+      image={no_common_courses}
+      style={{
+          width : 200,
+          height : 200
+      }}
+      />
+    )
+  }
 
   return (
     <FlatList

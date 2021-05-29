@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Button } from "react-native-elements";
+import { AssinuText } from "../../../components/UI/AssinuText";
 import Body from "./Body";
 import Header from "./Header";
 import PostFooter from "./PostFooter";
@@ -25,6 +26,10 @@ const PostItem = (props) => {
       imageUrl={post.imageUrl}
       openImage={props.openImage}
       />
+      <View style={styles.postInfo}>
+        <AssinuText>{post.numberOfLikes} Likes</AssinuText>
+        <AssinuText>{post.numberOfComments} Comments</AssinuText>
+      </View>
       <PostFooter
       onLikePostPressed={props.onLikePostPressed}
       isLiked={props.isLiked}
@@ -36,6 +41,14 @@ const PostItem = (props) => {
 const styles = StyleSheet.create({
     postItem : {
         marginBottom : 7
+    },
+    postInfo : {
+      flexDirection :'row',
+      justifyContent : 'space-between',
+      paddingRight :10,
+      paddingLeft : 5,
+      paddingVertical : 5,
+      backgroundColor : 'white' 
     }
 });
 

@@ -79,13 +79,14 @@ const api =
   (next) =>
   async (action) => {
     const { token, userId, name, departmentId, courses, userType} = getState().auth;
+    const {page} = getState().group
     if (action.type === fetchFeedTimeline.type ) {
       dispatch(groupActions.SET_IS_LOADED({
         isLoaded : false 
       }))
       try {
         const response = await axios.post(
-          `http:${HOST}:${SERVER_PORT}/user/feed`,
+          `http:${HOST}:${SERVER_PORT}/user/feed?page=${page}`,
           {
             courses : JSON.stringify(courses),
             departmentId : departmentId ,
@@ -99,6 +100,7 @@ const api =
           }
         )
           if (response.status === 200) {
+            dispatch(groupActions.INCREMENT_PAGE_NUMBER({}))
             dispatch(groupActions.SET_TIMELINE({
               timeline: response.data.timeline,
             }))
@@ -283,7 +285,7 @@ const api =
         const groupType = action.payload.groupType
         
         const response = await axios.get(
-          `http://${HOST}:${SERVER_PORT}/group/timeline/${groupId}/${groupType}`,
+          `http://${HOST}:${SERVER_PORT}/group/timeline/${groupId}/${groupType}?page=${page}`,
           {
             headers: {
               Authorization: "Bearer " + token,

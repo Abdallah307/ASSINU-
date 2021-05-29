@@ -117,6 +117,7 @@ const AvailableGroupsScreen = (props) => {
       )}
       <ListItem 
       title={`ملتقى ${departmentName}`} 
+      
       onSelect={() => {
         props.navigation.navigate("GroupNavigator", {
           showChattingButton: false,
@@ -124,7 +125,8 @@ const AvailableGroupsScreen = (props) => {
           id: departmentId,
           title: `ملتقى ${departmentName}`,
           groupMembers: departmentTeachersGroupMembers,
-          groupType : 'admin'
+          groupType : 'admin',
+          showButtons : userType != 'teacher' ? false : true 
         });
       }}
       />

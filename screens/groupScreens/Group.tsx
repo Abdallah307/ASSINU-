@@ -5,6 +5,7 @@ import {
   View,
   Text,
   ScrollView,
+  ActivityIndicator
 } from "react-native";
 import WritePost from "../../components/postComponents/WritePost";
 import { Button, Overlay } from "react-native-elements";
@@ -31,6 +32,8 @@ import QuestionItem from "../newQuestionsGroupScreens/components/QuestionItem";
 import FloatingButton from "../../components/UI/FloatingButton";
 import { TouchableButton } from "../Profile/TouchableButton";
 import { socket } from "../../socket";
+import NotFound from "../../components/UI/NotFound";
+import { no_feed } from "../../constants/compiledImages";
 
 const Group = (props) => {
   const dispatch = useDispatch();
@@ -50,6 +53,7 @@ const Group = (props) => {
   useEffect(() => {
     console.log("hala group");
     dispatch(groupActions.CLEAR_TIMELINE({}));
+    dispatch(groupActions.CLEAR_PAGE())
 
     dispatch(
       fetchGroupTimeline({
@@ -73,26 +77,6 @@ const Group = (props) => {
         choiceId: choiceId,
       })
     );
-    // axios
-    //   .post(
-    //     `http://${HOST}:${SERVER_PORT}/group/polls/vote`,
-    //     {
-    //       pollId: pollId,
-    //       voterId: voterId,
-    //       choiceId: choiceId,
-    //     },
-    //     {
-    //       headers: {
-    //         Authorization: "Bearer " + token,
-    //       },
-    //     }
-    //   )
-    //   .then((response) => {
-    //     response.status === 201 ? console.log("Voted Successfully") : null;
-    //   })
-    //   .catch((err) => {
-    //     console.log(err.message);
-    //   });
   };
 
   const openVotersListScreen = (voters, choiceId) => {
@@ -342,11 +326,27 @@ const Group = (props) => {
   };
 
   return (
-    <>
+    <View style={{ flex: 1, backgroundColor : timeline.length===0 ? 'white' : null }}>
       {!isLoaded ? (
         <CustomeActivityIndicator />
       ) : (
         <GroupScreen
+          ListEmptyComponent={() => {
+            return (
+              <NotFound
+                title="No posts yet"
+                titleStyle={{
+                  fontFamily: "OpenSans-Bold",
+                  fontSize: 18,
+                }}
+                image={no_feed}
+                style={{
+                  width: 200,
+                  height: 200,
+                }}
+              />
+            );
+          }}
           ListHeaderComponent={
             <GroupHeader
               showChattingButton={params.showChattingButton}
@@ -417,7 +417,7 @@ const Group = (props) => {
           }}
         />
       </Overlay>
-    </>
+    </View>
   );
 };
 

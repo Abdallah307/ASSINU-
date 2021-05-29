@@ -24,6 +24,7 @@ import ChattingNavigator from "./ChattingNavigator";
 import UserProfileNavigator from './UserProfileNavigator'
 import AvailableGroupsNavigator from "./AvailableGroupsNavigator";
 import FeedNavigator from "./FeedNavigator";
+import NotificationNavigator from "./NotificationNavigator";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -51,6 +52,7 @@ const TeacherTabNavigator = (props) => {
           name="FeedNavigator"
           component={FeedNavigator}
         options={{
+          title : 'Feed',
           tabBarColor: Colors.white,
           tabBarIcon: () => <Feather name="home" size={24} color={Colors.greyb} />,
         }}
@@ -70,9 +72,10 @@ const TeacherTabNavigator = (props) => {
         />
 
         <Tab.Screen
-          name="Notifications"
-          component={Notifications}
+          name="NotificationsNavigator"
+          component={NotificationNavigator}
         options={{
+          title : 'Notifications',
           tabBarColor: Colors.white,
           tabBarIcon: () => (
             <Ionicons name="notifications" size={24} color={Colors.greyb} />

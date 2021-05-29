@@ -12,6 +12,7 @@ import HOST, { SERVER_PORT } from "../configs/config";
 import * as Notifications from "expo-notifications";
 import TeacherDrawerNavigator from "./teacherDrawerNavigator";
 import {actions as chattingActions} from '../store/chatting'
+import { SignUpVerificationScreen } from "../screens/authScreens/SignUpVerificationCode";
 
 const Stack = createStackNavigator();
 
@@ -79,6 +80,7 @@ const AuthNavigator = (props: any) => {
         >
           <Stack.Screen name="SignIn" component={SignInn} />
           <Stack.Screen name="SignUp" component={SignUpp} />
+          <Stack.Screen name='VerificationCodeScreen' component={SignUpVerificationScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     );

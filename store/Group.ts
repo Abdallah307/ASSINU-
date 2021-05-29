@@ -5,11 +5,18 @@ const slice = createSlice({
   initialState: {
     timeline: [],
     isLoaded: false,
+    page : 1,
   },
   reducers: {
     SET_TIMELINE: (state, action) => {
       state.timeline = [...action.payload.timeline];
       state.isLoaded = true;
+    },
+    INCREMENT_PAGE_NUMBER : (state, action) => {
+      state.page = state.page + 1
+    },
+    CLEAR_PAGE : (state, action) => {
+      state.page = 1
     },
     SET_IS_LOADED : (state ,action) => {
       state.isLoaded = action.payload.isLoaded 

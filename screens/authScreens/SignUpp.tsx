@@ -21,37 +21,57 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { signUp } from "../../store/middleware/auth";
 import { actions as authActions } from "../../store/auth";
-
+import axios from "axios";
+import HOST, { SERVER_PORT } from "../../configs/config";
 
 const SignUpp = (props: any) => {
   const [showPassword, setShowPassword] = useState(true);
   const [showConfirmPassword, setShowConfirmPassword] = useState(true);
-  const [username , setUsername] = useState<string>('');
+  const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const {
-    emailRegisterError,
-    passwordRegisterError,
-    passwordConfirmError,
-    isSigningUp,
-    signedUpSuccessfully
-  } = useSelector((state) => state.auth);
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [isSigningUp, setIsSigningUp] = useState(false);
 
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (signedUpSuccessfully) {
-        dispatch(authActions.SET_IS_SIGNING_UP({
-            isSigningUp : false 
-        }))
-        dispatch(authActions.SET_SIGNED_UP_SUCCESSFULLY({
-            signedUpSuccessfully : false 
-        }))
-        props.navigation.navigate('SignIn')
+  const submitSignUp = async () => {
+    setIsSigningUp(true)
+    setEmailError('')
+    setPasswordError('')
+    setConfirmPasswordError('')
+    try {
+      const response = await axios.post(
+        `http://${HOST}:${SERVER_PORT}/auth/signup`,
+        {
+          name: username,
+          email: email,
+          password: password,
+          confirmPassword: confirmPassword,
+        }
+      );
+
+      if (response.status === 201) {
+        console.log('hello mother fuckers')
+        setIsSigningUp(false)
+        props.navigation.navigate('VerificationCodeScreen', {
+          email : email 
+        })
+      }
+    } catch (err) {
+      setIsSigningUp(false)
+      const errorStatus = err.response.status;
+      if (errorStatus === 422) {
+        setEmailError(err.response.data.error)
+
+      } else if (errorStatus === 403) {
+        setPasswordError(err.response.data.error)
+      }
     }
-  }, [signedUpSuccessfully])
+  };
 
   const PasswordStateIcon = (props) => {
     if (props.state)
@@ -104,7 +124,7 @@ const SignUpp = (props: any) => {
             style={styles.input}
             value={email}
             onChangeText={(email) => setEmail(email)}
-            errorMessage={emailRegisterError}
+            errorMessage={emailError}
           />
 
           <Input
@@ -121,7 +141,7 @@ const SignUpp = (props: any) => {
                 state={showPassword}
               />
             }
-            errorMessage={passwordRegisterError}
+            errorMessage={passwordError}
           />
 
           <Input
@@ -140,7 +160,7 @@ const SignUpp = (props: any) => {
                 state={showConfirmPassword}
               />
             }
-            errorMessage={passwordConfirmError}
+            errorMessage={confirmPasswordError}
           />
 
           <Button
@@ -148,26 +168,7 @@ const SignUpp = (props: any) => {
             title="Sign Up"
             containerStyle={{ marginTop: 35 }}
             buttonStyle={styles.signUpButton}
-            onPress={() => {
-                dispatch(authActions.SET_EMAIL_REGISTER_ERROR({
-                    errorMessage : ''
-                }))
-                dispatch(authActions.SET_PASSWORD_REGISTER_ERROR({
-                    errorMessage : ''
-                }))
-                dispatch(authActions.SET_PASSWORD_CONFIRM_ERROR({
-                    errorMessage : ''
-                }))
-                dispatch(authActions.SET_IS_SIGNING_UP({
-                    isSigningUp : true 
-                }))
-                dispatch(signUp({
-                    username : username,
-                    email : email,
-                    password : password,
-                    confirmPassword : confirmPassword
-                }))
-            }}
+            onPress={submitSignUp}
           />
           <View
             style={{

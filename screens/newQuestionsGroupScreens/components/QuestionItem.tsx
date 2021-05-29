@@ -30,6 +30,7 @@ const QuestionItem = (props) => {
         <AssinuText style={{ paddingHorizontal: 7 }}>
           {props.numberOfAnswers} Answers
         </AssinuText>
+        <AssinuText>{question.numberOfFollowers} Follower</AssinuText>
       </View>
       <QuestionFooter
         isFollowed={props.isFollowed}
@@ -44,7 +45,10 @@ const styles = StyleSheet.create({
     marginBottom: 7,
     backgroundColor: "white",
   },
-  questionInfo: {},
+  questionInfo: {
+    flexDirection :'row',
+    paddingVertical : 5
+  },
 });
 
 export default QuestionItem;

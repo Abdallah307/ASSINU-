@@ -19,11 +19,7 @@ const slice = createSlice({
         emailErrorMessage : '',
         passwordErrorMessage : '',
         isLoggingIn : false,
-        emailRegisterError : '',
-        passwordRegisterError : '',
-        passwordConfirmError : '',
-        isSigningUp : false,
-        signedUpSuccessfully : false
+        isNotVerified : false 
 
     },
     reducers:{
@@ -53,23 +49,11 @@ const slice = createSlice({
         SET_PASSWORD_ERROR : (state, action) => {
             state.passwordErrorMessage = action.payload.errorMessage 
         },
-        SET_EMAIL_REGISTER_ERROR : (state, action) => {
-            state.emailRegisterError = action.payload.errorMessage 
-        },
-        SET_PASSWORD_REGISTER_ERROR : (state, action) => {
-            state.passwordRegisterError = action.payload.errorMessage 
-        },
-        SET_PASSWORD_CONFIRM_ERROR : (state, action) => {
-            state.passwordConfirmError = action.payload.errorMessage 
+        SET_USER_NOT_VERIFIED : (state, action) => {
+            state.isNotVerified = action.payload.isNotVerified
         },
         SET_IS_LOGGING_IN : (state, action) => {
             state.isLoggingIn = action.payload.isLoggingIn 
-        },
-        SET_IS_SIGNING_UP : (state, action) => {
-            state.isSigningUp = action.payload.isSigningUp 
-        },
-        SET_SIGNED_UP_SUCCESSFULLY : (state, action) => {
-            state.signedUpSuccessfully = action.payload.signedUpSuccessfully
         },
         signout: (state, action) => {
            state.isSignedIn = false

@@ -3,6 +3,8 @@ import {View,Text,FlatList, StyleSheet} from 'react-native'
 import {fetchPublicSharedItems} from '../../../store/middleware/api'
 import {useDispatch, useSelector} from 'react-redux'
 import ShopItem from '../components/ShopItem'
+import NotFound from '../../../components/UI/NotFound'
+import { no_shared_items } from '../../../constants/compiledImages'
 
 const PublicSharingCenter = props => {
     const dispatch = useDispatch()
@@ -21,6 +23,22 @@ const PublicSharingCenter = props => {
     return (
         <View style={styles.mainContainer}>
             <FlatList
+            ListEmptyComponent={() => {
+                return (
+                  <NotFound
+                    title="No new Items"
+                    titleStyle={{
+                      fontFamily: "OpenSans-Bold",
+                      fontSize: 18,
+                    }}
+                    image={no_shared_items}
+                    style={{
+                      width: 200,
+                      height: 200,
+                    }}
+                  />
+                );
+              }}
             numColumns={2}
             data={items}
             renderItem={({item}) => {
@@ -42,6 +60,7 @@ const PublicSharingCenter = props => {
 const styles = StyleSheet.create({
     mainContainer : {
         flex : 1,
+        backgroundColor : 'white'
     }
 })
 

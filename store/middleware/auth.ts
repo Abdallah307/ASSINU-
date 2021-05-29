@@ -33,6 +33,9 @@ const authApi = ({ dispatch, getState }) => next => async action => {
                 configs
             )
             if (result.status == 200) {
+                dispatch(authActions.SET_USER_NOT_VERIFIED({
+                    isNotVerified : false 
+                }))
                 dispatch(authActions.signIn(result.data))
                 try {
                     const response = await axios.get(
@@ -74,6 +77,11 @@ const authApi = ({ dispatch, getState }) => next => async action => {
             else if (errorStatus === 403) {
                 dispatch(authActions.SET_PASSWORD_ERROR({
                     errorMessage: err.response.data.error 
+                }))
+            }
+            else if (errorStatus === 401) {
+                dispatch(authActions.SET_USER_NOT_VERIFIED({
+                    isNotVerified : true
                 }))
             }
         }   
@@ -118,7 +126,6 @@ const authApi = ({ dispatch, getState }) => next => async action => {
                 dispatch(authActions.SET_SIGNED_UP_SUCCESSFULLY({
                     signedUpSuccessfully : true 
                 }))
-                ToastAndroid.show('Signed up successfully', ToastAndroid.LONG)
             }
         }
         catch (err) {

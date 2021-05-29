@@ -5,6 +5,7 @@ import {
   View,
   Text,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import WritePost from "../../components/postComponents/WritePost";
@@ -33,6 +34,8 @@ import QuestionItem from "../newQuestionsGroupScreens/components/QuestionItem";
 import FloatingButton from "../../components/UI/FloatingButton";
 import { TouchableButton } from "../Profile/TouchableButton";
 import { socket } from "../../socket";
+import NotFound from "../../components/UI/NotFound";
+import { no_feed } from "../../constants/compiledImages";
 
 const Feed = (props) => {
   const dispatch = useDispatch();
@@ -42,6 +45,8 @@ const Feed = (props) => {
   const [currentSelectedPost, setCurrentSelectedPost] = useState(null);
 
   const [selectedItemType, setSelectedItemType] = useState(null);
+
+  
 
   const { timeline, isLoaded } = useSelector((state) => {
     return state.group;
@@ -233,8 +238,25 @@ const Feed = (props) => {
     console.log("Reached the end of the scrolling man");
   };
 
+  if (timeline.length === 0) {
+    return (
+      <NotFound
+            title='No posts yet'
+            titleStyle={{
+                fontFamily : 'OpenSans-Bold',
+                fontSize : 18
+            }}
+            image={no_feed}
+            style={{
+                width : 200,
+                height : 200
+            }}
+            />
+    )
+  }
+
   return (
-    <>
+    <View style={{flex : 1, backgroundColor : 'white'}}>
       {!isLoaded ? (
         <CustomeActivityIndicator />
       ) : (
@@ -282,7 +304,7 @@ const Feed = (props) => {
           }}
         />
       </Overlay>
-    </>
+    </View>
   );
 };
 

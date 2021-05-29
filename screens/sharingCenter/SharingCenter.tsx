@@ -22,7 +22,9 @@ const SharingCenter = (props) => {
     
     <Tab.Navigator
     tabBarOptions={{
-      
+      labelStyle : {
+        
+      }
     }}
     >
     
@@ -46,7 +48,7 @@ const SharingCenter = (props) => {
       <Tab.Screen
         name="MyItemsScreen"
         options={{
-          title: "Items shared by me",
+          title: "My Items",
         }}
         component={MySharedItemsScreen}
       />
@@ -54,7 +56,7 @@ const SharingCenter = (props) => {
       <Tab.Screen
         name="SharingCenterChat"
         options={{
-          title: "Sharing Center messages",
+          title: "Requests",
         }}
         component={RequestsScreen}
       />
