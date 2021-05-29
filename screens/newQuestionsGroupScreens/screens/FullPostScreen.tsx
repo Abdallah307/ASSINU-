@@ -12,9 +12,12 @@ import { Button } from "react-native-elements";
 import { actions as privateGroupActions } from "../../../store/PrivateGroup";
 import { actions as publicGroupActions } from "../../../store/PublicGroup";
 import { togglePostLikeStatus } from "../../../store/middleware/api";
-import {actions as groupActions} from '../../../store/Group'
+import { actions as groupActions } from "../../../store/Group";
 import CommentItem from "../components/CommentItem";
-import {sharedStyles} from '../../../SharedSytles'
+import { sharedStyles } from "../../../SharedSytles";
+import NotFound from "../../../components/UI/NotFound";
+import { no_comments } from "../../../constants/compiledImages";
+import { AssinuText } from "../../../components/UI/AssinuText";
 
 const FullPostScreen = (props) => {
   const params = props.route.params;
@@ -72,8 +75,8 @@ const FullPostScreen = (props) => {
         {
           content: inputValue,
           referedTo: post._id,
-          type : 'post',
-          username : name
+          type: "post",
+          username: name,
         },
         {
           headers: {
@@ -90,9 +93,11 @@ const FullPostScreen = (props) => {
           })
         );
 
-        dispatch(groupActions.INCREMENT_NUMBER_OF_POST_COMMENTS({
-          postId : post._id 
-        }))
+        dispatch(
+          groupActions.INCREMENT_NUMBER_OF_POST_COMMENTS({
+            postId: post._id,
+          })
+        );
       }
     } catch (err) {
       console.log(err);
@@ -107,14 +112,13 @@ const FullPostScreen = (props) => {
 
   const openUserProfile = (user) => {
     if (user._id !== userId) {
-      props.navigation.navigate('StudentProfile', {
-        user : user
-      })
+      props.navigation.navigate("StudentProfile", {
+        user: user,
+      });
+    } else {
+      props.navigation.navigate("Profile");
     }
-    else {
-      props.navigation.navigate('Profile')
-    }
-  }
+  };
 
   const isPostLiked = (post) => {
     const isLiked = post.likes.some((item) => {
@@ -123,9 +127,27 @@ const FullPostScreen = (props) => {
     return isLiked;
   };
 
+ 
+
   return (
     <View style={styles.mainContainer}>
       <FlatList
+        ListEmptyComponent={() => {
+          return (
+            <NotFound
+              title="No Comments yet"
+              titleStyle={{
+                fontFamily: "OpenSans-Bold",
+                fontSize: 18,
+              }}
+              image={no_comments}
+              style={{
+                width: 100,
+                height: 100,
+              }}
+            />
+          );
+        }}
         ListHeaderComponent={() => {
           const isLiked = isPostLiked(post);
           return (
@@ -149,18 +171,17 @@ const FullPostScreen = (props) => {
         renderItem={({ item }) => {
           return (
             <CommentItem
-
-            style={sharedStyles.commentItem}
-            comment={item}
-            onPressHeader={openUserProfile.bind(this, item.owner)}
+              style={sharedStyles.commentItem}
+              comment={item}
+              onPressHeader={openUserProfile.bind(this, item.owner)}
             >
+              <AssinuText>{item.numberOfReplays} Replays</AssinuText>
               <Button
-              onPress={openReplaysScreen.bind(this, item)}
-              title='Replay'
-              type='clear'
+                onPress={openReplaysScreen.bind(this, item)}
+                title="Replay"
+                type="clear"
               />
-              </CommentItem>
-            
+            </CommentItem>
           );
         }}
         keyExtractor={(item) => item._id}
@@ -177,7 +198,7 @@ const FullPostScreen = (props) => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
 });
 

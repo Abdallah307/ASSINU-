@@ -45,15 +45,15 @@ const GroupNavigator = (props) => {
           title: "Share",
         }}
       />
-      <Stack.Screen name="FullPostScreen" component={FullPostScreen} />
-      <Stack.Screen name="FullAnswerScreen" component={FullAnswerScreen} />
-      <Stack.Screen name="FullQuestionScreen" component={FullQuestionScreen} />
+      <Stack.Screen options={{title : 'Full Post'}} name="FullPostScreen" component={FullPostScreen} />
+      <Stack.Screen options={{title : 'Full Answer'}} name="FullAnswerScreen" component={FullAnswerScreen} />
+      <Stack.Screen options={{title : 'Full Question'}} name="FullQuestionScreen" component={FullQuestionScreen} />
       <Stack.Screen
         name="AnswerReplaysScreen"
         component={AnswersReplayScreen}
       />
       <Stack.Screen name="FullImageScreen" component={FullImageScreen} />
-      <Stack.Screen name="ReplayScreen" component={ReplayScreen} />
+      <Stack.Screen options={{title : 'Replays'}} name="ReplayScreen" component={ReplayScreen} />
       <Stack.Screen name="VotersListScreen" component={VotersListScreen} />
       <Stack.Screen
         options={({ route }) => ({
@@ -63,9 +63,9 @@ const GroupNavigator = (props) => {
         component={GroupChatting}
       />
       <Stack.Screen name="CreatePollScreen" component={CreatePollScreen} />
-      <Stack.Screen name="StudentProfile" component={UserProfile} />
+      <Stack.Screen options={{title : 'Profile'}} name="StudentProfile" component={UserProfile} />
       <Stack.Screen name="CreateAskQuestionScreen" component={CreateAskQuestionScreen} />
-      <Stack.Screen name="GroupMembers" component={GroupMembers} />
+      <Stack.Screen options={{title :'Group members'}} name="GroupMembers" component={GroupMembers} />
     </Stack.Navigator>
   );
 };

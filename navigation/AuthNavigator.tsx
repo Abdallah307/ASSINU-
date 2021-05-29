@@ -11,8 +11,11 @@ import { socket } from "../socket";
 import HOST, { SERVER_PORT } from "../configs/config";
 import * as Notifications from "expo-notifications";
 import TeacherDrawerNavigator from "./teacherDrawerNavigator";
-import {actions as chattingActions} from '../store/chatting'
+import { actions as chattingActions } from "../store/chatting";
 import { SignUpVerificationScreen } from "../screens/authScreens/SignUpVerificationCode";
+import { ForgetPasswordScreen } from "../screens/authScreens/ForgetPasswordScreen";
+import { ForgetPasswordScreenCodeScreen } from "../screens/authScreens/ForgetPasswordCodeScreen";
+import { SettingNewPasswordScreen } from "../screens/authScreens/SettingNewPasswordScreen";
 
 const Stack = createStackNavigator();
 
@@ -26,7 +29,7 @@ Notifications.setNotificationHandler({
 });
 
 const AuthNavigator = (props: any) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { isSignedIn, userId } = useSelector((state) => {
     return state.auth;
   });
@@ -37,15 +40,14 @@ const AuthNavigator = (props: any) => {
 
   useEffect(() => {
     if (isSignedIn) {
-      socket.connect()
+      socket.connect();
       const newChatHandler = (data) => {
-        
         if (data.chat.user._id !== userId) {
-          dispatch(chattingActions.ADD_NEW_CHAT({
-            chat : data.chat,
-          }))
-
-          
+          dispatch(
+            chattingActions.ADD_NEW_CHAT({
+              chat: data.chat,
+            })
+          );
         }
         // else {
         //   dispatch(chattingActions.SET_LAST_MESSAGE({
@@ -53,12 +55,9 @@ const AuthNavigator = (props: any) => {
         //     lastMessage : data.chat.lastMessage
         //   }))
         // }
-        
-        
-      }
+      };
 
-      socket.on('newChat', newChatHandler)
-      
+      socket.on("newChat", newChatHandler);
     } else {
       socket.disconnect();
     }
@@ -80,7 +79,22 @@ const AuthNavigator = (props: any) => {
         >
           <Stack.Screen name="SignIn" component={SignInn} />
           <Stack.Screen name="SignUp" component={SignUpp} />
-          <Stack.Screen name='VerificationCodeScreen' component={SignUpVerificationScreen} />
+          <Stack.Screen
+            name="VerificationCodeScreen"
+            component={SignUpVerificationScreen}
+          />
+          <Stack.Screen
+            name="ForgetPasswordScreen"
+            component={ForgetPasswordScreen}
+          />
+          <Stack.Screen
+            name="ForgetPasswordCodeScreen"
+            component={ForgetPasswordScreenCodeScreen}
+          />
+           <Stack.Screen
+            name="SettingPasswordScreen"
+            component={SettingNewPasswordScreen}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     );
@@ -89,7 +103,7 @@ const AuthNavigator = (props: any) => {
   if (email.split("@")[1] === "stu.najah.edu") {
     return <StudentDrawerNavigator />;
   } else if (email.split("@")[1] === "najah.edu") {
-    return <TeacherDrawerNavigator/>;
+    return <TeacherDrawerNavigator />;
   }
 };
 

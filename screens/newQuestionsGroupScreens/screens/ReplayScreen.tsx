@@ -8,6 +8,8 @@ import Input from "../components/Input";
 import { actions as commentActions } from "../../../store/comment";
 import CommentItem from "../components/CommentItem";
 import { sharedStyles } from "../../../SharedSytles";
+import NotFound from "../../../components/UI/NotFound";
+import { no_comments } from "../../../constants/compiledImages";
 
 const ReplayScreen = (props) => {
   const params = props.route.params;
@@ -98,6 +100,22 @@ const ReplayScreen = (props) => {
   return (
     <View style={styles.mainContainer}>
       <FlatList
+        ListEmptyComponent={() => {
+          return (
+            <NotFound
+              title="No Replays yet"
+              titleStyle={{
+                fontFamily: "OpenSans-Bold",
+                fontSize: 18,
+              }}
+              image={no_comments}
+              style={{
+                width: 100,
+                height: 100,
+              }}
+            />
+          );
+        }}
         contentContainerStyle={{paddingBottom : 200}}
         ListHeaderComponent={() => {
           return (
@@ -107,7 +125,7 @@ const ReplayScreen = (props) => {
                 style={sharedStyles.commentItem}
                 onPressHeader={openUserProfile.bind(this, params.comment.owner)}
               />
-              <Text style={{ fontSize: 18 }}>Replays</Text>
+              <Text style={{ fontSize: 18, paddingHorizontal : 10}}>Replays</Text>
             </>
           );
         }}
